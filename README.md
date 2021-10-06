@@ -6,6 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Man kann genauso gut npm benutzen. Wenn Nils erzählt, dass wäre weniger sicher, dann ist das mittlerweile Quatsch :P 
 ### `yarn start`
 
 Runs the app in the development mode.\
