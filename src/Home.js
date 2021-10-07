@@ -23,8 +23,6 @@ class Home extends React.Component {
     render() {
         return (
             <>
-                <strong>{this.state.user.name}</strong>
-
                 <form>
                     <input type="button" value='Abmelden' onClick={this.handleLogout} /><br />
                 </form>
