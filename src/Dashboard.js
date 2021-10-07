@@ -10,24 +10,18 @@ class Dashboard extends React.Component {
         user: getSessionStorage('user')
     }
 
-  render() {
-    return (
-        <>
-            <strong>Benutzer auswählen</strong>
-            <ul>
-                <div key={this.state.user.id}>
-                    <NannyAvatar user={this.state.user}></NannyAvatar>
-                </div>
-
-                {this.state.user.subaccounts.map(subaccount => (
-                    <div key={subaccount.id}>
-                        <NannyAvatar user={subaccount}></NannyAvatar>
+    render() {
+        return (
+            <>
+                <strong>Benutzer auswählen</strong>
+                <ul>
+                    <div key={this.state.user.id}>
+                        <NannyAvatar user={this.state.user}></NannyAvatar>
                     </div>
-                ))}
-            </ul>
-        </>
-    );
-  }
+                </ul>
+            </>
+        );
+    }
 }
 
 export default Dashboard;
