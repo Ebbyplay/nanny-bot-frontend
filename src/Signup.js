@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import { setSessionStorage } from './Utils/Session';
+import { signupMain } from './Utils/CallMaster';
 
 /**
  * path: /signup
@@ -9,8 +9,7 @@ class Signup extends React.Component {
     state = {
         username: null,
         email: null,
-        password: null,
-        repassword: null
+        password: null
     };
 
     /**
@@ -29,13 +28,16 @@ class Signup extends React.Component {
      * @param {*} e 
      */
     handleSignup = (e) => {
-        axios
-        .post('http://localhost:1337/api/signup', this.state)
+        let { username, email, password } = this.state;
+
+        signupMain(username, email, password)
         .then((res) => {
             console.log('%c signup response', 'color:green', res);
 
-            if (res.data)
-                setSessionStorage('user', res.data);
+            if (!res.data)
+                return;
+
+            setSessionStorage('user', res.data);
         })
         .catch((err) => {
             // todo: error-handling?
@@ -60,10 +62,6 @@ class Signup extends React.Component {
                     <div>
                         Passwort<br />
                         <input type="password" name="password" autoComplete="new-password" onChange={this.onChange} />
-                    </div>
-                    <div>
-                        Passwort wiederholen<br />
-                        <input type="password" name="repassword" autoComplete="new-password" onChange={this.onChange} />
                     </div>
                     <input type="button" value='Registrieren' onClick={this.handleSignup} /><br />
                 </form>
