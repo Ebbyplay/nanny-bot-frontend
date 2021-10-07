@@ -8,11 +8,16 @@ class NannyAvatar extends React.Component {
         user: this.props.user
     }
 
+    selectUser = (user) => {
+        console.log('selectuser', user);
+    }
+
     render() {
         return (
             <>
-                <strong>{this.state.user.name}</strong>
-                <br />
+                <div onClick={() => this.selectUser(this.state.user)}>
+                    <strong>{this.state.user.name}</strong>
+                </div>
             </>
         );
     }
