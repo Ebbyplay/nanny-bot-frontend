@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { getSessionStorage, setSessionStorage } from './Utils/Session';
-import { login } from './Utils/CallMaster';
+import { getSessionStorage, setSessionStorage } from '../Utils/Session';
+import { login } from '../Utils/CallMaster';
 
 /**
  * path: /login
@@ -56,12 +56,12 @@ class Login extends React.Component {
                 Login<br /><br />
                 <form>
                     <div>
-                    Email<br />
-                    <input type="text" name="email" autoComplete="email" onChange={this.onChange} />
+                        Email<br />
+                        <input type="text" name="email" autoComplete="email" onChange={this.onChange} />
                     </div>
                     <div>
-                    Passwort<br />
-                    <input type="password" name="password" autoComplete="new-password" onChange={this.onChange} />
+                        Passwort<br />
+                        <input type="password" name="password" autoComplete="new-password" onChange={this.onChange} />
                     </div>
                     <input type="button" value='Anmelden' onClick={this.handleLogin} /><br />
                 </form>

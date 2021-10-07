@@ -1,6 +1,6 @@
 import React from 'react';
-import { setSessionStorage } from './Utils/Session';
-import { signupMain } from './Utils/CallMaster';
+import { setSessionStorage } from '../Utils/Session';
+import { signupMain } from '../Utils/CallMaster';
 
 /**
  * path: /signup
