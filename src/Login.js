@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { getSessionStorage, setSessionStorage } from './Utils/Session';
+import { login } from './Utils/CallMaster';
 
 /**
  * path: /login
@@ -32,18 +32,18 @@ class Login extends React.Component {
     handleLogin = (e) => {
         let { email, password } = this.state;
 
-        axios
-        .post('http://localhost:1337/api/login', {email: email, password: password})
+        login(email, password)
         .then((res) => {
             console.log('%c login response', 'color:green', res);
 
-            if (res.data) {
-                setSessionStorage('user', res.data);  
-                this.props.history.push('/dashboard');
-            } 
+            if (!res.data)
+                return;
+
+            setSessionStorage('user', res.data);  
+            this.props.history.push('/dashboard');
         })
         .catch((err) => {
-            // todo: error-handling
+            // todo: error-handling?
         });
     }
 
