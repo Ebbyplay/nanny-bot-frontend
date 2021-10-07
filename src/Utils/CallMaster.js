@@ -95,7 +95,7 @@ export const deleteTask = (taskId) => {
  * @returns 
  */
 export const getTasks = (userId) => {
-    return axios.get(`http://localhost:8081/reward/delete/${userId}`)
+    return axios.get(`http://localhost:8081/task/getAll/${userId}`)
 }
 
 /**
@@ -133,8 +133,8 @@ export const updateReward = (rewardId, name, cost) => {
  * @param {String} rewardId
  * @returns 
  */
-export const deleteReward = (rewardId, name, cost) => {
-    return axios.delete('http://localhost:8081/reward/create', rewardId)
+export const deleteReward = (rewardId) => {
+    return axios.delete('http://localhost:8081/reward/delete', rewardId)
 }
 
 /**
