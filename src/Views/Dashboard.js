@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { getSessionStorage, unsetSessionStorage } from '../Utils/Session';
-import NannyAvatar from '../Components/NannyAvatar';
+import Avatar from '../Components/Avatar';
 
 /**
  * path: /dashboard
@@ -9,7 +9,7 @@ import NannyAvatar from '../Components/NannyAvatar';
 class Dashboard extends React.Component {
     state = {
         user: getSessionStorage('user'),
-        subuser: []
+        subAccounts: []
     }
 
     /**
@@ -37,11 +37,11 @@ class Dashboard extends React.Component {
 
                 <ul>
                     <div key={this.state.user.id}>
-                        <NannyAvatar user={this.state.user} />
+                        <Avatar user={this.state.user} />
                     </div>
 
-                    {this.state.subuser.map(subuser => (
-                        <NannyAvatar key={subuser.id} user={subuser} />
+                    {this.state.subAccounts.map(subAccount => (
+                        <Avatar key={subAccount.id} user={subAccount} />
                     ))}
                 </ul>
             </>
