@@ -6,7 +6,6 @@ class MainTasks extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: "React",
       showNew: false,
       showEdit: false
     };
