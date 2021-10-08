@@ -75,7 +75,7 @@ class Reward extends React.Component {
                             <div>
                                 Coins nach dem Kauf: {this.state.reward.cost}
                             </div>
-                            <input type="Button" defaultValue="Kaufen" onClick={() => this.buy(this.state.reward.name)} />
+                            <input type="Button" defaultValue="Kaufen" onClick={() => this.buy(user_reward.id)} />
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>

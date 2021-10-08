@@ -1,7 +1,7 @@
 import React from 'react';
 import CurrentPoints from '../Components/CurrentPoints';
 import RewardList from '../Components/RewardList';
-import { getUser_Rewards } from '../Utils/CallMaster';
+import { claimUser_Reward, getUser_Rewards } from '../Utils/CallMaster';
 import { getSessionStorage } from '../Utils/Session';
 
 /**
@@ -24,8 +24,14 @@ class Shop extends React.Component {
             })
     }
 
-    buyReward = (e) => {
-        console.log("Buying " + e);
+    buyReward = (user_rewardId) => {
+        claimUser_Reward(user_rewardId)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log('could not claim user_reward ', err);
+            })
     }
 
     render() {
