@@ -1,9 +1,10 @@
 import React from "react";
 import Select from 'react-select'
-import "./newtask.css";
-import { createTask } from "../../../Utils/CallMaster";
+import "./Edittask.css";
+import { createTask } from "../Utils/CallMaster"
+import { getSessionStorage } from '../Utils/Session';
 
-class NewTask extends React.Component {
+class EditTask extends React.Component {
 
     repitions = [
         { value: 'ONCE', label: 'Einmalig' },
@@ -45,7 +46,11 @@ class NewTask extends React.Component {
     }
 
     saveChanges() {
-        createTask(this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points);
+        let user = getSessionStorage('user');
+
+        createTask(user.id, this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points)
+            .then(res => { this.props.onSave(res.data) });
+
         this.props.hideOnClick("showNew");
     }
 
@@ -72,4 +77,4 @@ class NewTask extends React.Component {
 }
 
 
-export default NewTask;
+export default EditTask;

@@ -3,7 +3,6 @@
  */
 
 import axios from 'axios';
-import { getSessionStorage } from './Session';
 
 const host = 'http://localhost:8081';
 
@@ -55,15 +54,17 @@ export const signupSub = (parentId, username, password) => {
 /**
  * create task call
  * @param {String} userId 
- * @param {String} name 
+ * @param {String} title 
+ * @param {String} description 
  * @param {String} repetition 
  * @param {Integer} weight 
  * @returns
  */
-export const createTask = (userId, name, repetition, weight) => {
+export const createTask = (userId, title, description, repetition, weight) => {
     return axios.post(`${host}/task/create`, {
-        mainAccountId: userId,
-        name: name,
+        creatorId: userId,
+        name: title,
+        description: description,
         repetition: repetition,
         weight: weight
     })
