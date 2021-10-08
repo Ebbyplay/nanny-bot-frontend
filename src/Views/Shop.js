@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrentPoints from '../Components/CurrentPoints';
-import Reward from '../Components/Reward';
+import RewardList from '../Components/RewardList';
+import { getUser_Rewards } from '../Utils/CallMaster';
 import { getSessionStorage } from '../Utils/Session';
 
 /**
@@ -9,25 +10,29 @@ import { getSessionStorage } from '../Utils/Session';
 class Shop extends React.Component {
     state = {
         user: getSessionStorage('user'),
-        points: 30 //TODO: get points from user
+        user_rewards: [],
+    }
+
+    componentDidMount() {
+        getUser_Rewards("061e0f99-712e-4c8a-9d1f-80830f27174d")
+            .then((user_rewards) => {
+                this.setState({ user_rewards: user_rewards.data })
+                console.log("USER_REWARDS", user_rewards)
+            })
+            .catch((err) => {
+                console.log('could not get user_rewards ', err);
+            })
+    }
+
+    buyReward = (e) => {
+        console.log("Buying " + e);
     }
 
     render() {
-        const reward = {
-            name: "name",
-            cost: 30,
-            imagePath: "imagePath",
-        }
-        const user_reward = {
-            id: "id",
-            userId: "id",
-            rewardId: "id",
-            claimedAt: null,
-        }
         return (
             <>
-                <CurrentPoints points={this.state.points} />
-                <Reward reward={reward} user_reward={user_reward} />
+                <CurrentPoints points={30} />
+                <RewardList user_rewards={this.state.user_rewards} buyReward={this.buyReward} />
             </>
         );
     }

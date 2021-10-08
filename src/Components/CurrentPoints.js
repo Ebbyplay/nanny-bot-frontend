@@ -32,7 +32,7 @@ class CurrentPoints extends React.Component {
 
         return (
             <div style={container} >
-                <div style={text}>Aktuelle Punktzahl</div>
+                <div style={text}>Aktuelle Coins</div>
                 <div style={points}>{this.props.points}</div>
             </div>
 
