@@ -3,40 +3,34 @@ import React from "react";
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import { getReward } from "../Utils/CallMaster";
-import ReactCanvasConfetti from 'react-canvas-confetti';
+import ReactCanvasConfetti, { confetti } from 'react-canvas-confetti';
 
 class Reward extends React.Component {
-    constructor(props) {
-        super(props)
-        this.animationInstance = null
-    }
+    getInstance = (instance) => {
+        this.confetti = instance;
+    };
 
     state = {
         reward: {},
+        disabled: false,
     }
 
-    getInstance = (instance) => {
-        this.animationInstance = instance;
-    };
-
-    makeShot = (particleRatio, opts) => {
-        this.animationInstance && this.animationInstance({
-            ...opts,
-            origin: { y: 1 },
-            particleCount: Math.floor(200 * particleRatio),
-        });
+    disableReward = () => {
+        this.setState({ disabled: true })
     }
 
     fire = () => {
-        this.makeShot(0.5, {
-            spread: 26,
-            startVelocity: 55,
-        });
+        this.confetti();
     }
 
     buy = () => {
-        this.fire()
-        this.props.buyReward(this.props.user_reward.id, this.state.reward.cost)
+        if (this.state.disabled)
+            return;
+        this.disableReward()
+        this.confetti().then(() => {
+            this.props.buyReward(this.props.user_reward.id, this.state.reward.cost)
+        });
+
     }
 
     componentDidMount() {
@@ -87,7 +81,8 @@ class Reward extends React.Component {
             width: '100%',
             height: '100%',
             top: 0,
-            left: 0
+            left: 0,
+            zIndex: 999
         }
 
         return (
