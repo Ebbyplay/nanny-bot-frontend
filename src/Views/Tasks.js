@@ -1,7 +1,7 @@
 import React from 'react';
 import { getSessionStorage } from '../Utils/Session';
 import TaskList from '../Components/TaskList'
-import { getTasks } from '../Utils/CallMaster';
+import { getAllSubAccounts } from '../Utils/CallMaster';
 
 /**
  * path: /shop
@@ -9,24 +9,36 @@ import { getTasks } from '../Utils/CallMaster';
 class Tasks extends React.Component {
     state = {
         user: getSessionStorage('user'),
-        tasks: [{id: 1, name: 'task1', weight: 10, description: 'description123'}, {id: 2, name: 'task2', weight: 10, description: 'description123'}]
+        subAccounts: []
     }
 
     componentDidMount() {
-        getTasks(this.state.user.id)
-        .then((tasks) => {
-            this.setState({tasks: tasks});
+        if (!this.state.user.email)
+            return;
+
+        getAllSubAccounts(this.state.user.id)
+        .then((subAccounts) => {
+            this.setState({subAccounts: subAccounts});
         })
         .catch((err) => {
-            // error handling?
+            console.log('could not get all sub accounts', err);
         })
     }
 
     render() {
+        let isSubAccount = !this.state.user.email;
+
         return (
             <>
                 <p>todo: tasks view</p>
-                <TaskList user={this.state.user} tasks={this.state.tasks} />
+                {isSubAccount ? 
+                        this.state.subAccounts.map(subAccount => (
+                            <TaskList user={subAccount} key={subAccount.id} />
+                        )
+                    ) : (
+                        <TaskList user={this.state.user} key={this.state.user.id} />
+                    )
+                }
             </>
         );
     }

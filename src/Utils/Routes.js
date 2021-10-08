@@ -7,7 +7,7 @@ export const PrivateRoute = function PrivateRoute({ component: Component, ...res
     return (
         <Route
             {...rest}
-            render={(props) => getSessionStorage('user') ? <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
+            render={(props) => getSessionStorage('user') ? <Component {...props} user={props.user} userChanged={props.userChanged} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
         />
     )
 }
@@ -17,7 +17,7 @@ export const PublicRoute = function PublicRoute({ component: Component, ...rest 
     return (
         <Route
             {...rest}
-            render={(props) => !getSessionStorage('user') ? <Component {...props} /> : <Redirect to={{ pathname: '/dashboard' }} />}
+            render={(props) => !getSessionStorage('user') ? <Component {...props} user={props.user} userChanged={props.userChanged} /> : <Redirect to={{ pathname: '/dashboard' }} />}
         />
     )
 }

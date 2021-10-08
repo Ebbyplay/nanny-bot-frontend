@@ -1,23 +1,38 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React from 'react';
-import { getSessionStorage } from '../Utils/Session';
+import { Container } from 'react-bootstrap';
+
+import { getTasks } from '../Utils/CallMaster';
 import Task from './Task'
 
 class TaskList extends React.Component {
     state = {
-        isMain: getSessionStorage('user').id
+        tasks: [{uuid: 1, name: 'task1', weight: 10, description: 'description123'}, {uuid: 2, name: 'task2', weight: 10, description: 'description123'}]
     }
+
+    componentDidMount() {
+        getTasks(this.props.user.id)
+        .then((res) => {
+            console.log('response getTasks', res)
+            this.setState({tasks: res.data});
+        })
+    }
+    
 
     render() {
         return (
-            <ul>
-                <strong>TaskList:</strong>
+            <Container>
+                <span>Aufgaben:</span>
 
-                {this.props.tasks.map(task => (
+                {this.state.tasks.map((task) => (
                     <Task 
-                        key={task.id}
-                        task={task} />
+                        key={task.uuid}
+                        task={task}
+                        user={this.props.user}
+                    />
                 ))}
-            </ul>
+            </Container>
         )
     }
 }

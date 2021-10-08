@@ -1,4 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React from 'react';
+import { NavLink, Redirect } from 'react-router-dom';
+import { Button, Container, Form, Row, Col } from 'react-bootstrap';
+
 import { setSessionStorage } from '../Utils/Session';
 import { signupMain } from '../Utils/CallMaster';
 
@@ -8,8 +13,10 @@ import { signupMain } from '../Utils/CallMaster';
 class Signup extends React.Component {
     state = {
         username: null,
+        name: null,
         email: null,
-        password: null
+        password: null,
+        repassword: null
     };
 
     /**
@@ -28,9 +35,9 @@ class Signup extends React.Component {
      * @param {*} e 
      */
     handleSignup = (e) => {
-        let { username, email, password } = this.state;
+        let { name, email, password, repassword } = this.state;
 
-        signupMain(username, email, password)
+        signupMain(name, email, password, repassword)
         .then((res) => {
             console.log('%c signup response', 'color:green', res);
 
@@ -47,25 +54,53 @@ class Signup extends React.Component {
     }
 
     render() {
+        if (this.state.user)
+            return <Redirect to='/dashboard' />
+
         return (
             <>
-                Registrieren<br /><br />
-                <form>
-                    <div>
-                        Username<br />
-                        <input type="text" name="username" autoComplete="username" onChange={this.onChange} />
-                    </div>
-                    <div>
-                        Email<br />
-                        <input type="text" name="email" autoComplete="email" onChange={this.onChange} />
-                    </div>
-                    <div>
-                        Passwort<br />
-                        <input type="password" name="password" autoComplete="new-password" onChange={this.onChange} />
-                    </div>
-                    <input type="button" value='Registrieren' onClick={this.handleSignup} /><br />
-                </form>
-            </>
+            <Container>
+                <Form>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control name="name" type="email" placeholder="Name eingeben" onChange={this.onChange} />
+                        </Col>
+                    </Row>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control name="email" type="email" placeholder="E-Mail" onChange={this.onChange} />
+                        </Col>
+                    </Row>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control name="password" type="password" placeholder="Passwort" onChange={this.onChange} />
+                        </Col>
+                    </Row>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Label>Password wiederholen</Form.Label>
+                            <Form.Control name="repassword" type="password" placeholder="Passwort" onChange={this.onChange} />
+                        </Col>
+                    </Row>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Text className="text-muted">
+                                Du hast schon einen Account? <br />
+                                <NavLink activeClassName="active" to="/login">Hier Anmelden</NavLink>
+                            </Form.Text>
+                        </Col>
+                        <Col className="my-1">
+                            <Button variant="primary" onClick={this.handleSignup}>
+                                Anmelden
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
+        </>
         )
     }
 }

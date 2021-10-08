@@ -1,26 +1,28 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { getSessionStorage, unsetSessionStorage } from '../Utils/Session';
-import Avatar from '../Components/Avatar';
+
+import { getSessionStorage } from '../Utils/Session';
+import NannyAvatar from '../Components/NannyAvatar';
+import { Container } from 'react-bootstrap';
 
 /**
  * path: /dashboard
  */
 class Dashboard extends React.Component {
     state = {
-        user: getSessionStorage('user'),
+        user: null,
         subAccounts: []
     }
 
-    /**
-     * is triggered when the 'Abmelden' button is clicked
-     * remove user from sessionStorage
-     * redirect to 'login'
-     * @param {*} e 
-     */
-     handleLogout = (e) => {
-        unsetSessionStorage('user');
-        this.props.history.push('/login');
+    componentDidMount() {
+        console.log('dashboard load:', this);
+        let user = this.props.user ? this.props.user : getSessionStorage('user');
+
+        if (user) {
+            this.setState({user: user});
+        }
     }
 
     render() {
@@ -29,21 +31,19 @@ class Dashboard extends React.Component {
 
         return (
             <>
-                <form>
-                    <input type="button" value='Abmelden' onClick={this.handleLogout} /><br />
-                </form>
+                <Container>
+                    <strong>Benutzer auswählen:</strong>
 
-                <strong>Benutzer auswählen</strong>
+                    <ul>
+                        <div key={this.state.user.id}>
+                            <NannyAvatar user={this.state.user} />
+                        </div>
 
-                <ul>
-                    <div key={this.state.user.id}>
-                        <Avatar user={this.state.user} />
-                    </div>
-
-                    {this.state.subAccounts.map(subAccount => (
-                        <Avatar key={subAccount.id} user={subAccount} />
-                    ))}
-                </ul>
+                        {this.state.subAccounts.map(subAccount => (
+                            <NannyAvatar key={subAccount.id} user={subAccount} />
+                        ))}
+                    </ul>
+                </Container>
             </>
         );
     }

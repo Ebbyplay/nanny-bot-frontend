@@ -21,15 +21,18 @@ export const login = (email, password) => {
 
 /**
  * signup mainaccount call
+ * @param {String} username 
  * @param {String} email 
  * @param {String} password 
+ * @param {String} repassword 
  * @returns 
  */
-export const signupMain = (username, email, password) => {
+export const signupMain = (username, email, password, repassword) => {
     return axios.post(`${host}/register/mainAccount`, {
         name: username,
         email: email,
-        password: password
+        password: password,
+        repassword: repassword
     })
 }
 
