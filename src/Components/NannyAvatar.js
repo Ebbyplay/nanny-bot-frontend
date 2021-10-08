@@ -1,23 +1,20 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React from 'react';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 
-/**
- * avatar
- */
 class NannyAvatar extends React.Component {
-    state = {
-        user: this.props.user
-    }
-
-    selectUser = (user) => {
-        console.log('selectuser', user);
-    }
-
     render() {
         return (
             <>
-                <div onClick={() => this.selectUser(this.state.user)}>
-                    <strong>{this.state.user.name}</strong>
-                </div>
+                <Container>
+                    <Row>
+                        <Col xs={6} md={4} onClick={this.props.click}>
+                            <Image src="/logo192.png" rounded />
+                            {this.props.user.name}
+                        </Col>
+                    </Row>
+                </Container>
             </>
         );
     }
