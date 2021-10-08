@@ -29,7 +29,7 @@ class App extends React.Component {
         }
     }
 
-    userChanged = (user) => {
+    userchanged = (user) => {
         console.log('userChanged', user);
 
         this.setState({
@@ -43,9 +43,9 @@ class App extends React.Component {
      * redirect to 'login'
      * @param {*} e 
      */
-     handleLogout = (e) => {
+     handleLogout = () => {
         unsetSessionStorage('user');
-        this.props.history.push('/login/');
+        this.setState({user: null});
     }
 
     render() {
@@ -85,7 +85,7 @@ class App extends React.Component {
 
                     <Switch>
                         <Route exact user={this.state.user} path="/" component={Home} />
-                        <PublicRoute user={this.state.user} userChanged={this.userChanged} path="/login" component={Login} />
+                        <PublicRoute user={this.state.user} userchanged={this.userchanged} path="/login" component={Login} />
                         <PublicRoute user={this.state.user} path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} path="/dashboard" component={Dashboard} />
                         <PrivateRoute user={this.state.user} path="/tasks" component={Tasks} />

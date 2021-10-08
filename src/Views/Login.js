@@ -39,13 +39,11 @@ class Login extends React.Component {
      * post request to backend with email and password. returns a user object on success
      * @param {*} e 
      */
-    handleLogin() {
+    handleLogin = () => {
         let { email, password } = this.state;
 
         login(email, password)
         .then((res) => {
-            console.log('%c login response', 'color:green', res);
-
             if (!res.data)
                 return;
 
@@ -54,8 +52,9 @@ class Login extends React.Component {
             this.setState({user: user});
             setSessionStorage('user', user);
 
-            this.props.userChanged(user);
+            this.props.userchanged(user);
             this.props.history.push('/dashboard');
+
         })
         .catch((err) => {
             // todo: error-handling?
