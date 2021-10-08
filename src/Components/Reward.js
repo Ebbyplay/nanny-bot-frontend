@@ -3,13 +3,41 @@ import React from "react";
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import { getReward } from "../Utils/CallMaster";
+import ReactCanvasConfetti from 'react-canvas-confetti';
 
 class Reward extends React.Component {
+    constructor(props) {
+        super(props);
+        this.animationInstance = null;
+    }
+
+    getInstance = (instance) => {
+        this.animationInstance = instance;
+    };
+
+    makeShot = (particleRatio, opts) => {
+        this.animationInstance && this.animationInstance({
+            ...opts,
+            origin: { y: 1 },
+            particleCount: Math.floor(200 * particleRatio),
+        });
+    }
+
+    fire = () => {
+        this.makeShot(0.25, {
+            spread: 26,
+            startVelocity: 55,
+        });
+    }
+
+
     state = {
         reward: {},
     }
 
+
     buy = () => {
+        this.fire()
         this.props.buyReward(this.props.user_reward.id, this.state.reward.cost)
     }
 
@@ -56,6 +84,15 @@ class Reward extends React.Component {
             color: "orangered",
         }
 
+        const canvasStyles = {
+            position: 'fixed',
+            pointerEvents: 'none',
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0
+        }
+
         return (
             <Accordion defaultActiveKey="1" style={card}>
                 <Card >
@@ -83,6 +120,7 @@ class Reward extends React.Component {
                                     Coins nach dem Kauf: {this.props.points - this.state.reward.cost}
                                 </div>
                                 <input type="Button" defaultValue="Kaufen" onClick={() => this.buy()} />
+                                <ReactCanvasConfetti refConfetti={this.getInstance} style={canvasStyles} />
                             </div>
                             <div style={h2} className={!canAfford && !allreadyClaimed ? "" : "hide"}>
                                 <h2>Diese Belohnung kannst Du dir noch nicht leisten.</h2>

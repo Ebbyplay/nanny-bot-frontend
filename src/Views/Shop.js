@@ -15,7 +15,8 @@ class Shop extends React.Component {
     }
 
     componentDidMount() {
-        const subAccountId = "eeb2f85c-5bec-44da-ac30-06899f2f52a4";
+        //TODO: set to user.id
+        const subAccountId = "1db5364f-65fc-4a7d-b5e2-bbc1866b80b8";
         getUser_Rewards(subAccountId)
             .then((res) => {
                 this.setState({ user_rewards: res.data })
