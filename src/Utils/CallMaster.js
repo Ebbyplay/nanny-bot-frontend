@@ -4,7 +4,8 @@
 
 import axios from 'axios';
 
-var baseUrl = "http://localhost:8081/";
+const host = 'http://localhost:8081';
+
 /**
  * login call
  * @param {String} email 
@@ -12,7 +13,7 @@ var baseUrl = "http://localhost:8081/";
  * @returns 
  */
 export const login = (email, password) => {
-    return axios.post(baseUrl + 'login', {
+    return axios.post(`${host}/login`, {
         email: email,
         password: password
     })
@@ -20,40 +21,150 @@ export const login = (email, password) => {
 
 /**
  * signup mainaccount call
+ * @param {String} username 
  * @param {String} email 
  * @param {String} password 
+ * @param {String} repassword 
  * @returns 
  */
-export const signupMain = (username, email, password) => {
-    return axios.post(baseUrl + 'login/register/mainAccount', {
+export const signupMain = (username, email, password, repassword) => {
+    return axios.post(`${host}/register/mainAccount`, {
         name: username,
         email: email,
-        password: password
+        password: password,
+        repassword: repassword
     })
 }
 
 /**
  * signup subaccount call
- * @param {String} email 
- * @param {String} password 
  * @param {String} parentId 
+ * @param {String} username
+ * @param {String} password 
  * @returns 
  */
-export const singupSub = (username, password, parentId) => {
-    return axios.post(baseUrl + 'login/register/subAccount', {
+export const signupSub = (parentId, username, password) => {
+    return axios.post(`${host}/register/subAccount`, {
+        parentId: parentId,
         name: username,
-        password: password,
-        parentId: parentId
+        password: password
     })
 }
 
 /**
- * Fetch all Rewards
- * @param {String} creatorId 
+ * create task call
+* @param { String } userId
+* @param { String } name
+* @param { String } repetition
+* @param { Integer } weight
+* @returns
+ */
+export const createTask = (userId, name, repetition, weight) => {
+    return axios.post(`${host}/task/create`, {
+        mainAccountId: userId,
+        name: name,
+        repetition: repetition,
+        weight: weight
+    })
+}
+
+/**
+ * update task call
+ * @param {String} taskId 
+ * @param {String} name 
+ * @param {String} repetition 
+ * @param {Integer} weight 
  * @returns 
  */
-export const getRewards = (creatorId) => {
-    return axios.get(baseUrl + 'reward/getAll/' + creatorId, {
-        creatorId: Number(creatorId)
-    });
+export const updateTask = (taskId, name, repetition, weight) => {
+    return axios.put(`${host}/task/update`, {
+        uuid: taskId,
+        name: name,
+        repetition: repetition,
+        weight: weight
+    })
+}
+
+/**
+ * delete task call
+ * @param {String} taskId
+ * @returns 
+ */
+export const deleteTask = (taskId) => {
+    return axios.delete(`${host}/task/delete`, taskId)
+}
+
+/**
+ * get tasks call
+ * @param {String} userId
+ * @returns 
+ */
+export const getTasks = (userId) => {
+    return axios.get(`${host}/task/getAll/${userId}`)
+}
+
+/**
+ * create reward call
+ * @param {String} userId 
+ * @param {String} name 
+ * @param {Integer} cost 
+ * @returns 
+ */
+export const createReward = (userId, name, cost) => {
+    return axios.post(`${host}/reward/create`, {
+        creatorId: userId,
+        name: name,
+        cost: cost
+    })
+}
+
+/**
+ * update reward call
+ * @param {String} rewardId 
+ * @param {String} name 
+ * @param {Integer} cost 
+ * @returns 
+ */
+export const updateReward = (rewardId, name, cost) => {
+    return axios.put(`${host}/reward/update`, {
+        rewardId: rewardId,
+        name: name,
+        cost: cost
+    })
+}
+
+/**
+ * delete reward call
+ * @param {String} rewardId
+ * @returns 
+ */
+export const deleteReward = (rewardId) => {
+    return axios.delete(`${host}/reward/delete`, rewardId)
+}
+
+/**
+ * get rewards call
+ * @param {String} userId 
+ * @returns 
+ */
+export const getRewards = (userId) => {
+    return axios.get(`${host}/reward/getAll/${userId}`)
+}
+
+/**
+ * get sub accounts call
+ * @param {String} userId 
+ * @returns 
+ */
+export const getAllSubAccounts = (userId) => {
+    return axios.get(`${host}/subaccount/getAll/${userId}`)
+}
+
+/**
+ * get sub account points call
+ * @param {String} userId 
+ * @returns 
+ */
+export const getPoints = (userId) => {
+    return axios.get(`${host}/subaccount/points/${userId}`)
 }

@@ -7,7 +7,7 @@ class Admin_rewards extends React.Component {
     state = {
         view: "list",
         rewards: getRewards(),
-        title: "",
+        title: "test",
         points: 0,
         image: ""
     }
@@ -25,7 +25,7 @@ class Admin_rewards extends React.Component {
     }
 
     handleNewReward = (e) => {
-        console.log("change view to edit");
+        console.log("change view to edit " + this.state.user.id);
         this.setState({ view: "edit" })
     }
 
