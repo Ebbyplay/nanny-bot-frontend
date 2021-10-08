@@ -1,10 +1,10 @@
 import React from "react";
 import Select from 'react-select'
-import "./Edittask.css";
+import "./EditCreateTask.css";
 import { createTask } from "../Utils/CallMaster"
 import { getSessionStorage } from '../Utils/Session';
 
-class EditTask extends React.Component {
+class EditCreateTask extends React.Component {
 
     repitions = [
         { value: 'ONCE', label: 'Einmalig' },
@@ -77,4 +77,4 @@ class EditTask extends React.Component {
 }
 
 
-export default EditTask;
+export default EditCreateTask;

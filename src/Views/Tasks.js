@@ -3,7 +3,7 @@ import { getSessionStorage } from '../Utils/Session';
 import TaskList from '../Components/TaskList'
 import { getAllSubAccounts, getTasks } from '../Utils/CallMaster';
 
-import EditTask from '../Components/Edittask';
+import EditTask from '../Components/EditCreateTask';
 
 /**
  * path: /shop
@@ -13,7 +13,7 @@ class Tasks extends React.Component {
         user: getSessionStorage('user'),
         subAccounts: [],
         tasks: [],
-        showEdit: false
+        showEditCreate: false
     }
 
     componentDidMount() {
@@ -57,13 +57,16 @@ class Tasks extends React.Component {
         console.log('taskchanged', this.state.tasks);
     }
 
-    showEdit = () => {
-        console.log("TRUE")
-        this.setState({ showEdit: true });
+    newTask = () => {
+        this.setState({ showEditCreate: true });
     }
 
-    hideEdit = () => {
-        this.setState({ showEdit: false });
+    editTask = () => {
+        this.setState({ showEditCreate: true });
+    }
+
+    hide = () => {
+        this.setState({ showEditCreate: false });
     }
 
     render() {
@@ -77,10 +80,10 @@ class Tasks extends React.Component {
                     )
                     ) : (
                         <div>
-                            {!this.state.showEdit && <button onClick={() => this.showEdit()}>Neu</button>}
-                            {this.state.showEdit && <EditTask hideOnClick={this.hideEdit} onSave={this.taskadd} />}
+                            {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
+                            {this.state.showEditCreate && <EditTask hideOnClick={this.hide} onSave={this.taskadd} />}
 
-                            {!this.state.showEdit && <TaskList user={this.state.user} key={this.state.user.id} tasks={this.state.tasks} showEdit={this.showEdit} />}
+                            {!this.state.showEditCreate && <TaskList user={this.state.user} key={this.state.user.id} tasks={this.state.tasks} showEditCreate={this.newTask} />}
                         </div>
                     )
                 }
