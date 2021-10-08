@@ -16,7 +16,7 @@ class Shop extends React.Component {
 
     componentDidMount() {
         //TODO: set to user.id
-        const subAccountId = "cbdbd0f2-6720-46a1-9dd3-ed741d9d28f9";
+        const subAccountId = "a0fcc1f6-6a35-4bf8-8817-2af90ecad605";
         getUser_Rewards(subAccountId)
             .then((res) => {
                 this.setState({ user_rewards: res.data })
@@ -43,10 +43,8 @@ class Shop extends React.Component {
                             user_reward = res.data;
                             this.state.currentPoints -= cost
                         }
-                        console.log("UPDATED REWARD", user_reward)
                         return user_reward
                     }),
-
                 })
             })
             .catch((err) => {
@@ -63,5 +61,4 @@ class Shop extends React.Component {
         );
     }
 }
-
 export default Shop;

@@ -7,8 +7,12 @@ import ReactCanvasConfetti from 'react-canvas-confetti';
 
 class Reward extends React.Component {
     constructor(props) {
-        super(props);
-        this.animationInstance = null;
+        super(props)
+        this.animationInstance = null
+    }
+
+    state = {
+        reward: {},
     }
 
     getInstance = (instance) => {
@@ -24,17 +28,11 @@ class Reward extends React.Component {
     }
 
     fire = () => {
-        this.makeShot(0.25, {
+        this.makeShot(0.5, {
             spread: 26,
             startVelocity: 55,
         });
     }
-
-
-    state = {
-        reward: {},
-    }
-
 
     buy = () => {
         this.fire()
@@ -45,7 +43,6 @@ class Reward extends React.Component {
         getReward(this.props.user_reward.rewardId)
             .then((reward) => {
                 this.setState({ reward: reward.data })
-                console.log("REWARD", this.state.reward)
             })
             .catch((err) => {
                 console.log('could not get reward ', err);
@@ -56,11 +53,6 @@ class Reward extends React.Component {
         const user_reward = this.props.user_reward;
         const canAfford = this.state.reward.cost <= this.props.points;
         const allreadyClaimed = user_reward.claimedAt != null;
-
-        console.log("CanAfford ", canAfford)
-        console.log("AllreadyClaimed ", allreadyClaimed)
-        console.log("USER_REWARD ", this.props.user_reward)
-
 
         const card = {
             padding: "10px 10px",

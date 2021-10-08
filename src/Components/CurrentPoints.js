@@ -2,9 +2,7 @@ import React from "react";
 
 class CurrentPoints extends React.Component {
 
-
     render() {
-
         const container = {
             width: "100%",
             display: "flex",
@@ -35,9 +33,7 @@ class CurrentPoints extends React.Component {
                 <div style={text}>Aktuelle Coins</div>
                 <div style={points}>{this.props.points}</div>
             </div>
-
         )
     }
 }
-
 export default CurrentPoints;
