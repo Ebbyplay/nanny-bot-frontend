@@ -1,18 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
-import { Button, Container, Form, Row, Col } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 
-import { setSessionStorage } from '../Utils/Session';
 import { signupMain } from '../Utils/CallMaster';
+import NannyForm from '../Components/NannyForm';
 
 /**
  * path: /signup
  */
 class Signup extends React.Component {
     state = {
-        username: null,
         name: null,
         email: null,
         password: null,
@@ -41,64 +40,65 @@ class Signup extends React.Component {
         .then((res) => {
             console.log('%c signup response', 'color:green', res);
 
-            if (!res.data)
-                return;
+            let user = res.data;
 
-            setSessionStorage('user', res.data);
+            if (!user)
+                return;
         })
         .catch((err) => {
             // todo: error-handling?
         });
-
-        this.props.history.push('/dashboard');
     }
 
     render() {
-        if (this.state.user)
+        if (this.props.user)
             return <Redirect to='/dashboard' />
+
+        let options = {
+            form_elements: [
+                {
+                    type: 'text',
+                    name: 'name',
+                    placeholder: 'Benutzername eingeben',
+                    onChange: this.onChange
+                },
+                {
+                    type: 'email',
+                    name: 'email',
+                    placeholder: 'E-Mail eingeben',
+                    onChange: this.onChange
+                },
+                {
+                    type: 'password',
+                    name: 'password',
+                    placeholder: 'Passwort',
+                    onChange: this.onChange
+                },
+                {
+                    type: 'password',
+                    name: 'repassword',
+                    placeholder: 'Passwort wiederholen',
+                    onChange: this.onChange
+                }
+            ],
+            additional_elements: [
+                {
+                    text: 'Du hast schon einen Account?',
+                    navlink_text: 'Hier anmelden'
+                }
+            ],
+            form_buttons: [
+                {
+                    value: 'Registrieren',
+                    onClick: this.onClick
+                }
+            ]
+        };
 
         return (
             <>
             <Container>
-                <Form>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control name="name" type="email" placeholder="Name eingeben" onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control name="email" type="email" placeholder="E-Mail" onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Passwort" onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Password wiederholen</Form.Label>
-                            <Form.Control name="repassword" type="password" placeholder="Passwort" onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Text className="text-muted">
-                                Du hast schon einen Account? <br />
-                                <NavLink activeClassName="active" to="/login">Hier Anmelden</NavLink>
-                            </Form.Text>
-                        </Col>
-                        <Col className="my-1">
-                            <Button variant="primary" onClick={this.handleSignup}>
-                                Anmelden
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+                <NannyForm options={options} />
             </Container>
         </>
         )
