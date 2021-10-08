@@ -16,11 +16,10 @@ class Shop extends React.Component {
 
     componentDidMount() {
         //TODO: set to user.id
-        const subAccountId = "1db5364f-65fc-4a7d-b5e2-bbc1866b80b8";
+        const subAccountId = "cbdbd0f2-6720-46a1-9dd3-ed741d9d28f9";
         getUser_Rewards(subAccountId)
             .then((res) => {
                 this.setState({ user_rewards: res.data })
-                console.log("USER_REWARDS", res)
             })
             .catch((err) => {
                 console.log('could not get user_rewards ', err);
@@ -36,21 +35,19 @@ class Shop extends React.Component {
     }
 
     buyReward = (user_rewardId, cost) => {
-        console.log(cost);
-
         claimUser_Reward(user_rewardId)
             .then((res) => {
-                this.setState(
-                    this.state.user_rewards.map(user_reward => {
+                this.setState({
+                    user_rewards: this.state.user_rewards.map(user_reward => {
                         if (user_reward.id === res.data.id) {
                             user_reward = res.data;
-
                             this.state.currentPoints -= cost
                         }
+                        console.log("UPDATED REWARD", user_reward)
                         return user_reward
-                    })
+                    }),
 
-                )
+                })
             })
             .catch((err) => {
                 console.log('could not claim user_reward ', err);

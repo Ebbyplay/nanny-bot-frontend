@@ -57,6 +57,11 @@ class Reward extends React.Component {
         const canAfford = this.state.reward.cost <= this.props.points;
         const allreadyClaimed = user_reward.claimedAt != null;
 
+        console.log("CanAfford ", canAfford)
+        console.log("AllreadyClaimed ", allreadyClaimed)
+        console.log("USER_REWARD ", this.props.user_reward)
+
+
         const card = {
             padding: "10px 10px",
         }
