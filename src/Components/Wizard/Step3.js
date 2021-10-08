@@ -57,7 +57,13 @@ class Step3 extends React.Component {
         if (selectedImages.length < 3)
             return;
 
-        login(selectedAccount.email, selectedAccount.password, selectedAccount.parentId)
+        let password = '';
+
+        selectedImages.forEach((image) => {
+            password += image.name;
+        })
+
+        login(selectedAccount.email, password, selectedAccount.parentId)
         .then((res) => {
             let user = res.data;
 
