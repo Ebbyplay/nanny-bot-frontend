@@ -13,6 +13,7 @@ class RewardList extends React.Component {
                             user_reward={user_reward}
                             buyReward={this.props.buyReward}
                             key={user_reward.id}
+                            points={this.props.points}
                         />
                     ))
                 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import CurrentPoints from '../Components/CurrentPoints';
 import RewardList from '../Components/RewardList';
-import { claimUser_Reward, getUser_Rewards } from '../Utils/CallMaster';
+import { claimUser_Reward, getPoints, getUser_Rewards } from '../Utils/CallMaster';
 import { getSessionStorage } from '../Utils/Session';
 
 /**
@@ -11,23 +11,45 @@ class Shop extends React.Component {
     state = {
         user: getSessionStorage('user'),
         user_rewards: [],
+        currentPoints: 0
     }
 
     componentDidMount() {
-        getUser_Rewards("061e0f99-712e-4c8a-9d1f-80830f27174d")
-            .then((user_rewards) => {
-                this.setState({ user_rewards: user_rewards.data })
-                console.log("USER_REWARDS", user_rewards)
+        const subAccountId = "eeb2f85c-5bec-44da-ac30-06899f2f52a4";
+        getUser_Rewards(subAccountId)
+            .then((res) => {
+                this.setState({ user_rewards: res.data })
+                console.log("USER_REWARDS", res)
             })
             .catch((err) => {
                 console.log('could not get user_rewards ', err);
             })
+
+        getPoints(subAccountId)
+            .then((res) => {
+                this.setState({ currentPoints: res.data })
+            })
+            .catch((err) => {
+                console.log('could not get points ', err);
+            })
     }
 
-    buyReward = (user_rewardId) => {
+    buyReward = (user_rewardId, cost) => {
+        console.log(cost);
+
         claimUser_Reward(user_rewardId)
-            .then((response) => {
-                console.log(response);
+            .then((res) => {
+                this.setState(
+                    this.state.user_rewards.map(user_reward => {
+                        if (user_reward.id === res.data.id) {
+                            user_reward = res.data;
+
+                            this.state.currentPoints -= cost
+                        }
+                        return user_reward
+                    })
+
+                )
             })
             .catch((err) => {
                 console.log('could not claim user_reward ', err);
@@ -37,8 +59,8 @@ class Shop extends React.Component {
     render() {
         return (
             <>
-                <CurrentPoints points={30} />
-                <RewardList user_rewards={this.state.user_rewards} buyReward={this.buyReward} />
+                <CurrentPoints points={this.state.currentPoints} />
+                <RewardList user_rewards={this.state.user_rewards} buyReward={this.buyReward} points={this.state.currentPoints} />
             </>
         );
     }

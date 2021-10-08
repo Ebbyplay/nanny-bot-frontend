@@ -9,8 +9,8 @@ class Reward extends React.Component {
         reward: {},
     }
 
-    buy = (name) => {
-        this.props.buyReward(name)
+    buy = () => {
+        this.props.buyReward(this.props.user_reward.id, this.state.reward.cost)
     }
 
     componentDidMount() {
@@ -26,6 +26,8 @@ class Reward extends React.Component {
 
     render() {
         const user_reward = this.props.user_reward;
+        const canAfford = this.state.reward.cost <= this.props.points;
+        const allreadyClaimed = user_reward.claimedAt != null;
 
         const card = {
             padding: "10px 10px",
@@ -50,6 +52,10 @@ class Reward extends React.Component {
 
         }
 
+        const h2 = {
+            color: "orangered",
+        }
+
         return (
             <Accordion defaultActiveKey="1" style={card}>
                 <Card >
@@ -72,10 +78,18 @@ class Reward extends React.Component {
 
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
-                            <div>
-                                Coins nach dem Kauf: {this.state.reward.cost}
+                            <div className={canAfford && !allreadyClaimed ? "" : "hide"}>
+                                <div>
+                                    Coins nach dem Kauf: {this.props.points - this.state.reward.cost}
+                                </div>
+                                <input type="Button" defaultValue="Kaufen" onClick={() => this.buy()} />
                             </div>
-                            <input type="Button" defaultValue="Kaufen" onClick={() => this.buy(user_reward.id)} />
+                            <div style={h2} className={!canAfford && !allreadyClaimed ? "" : "hide"}>
+                                <h2>Diese Belohnung kannst Du dir noch nicht leisten.</h2>
+                            </div>
+                            <div style={h2} className={allreadyClaimed ? "" : "hide"}>
+                                <h2>Diese Belohnung hast du schon abgeholt.</h2>
+                            </div>
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>

@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 import React from 'react';
 import { HashRouter, Switch, Route, NavLink } from 'react-router-dom';
@@ -13,7 +14,7 @@ import Tasks from './Views/Tasks';
 import Shop from './Views/Shop';
 import Login from './Views/Login';
 import Signup from './Views/Signup';
- 
+
 class App extends React.Component {
     state = {
         user: null
@@ -43,9 +44,9 @@ class App extends React.Component {
      * redirect to 'login'
      * @param {*} e 
      */
-     handleLogout = () => {
+    handleLogout = () => {
         unsetSessionStorage('user');
-        this.setState({user: null});
+        this.setState({ user: null });
     }
 
     render() {
@@ -67,10 +68,10 @@ class App extends React.Component {
 
                                         <Navbar.Toggle />
                                         <Navbar.Collapse className="justify-content-end">
-                                                <Navbar.Text>
-                                                    Angemeldet als: {this.state.user.name}
-                                                </Navbar.Text>
-                                                <Nav.Link onClick={this.handleLogout}>Abmelden</Nav.Link>
+                                            <Navbar.Text>
+                                                Angemeldet als: {this.state.user.name}
+                                            </Navbar.Text>
+                                            <Nav.Link onClick={this.handleLogout}>Abmelden</Nav.Link>
                                         </Navbar.Collapse>
                                     </>
                                 ) : (
@@ -96,5 +97,5 @@ class App extends React.Component {
         );
     }
 }
- 
+
 export default App;
