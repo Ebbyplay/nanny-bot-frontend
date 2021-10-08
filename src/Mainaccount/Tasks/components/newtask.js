@@ -1,14 +1,15 @@
 import React from "react";
 import Select from 'react-select'
 import "./newtask.css";
+import { createTask } from "../../../Utils/CallMaster";
 
 class NewTask extends React.Component {
 
     repitions = [
-        { value: 'once', label: 'Einmalig' },
-        { value: 'daily', label: 'Täglich' },
-        { value: 'weekly', label: 'Wöchentlich' },
-        { value: 'monthly', label: 'Monthly' }
+        { value: 'ONCE', label: 'Einmalig' },
+        { value: 'DAILY', label: 'Täglich' },
+        { value: 'WEEKLY', label: 'Wöchentlich' },
+        { value: 'MONTHLY', label: 'Monatlich' }
     ]
 
     children = [
@@ -20,7 +21,7 @@ class NewTask extends React.Component {
     state = {
         title: '',
         description: '',
-        selectedRepition: this.repitions[0],
+        selectedRepetition: this.repitions[0],
         selectedChildren: [],
         points: ''
     };
@@ -33,7 +34,7 @@ class NewTask extends React.Component {
 
     handleRepetition = event => {
         this.setState({
-            selectedRepition: event.value
+            selectedRepetition: event
         });
     }
 
@@ -44,7 +45,7 @@ class NewTask extends React.Component {
     }
 
     saveChanges() {
-        console.log("Saved");
+        createTask(this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points);
         this.props.hideOnClick("showNew");
     }
 
@@ -59,7 +60,7 @@ class NewTask extends React.Component {
                 Beschreibung:
                 <textarea name="description" value={this.state.description} onChange={this.handleChange} /> <br />
 
-                <Select id="selectbox" defaultValue={this.state.selectedRepition} options={this.repitions} onChange={this.handleRepetition} /> <br />
+                <Select id="selectbox" defaultValue={this.state.selectedRepetition} options={this.repitions} onChange={this.handleRepetition} /> <br />
                 <Select id="selectbox" defaultValue={this.state.selectedChildren} isMulti options={this.children} onChange={this.handleChildren} /> <br />
 
                 Punkte:
