@@ -53,7 +53,7 @@ class Step1 extends React.Component {
                     </Col>
                     <Col className="my-1">
                         <Button variant="primary" onClick={this.tryLogin}>
-                            Anmelden
+                            Weiter
                         </Button>
                     </Col>
                 </Row>

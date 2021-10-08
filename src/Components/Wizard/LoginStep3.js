@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 import { login } from '../../Utils/CallMaster';
-import NannyImage from '../../Components/NannyImage';
+import NannyImage from '../NannyImage';
 
 class Step3 extends React.Component {
     state = {
@@ -57,13 +57,13 @@ class Step3 extends React.Component {
         if (selectedImages.length < 3)
             return;
 
-        let password = '';
+        let imgPassword = '';
 
         selectedImages.forEach((image) => {
-            password += image.name;
+            imgPassword += image.name;
         })
 
-        login(selectedAccount.email, password, selectedAccount.parentId)
+        login(selectedAccount.email, imgPassword, selectedAccount.parentId)
         .then((res) => {
             let user = res.data;
 
@@ -76,13 +76,6 @@ class Step3 extends React.Component {
     }
 
     render() {
-        const styles = StyleSheet.create({
-            list: {
-                flexDirection: 'row',
-                flexWrap: 'wrap'
-            }
-        })
-
         return (
             <>
                 <div>
@@ -90,6 +83,10 @@ class Step3 extends React.Component {
                         <NannyImage key={image.index} image={image} click={this.toggleImage} selected={this.state.selectedImages} />
                     ))}
                 </div>
+
+                <Button variant="primary" onClick={this.submitImagePassword}>
+                    Anmelden
+                </Button>
 
                 <Button variant="primary" onClick={this.props.back}>
                     Zurueck

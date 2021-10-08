@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
+import Step1 from './LoginStep1';
+import Step2 from './LoginStep2';
+import Step3 from './LoginStep3';
 
 class LoginWizard extends React.Component {
     state = {

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-import NannyAvatar from '../../Components/NannyAvatar';
+import NannyAvatar from '../NannyAvatar';
 import { getAllSubAccounts } from '../../Utils/CallMaster';
 
 
