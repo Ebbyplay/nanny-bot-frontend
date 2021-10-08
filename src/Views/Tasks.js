@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSessionStorage } from '../Utils/Session';
+
 import TaskList from '../Components/TaskList'
 import { getAllSubAccounts } from '../Utils/CallMaster';
 
@@ -8,7 +8,6 @@ import { getAllSubAccounts } from '../Utils/CallMaster';
  */
 class Tasks extends React.Component {
     state = {
-        user: getSessionStorage('user'),
         subAccounts: []
     }
 
@@ -16,7 +15,7 @@ class Tasks extends React.Component {
         if (!this.state.user.email)
             return;
 
-        getAllSubAccounts(this.state.user.id)
+        getAllSubAccounts(this.props.user.id)
         .then((subAccounts) => {
             this.setState({subAccounts: subAccounts});
         })
@@ -26,7 +25,7 @@ class Tasks extends React.Component {
     }
 
     render() {
-        let isSubAccount = !this.state.user.email;
+        let isSubAccount = !this.props.user.email;
 
         return (
             <>
@@ -36,7 +35,7 @@ class Tasks extends React.Component {
                             <TaskList user={subAccount} key={subAccount.id} />
                         )
                     ) : (
-                        <TaskList user={this.state.user} key={this.state.user.id} />
+                        <TaskList user={this.props.user} key={this.props.user.id} />
                     )
                 }
             </>

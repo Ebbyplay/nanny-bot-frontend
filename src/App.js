@@ -5,7 +5,7 @@ import { HashRouter, Switch, Route, NavLink } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
-import { getSessionStorage, unsetSessionStorage } from './Utils/Session';
+import { getSessionStorage, setSessionStorage, unsetSessionStorage } from './Utils/Session';
 
 import Home from './Views/Home';
 import Dashboard from './Views/Dashboard';
@@ -30,11 +30,13 @@ class App extends React.Component {
     }
 
     userchanged = (user) => {
-        console.log('userChanged', user);
+        console.log('userchanged', user);
 
         this.setState({
             user: user
         });
+
+        setSessionStorage('user', user);
     }
 
     /**

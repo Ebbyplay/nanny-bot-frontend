@@ -3,7 +3,6 @@
  */
 
 import axios from 'axios';
-import { getSessionStorage } from './Session';
 
 const host = 'http://localhost:8081';
 
