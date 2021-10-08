@@ -73,15 +73,17 @@ export const createTask = (userId, title, description, repetition, weight) => {
 /**
  * update task call
  * @param {String} taskId 
- * @param {String} name 
+ * @param {String} title 
+ * @param {String} description 
  * @param {String} repetition 
  * @param {Integer} weight 
  * @returns 
  */
-export const updateTask = (taskId, name, repetition, weight) => {
+export const updateTask = (taskId, title, description, repetition, weight) => {
     return axios.put(`${host}/task/update`, {
-        uuid: taskId,
-        name: name,
+        taskId: taskId,
+        name: title,
+        description: description,
         repetition: repetition,
         weight: weight
     })
@@ -103,6 +105,15 @@ export const deleteTask = (taskId) => {
  */
 export const getTasks = (userId) => {
     return axios.get(`${host}/task/getAll/${userId}`)
+}
+
+/**
+ * get tasks call
+ * @param {String} taskID
+ * @returns 
+ */
+export const getTask = (taskID) => {
+    return axios.get(`${host}/task/get/${taskID}`)
 }
 
 /**

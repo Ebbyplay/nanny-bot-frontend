@@ -5,8 +5,8 @@ import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 
 class Task extends React.Component {
-    editTask = (e) => {
-        console.log('editTask', e, this.props.task)
+    editTask = () => {
+        this.props.onEdit(this.props.task.uuid)
     }
 
     verifyTask = (e) => {
@@ -40,7 +40,7 @@ class Task extends React.Component {
                                 ) : (
                                     <>
                                         <input type="Button" defaultValue="Verifizieren" onClick={this.verifyTask} />
-                                        <input type="Button" defaultValue="Bearbeiten" onClick={this.props.onEdit} />
+                                        <input type="Button" defaultValue="Bearbeiten" onClick={this.editTask} />
                                     </>
                                 )}
                             </Card.Body>

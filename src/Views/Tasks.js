@@ -13,7 +13,9 @@ class Tasks extends React.Component {
         user: getSessionStorage('user'),
         subAccounts: [],
         tasks: [],
-        showEditCreate: false
+        showEditCreate: false,
+        edit: false,
+        taskid: ''
     }
 
     componentDidMount() {
@@ -35,11 +37,25 @@ class Tasks extends React.Component {
             })
     }
 
+    getTask = (task) => {
+        let ret = {};
+
+        this.state.tasks.forEach(element => {
+            if (element.uuid === task.uuid) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
     taskchanged = (task) => {
 
         let tasks = this.state.tasks;
 
-        tasks[tasks.indexOf(task)] = task;
+        let foundTask = this.getTask(task);
+
+        tasks[tasks.indexOf(foundTask)] = task;
 
         this.setState({ tasks: tasks });
 
@@ -58,11 +74,11 @@ class Tasks extends React.Component {
     }
 
     newTask = () => {
-        this.setState({ showEditCreate: true });
+        this.setState({ showEditCreate: true, edit: false });
     }
 
-    editTask = () => {
-        this.setState({ showEditCreate: true });
+    editTask = (taskid) => {
+        this.setState({ showEditCreate: true, edit: true, taskid: taskid });
     }
 
     hide = () => {
@@ -81,9 +97,16 @@ class Tasks extends React.Component {
                     ) : (
                         <div>
                             {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
-                            {this.state.showEditCreate && <EditTask hideOnClick={this.hide} onSave={this.taskadd} />}
 
-                            {!this.state.showEditCreate && <TaskList user={this.state.user} key={this.state.user.id} tasks={this.state.tasks} showEditCreate={this.newTask} />}
+                            {this.state.showEditCreate && <EditTask
+                                hideOnClick={this.hide}
+                                taskadd={this.taskadd}
+                                taskchanged={this.taskchanged}
+                                editTask={this.state.edit}
+                                taskid={this.state.taskid} />
+                            }
+
+                            {!this.state.showEditCreate && <TaskList user={this.state.user} key={this.state.user.id} tasks={this.state.tasks} editTask={this.editTask} />}
                         </div>
                     )
                 }
