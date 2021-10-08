@@ -3,6 +3,7 @@
  */
 
 import axios from 'axios';
+import { getSessionStorage } from './Session';
 
 /**
  * login call
@@ -38,10 +39,30 @@ export const signupMain = (username, email, password) => {
  * @param {String} parentId 
  * @returns 
  */
- export const singupSub = (username, password, parentId) => {
+export const singupSub = (username, password, parentId) => {
     return axios.post('http://localhost:8081/login/register/subAccount', {
         name: username,
         password: password,
         parentId: parentId
+    })
+}
+
+/**
+ * signup subaccount call
+ * @param {String} title 
+ * @param {String} repitition 
+ * @param {String} points 
+ * @returns 
+ */
+export const createTask = (title, description, repitition, points) => {
+
+    let user = getSessionStorage('user')
+
+    return axios.post('http://localhost:8081/task/create', {
+        creatorId: user.id,
+        name: title,
+        description: description,
+        repetition: repitition,
+        weight: points
     })
 }

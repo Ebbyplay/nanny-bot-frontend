@@ -6,6 +6,7 @@ import Home from './Home';
 import Dashboard from './Dashboard';
 import Login from './Login';
 import Signup from './Signup';
+import MainTasks from './Mainaccount/Tasks/tasks';
 
 /**
  * navbar
@@ -18,24 +19,26 @@ class Navbar extends React.Component {
     render() {
         return (
             <div className="App">
-            <BrowserRouter>
-                <div>
-                <ul className="header">
-                    <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
-                    <li><NavLink activeClassName="active" to="/login">Anmelden</NavLink></li>
-                    <li><NavLink activeClassName="active" to="/signup">Registrieren</NavLink></li>
-                    <li><NavLink activeClassName="active" to="/dashboard">Übersicht</NavLink></li>
-                </ul>
-                <div className="content">
-                    <Switch>
-                    <Route exact path="/" component={Home} />
-                    <PublicRoute path="/login" component={Login} />
-                    <PublicRoute path="/signup" component={Signup} />
-                    <PrivateRoute path="/dashboard" component={Dashboard} />
-                    </Switch>
-                </div>
-                </div>
-            </BrowserRouter>
+                <BrowserRouter>
+                    <div>
+                        <ul className="header">
+                            <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/login">Anmelden</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/signup">Registrieren</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/dashboard">Übersicht</NavLink></li>
+                            <li><NavLink activeClassName="active" to="/parents">Aufgaben Eltern</NavLink></li>
+                        </ul>
+                        <div className="content">
+                            <Switch>
+                                <Route exact path="/" component={Home} />
+                                <PublicRoute path="/login" component={Login} />
+                                <PublicRoute path="/signup" component={Signup} />
+                                <PrivateRoute path="/dashboard" component={Dashboard} />
+                                <PrivateRoute path="/parents" component={MainTasks} />
+                            </Switch>
+                        </div>
+                    </div>
+                </BrowserRouter>
             </div>
         )
     }
