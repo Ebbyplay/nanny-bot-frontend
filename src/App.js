@@ -13,6 +13,7 @@ import Tasks from './Views/Tasks';
 import Shop from './Views/Shop';
 import Login from './Views/Login';
 import Signup from './Views/Signup';
+import Admin_rewards from './Views/Admin_rewards';
 
 class App extends React.Component {
     state = {

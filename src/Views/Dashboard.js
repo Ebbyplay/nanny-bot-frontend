@@ -2,8 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-
-import { getSessionStorage } from '../Utils/Session';
 import NannyAvatar from '../Components/NannyAvatar';
 import { Container } from 'react-bootstrap';
 
@@ -18,10 +16,10 @@ class Dashboard extends React.Component {
 
     componentDidMount() {
         console.log('dashboard load:', this);
-        let user = this.props.user ? this.props.user : getSessionStorage('user');
+        let user = this.props.user;
 
         if (user) {
-            this.setState({user: user});
+            this.setState({ user: user });
         }
     }
 
