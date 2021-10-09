@@ -19,19 +19,8 @@ import Settings from './Views/Settings';
 
 class App extends React.Component {
     state = {
-        user: null,
-        subaccounts: []
-    }
-
-    componentDidMount() {
-        let user = getSessionStorage('user'),
-            subaccounts = getSessionStorage('subaccounts');
-
-        if (user)
-            this.setState({
-                user: user,
-                subaccounts: subaccounts
-            })
+        user: getSessionStorage('user'),
+        subaccounts: getSessionStorage('subaccounts')
     }
 
     /**
@@ -62,10 +51,6 @@ class App extends React.Component {
     }
 
     render() {
-        // bin nicht stolz darauf aber fixt erstmal das problem, dass die navbar erst nach der view geladen wurde (init daten fehlen dadurch natuerlich in der view...)
-        if (!this.state.user)
-            return null;
-
         return (
             <div className="App">
                 <HashRouter>
