@@ -24,12 +24,13 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        let user = getSessionStorage('user');
+        let user = getSessionStorage('user'),
+            subaccounts = getSessionStorage('subaccounts');
 
         if (user)
             this.setState({
                 user: user,
-                subaccounts: getSessionStorage('subaacounts')
+                subaccounts: subaccounts
             })
     }
 
@@ -39,8 +40,6 @@ class App extends React.Component {
      * @param {*} value 
      */
     rootchangehandler = (key, value) => {
-        console.log('rootchangehandler', key, value);
-
         setSessionStorage(key, value);
 
         this.setState({
@@ -63,6 +62,10 @@ class App extends React.Component {
     }
 
     render() {
+        // bin nicht stolz darauf aber fixt erstmal das problem, dass die navbar erst nach der view geladen wurde (init daten fehlen dadurch natuerlich in der view...)
+        if (!this.state.user)
+            return null;
+
         return (
             <div className="App">
                 <HashRouter>
@@ -97,12 +100,12 @@ class App extends React.Component {
                     </Navbar>
 
                     <Switch>
-                        <Route exact user={this.state.user} rootchangehandler={this.rootchangehandler} path="/" component={Home} />
-                        <PublicRoute user={this.state.user} rootchangehandler={this.rootchangehandler} userchanged={this.userchanged} path="/login" component={Login} />
-                        <PublicRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/signup" component={Signup} />
-                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/dashboard" component={Dashboard} />
-                        <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} path="/tasks" component={Tasks} />
-                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/shop" component={Shop} />
+                        <Route exact user={this.state.user}  path="/" component={Home} />
+                        <PublicRoute user={this.state.user}  path="/login" rootchangehandler={this.rootchangehandler} component={Login} />
+                        <PublicRoute user={this.state.user}  path="/signup" component={Signup} />
+                        <PrivateRoute user={this.state.user} path="/dashboard" component={Dashboard} />
+                        <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} path="/tasks" component={Tasks} />
+                        <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
                         <Redirect from="/" to="login" />
                     </Switch>
