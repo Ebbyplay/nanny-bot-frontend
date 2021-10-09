@@ -13,7 +13,7 @@ import Shop from './Views/Shop';
 import Login from './Views/Login';
 import Signup from './Views/Signup';
 import Settings from './Views/Settings';
- 
+import Admin_rewards from './Views/Admin_rewards';
 
 class App extends React.Component {
     state = {
@@ -60,6 +60,7 @@ class App extends React.Component {
                                     <>
                                         <NavLink activeClassName="active" to="/tasks">Tasks</NavLink>
                                         <NavLink activeClassName="active" to="/shop">Shop</NavLink>
+                                        {this.state.user.email ? (<NavLink activeClassName="active" to="/admin_rewards">Belohnungen</NavLink>) : <></>}
                                         <NavLink activeClassName="active" to="/settings">Einstellungen</NavLink>
 
                                         <Navbar.Toggle />
@@ -86,6 +87,7 @@ class App extends React.Component {
                         <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} path="/tasks" component={Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
+                        <PrivateRoute user={this.state.user} path="/admin_rewards" component={Admin_rewards} />
                         <Redirect from="/" to="login" />
                     </Switch>
                 </HashRouter>
