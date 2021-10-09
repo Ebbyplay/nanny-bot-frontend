@@ -121,6 +121,15 @@ export const createReward = (userId, name, cost) => {
 }
 
 /**
+ * get reward call
+ * @param {String} rewardId 
+ * @returns 
+ */
+export const getReward = (rewardId) => {
+    return axios.get(`${host}/reward/get/${rewardId}`)
+}
+
+/**
  * update reward call
  * @param {String} rewardId 
  * @param {String} name 
@@ -149,8 +158,36 @@ export const deleteReward = (rewardId) => {
  * @param {String} userId 
  * @returns 
  */
-export const getReward = (userId) => {
-    return axios.delete(`${host}/reward/getAll/${userId}`)
+export const getRewards = (userId) => {
+    return axios.get(`${host}/reward/getAll/${userId}`)
+}
+
+
+/**
+ * get user_rewards call
+ * @param {String} userId 
+ * @returns 
+ */
+export const getUser_Rewards = (userId) => {
+    return axios.get(`${host}/user_reward/getAll/${userId}`)
+}
+
+/**
+ * claim user_rewards call
+ * @param {String} user_rewardId 
+ * @returns 
+ */
+export const claimUser_Reward = (user_rewardId) => {
+    return axios.put(`${host}/user_reward/claim/${user_rewardId}`)
+}
+
+/**
+ * UNclaim user_rewards call
+ * @param {String} user_rewardId 
+ * @returns 
+ */
+export const unclaimUser_Reward = (user_rewardId) => {
+    return axios.put(`${host}/user_reward/unclaim/${user_rewardId}`)
 }
 
 /**
