@@ -48,29 +48,28 @@ class Step2 extends React.Component {
 
     /**
      * is triggered when clicking on the 'Registrieren' button
-     * @todo fehlermeldung bei falscher bzw bei ungueltiger auswahl
      */
      trySignup = () => {
         let selectedImages = this.state.selectedImages,
             { name, email, password, repassword } = this.props.data;
 
         if (selectedImages.length < 3)
-            return;
+            return alert('waehlen sie mindestens drei bilder aus!');
 
-        let imgPassword = '';
+        /*let imgPassword = '';
 
         selectedImages.forEach((image) => {
             imgPassword += image.name;
-        })
+        })*/
 
         signupMain(name, email, password, repassword)
         .then((res) => {
             let user = res.data;
 
             if (!user)
-                return;
+                return alert('anmeldung fehlgeschlagen!');
 
-            this.props.userchanged(user);
+            this.props.rootchangehandler('user', user);
             this.history.push('/login');
         })
         

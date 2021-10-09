@@ -8,10 +8,10 @@ class Step1 extends React.Component {
     validateForm = () => {
         // if input gucci dann this.props.next()
         if (!this.props.data.name || !this.props.data.email || !this.props.data.password || !this.props.data.repassword)
-            return;
+            return alert('ungueltige eingabe');
 
         if (this.props.data.password !== this.props.data.repassword)
-            return;
+            return alert('passwoerter stimmen nicht ueberein');
 
         this.props.next();
     }

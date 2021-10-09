@@ -16,7 +16,7 @@ class Login extends React.Component {
 
         return (
             <Container>
-                <LoginWizard userchanged={this.props.userchanged} />
+                <LoginWizard rootchangehandler={this.props.rootchangehandler} />
             </Container>
         )
     }

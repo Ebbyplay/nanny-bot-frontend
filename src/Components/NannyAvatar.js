@@ -7,8 +7,10 @@ class NannyAvatar extends React.Component {
     render() {
         return (
             <>
-                <Image src="/logo192.png" rounded onClick={this.props.click} />
-                {this.props.user.name}
+                <div>
+                    <Image src="/logo192.png" rounded onClick={this.props.click} />
+                    <p>{this.props.user.name}</p>
+                </div>
             </>
         );
     }

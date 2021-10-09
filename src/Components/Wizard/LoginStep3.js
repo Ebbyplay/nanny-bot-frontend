@@ -48,14 +48,13 @@ class Step3 extends React.Component {
 
     /**
      * is triggered when clicking on the 'Anmelden' button
-     * @todo fehlermeldung bei falscher bzw bei ungueltiger auswahl
      */
     submitImagePassword = () => {
         let selectedImages = this.state.selectedImages,
             selectedAccount = this.props.data.selectedAccount;
 
         if (selectedImages.length < 3)
-            return;
+            return alert('waehlen sie mindestens drei bilder aus!');
 
         let imgPassword = '';
 
@@ -68,10 +67,11 @@ class Step3 extends React.Component {
             let user = res.data;
 
             if (!user)
-                return;
+                return alert('anmelden fehlgeschlagen - ueberpruefen sie ihre anmeldedaten');
 
-            this.props.userchanged(user)
-        })
+                this.props.rootchangehandler('user', user);
+                this.props.rootchangehandler('subaccounts', this.props.data.subaccounts);
+            })
         
     }
 

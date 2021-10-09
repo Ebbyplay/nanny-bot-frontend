@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-import NannyAvatar from '../NannyAvatar';
 import { getAllSubAccounts } from '../../Utils/CallMaster';
+import NannyAvatar from '../NannyAvatar';
 
 
 class Step2 extends React.Component {
@@ -22,7 +22,9 @@ class Step2 extends React.Component {
 
             this.setState({
                 allAccounts: subAccounts.concat(this.props.data.mainAccount)
-            })
+            });
+
+            this.props.rootchangehandler('subaccounts', subAccounts);
         })
     }
 
@@ -31,8 +33,6 @@ class Step2 extends React.Component {
      * @param {Object} user 
      */
     selectUser = (user) => {
-        console.log('selectUser', {user: user, t: this});
-
         this.props.data.selectedAccount = user;
         this.props.next();
     }

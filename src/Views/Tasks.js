@@ -1,41 +1,42 @@
 import React from 'react';
 
 import TaskList from '../Components/TaskList'
-import { getAllSubAccounts } from '../Utils/CallMaster';
+import { getTasks } from '../Utils/CallMaster';
 
 /**
- * path: /shop
+ * path: /tasks
  */
 class Tasks extends React.Component {
     state = {
-        subAccounts: []
+        tasks: []
     }
 
     componentDidMount() {
-        if (!this.state.user.email)
-            return;
+        getTasks(this.props.user.id)
+        .then((res) => {
+            let tasks = res.data;
 
-        getAllSubAccounts(this.props.user.id)
-        .then((subAccounts) => {
-            this.setState({subAccounts: subAccounts});
-        })
-        .catch((err) => {
-            console.log('could not get all sub accounts', err);
+            if (!tasks)
+                return;
+
+            this.setState({
+                tasks: tasks
+            });
         })
     }
 
     render() {
-        let isSubAccount = !this.props.user.email;
+        let isSubAccount = this.props.user.email;
 
         return (
             <>
                 <p>todo: tasks view</p>
                 {isSubAccount ? 
-                        this.state.subAccounts.map(subAccount => (
-                            <TaskList user={subAccount} key={subAccount.id} />
+                        this.props.subaccounts.map(subAccount => (
+                            <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} />
                         )
                     ) : (
-                        <TaskList user={this.props.user} key={this.props.user.id} />
+                        <TaskList user={this.props.user} key={this.root.user.id} />
                     )
                 }
             </>

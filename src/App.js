@@ -5,7 +5,7 @@ import { HashRouter, Switch, Route, NavLink } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
-import { getSessionStorage, setSessionStorage, unsetSessionStorage } from './Utils/Session';
+import { getSessionStorage, setSessionStorage, clearSessionStorage } from './Utils/Session';
 
 import Home from './Views/Home';
 import Dashboard from './Views/Dashboard';
@@ -13,46 +13,52 @@ import Tasks from './Views/Tasks';
 import Shop from './Views/Shop';
 import Login from './Views/Login';
 import Signup from './Views/Signup';
+import Settings from './Views/Settings';
  
 class App extends React.Component {
     state = {
-        user: null
+        user: null,
+        subaccounts: []
     }
 
     componentDidMount() {
         let user = getSessionStorage('user');
 
-        if (user) {
+        if (user)
             this.setState({
-                user: user
-            });
-        }
+                user: user,
+                subaccounts: getSessionStorage('subaacounts')
+            })
     }
 
-    userchanged = (user) => {
-        console.log('userchanged', user);
+    /**
+     * 
+     * @param {String} key 
+     * @param {*} value 
+     */
+    rootchangehandler = (key, value) => {
+        setSessionStorage(key, value);
 
         this.setState({
-            user: user
+            [key]: value
         });
-
-        setSessionStorage('user', user);
     }
 
     /**
      * is triggered when the 'Abmelden' button is clicked
-     * remove user from sessionStorage
+     * clear sessionStorage
      * redirect to 'login'
-     * @param {*} e 
      */
      handleLogout = () => {
-        unsetSessionStorage('user');
-        this.setState({user: null});
+        clearSessionStorage();
+
+        this.setState({
+            user: null,
+            subaccounts: []
+        });
     }
 
     render() {
-        let isLoggedIn = Boolean(this.state.user);
-
         return (
             <div className="App">
                 <HashRouter>
@@ -61,11 +67,12 @@ class App extends React.Component {
                             <Navbar.Brand>NannyBot</Navbar.Brand>
                             <Nav className="me-auto">
                                 <NavLink exact activeClassName="active" to="/">Home</NavLink>
-                                {isLoggedIn ? (
+                                {this.state.user ? (
                                     <>
                                         <NavLink activeClassName="active" to="/dashboard">Übersicht</NavLink>
                                         <NavLink activeClassName="active" to="/tasks">Tasks</NavLink>
                                         <NavLink activeClassName="active" to="/shop">Shop</NavLink>
+                                        <NavLink activeClassName="active" to="/settings">Einstellungen</NavLink>
 
                                         <Navbar.Toggle />
                                         <Navbar.Collapse className="justify-content-end">
@@ -86,12 +93,13 @@ class App extends React.Component {
                     </Navbar>
 
                     <Switch>
-                        <Route exact user={this.state.user} path="/" component={Home} />
-                        <PublicRoute user={this.state.user} userchanged={this.userchanged} path="/login" component={Login} />
-                        <PublicRoute user={this.state.user} path="/signup" component={Signup} />
-                        <PrivateRoute user={this.state.user} path="/dashboard" component={Dashboard} />
-                        <PrivateRoute user={this.state.user} path="/tasks" component={Tasks} />
-                        <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
+                        <Route exact  user={this.state.user} rootchangehandler={this.rootchangehandler} path="/" component={Home} />
+                        <PublicRoute  user={this.state.user} rootchangehandler={this.rootchangehandler} userchanged={this.userchanged} path="/login" component={Login} />
+                        <PublicRoute  user={this.state.user} rootchangehandler={this.rootchangehandler} path="/signup" component={Signup} />
+                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/dashboard" component={Dashboard} />
+                        <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} path="/tasks" component={Tasks} />
+                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/shop" component={Shop} />
+                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
                     </Switch>
                 </HashRouter>
             </div>

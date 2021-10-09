@@ -8,7 +8,7 @@ class NannyImage extends React.Component {
         let imageStyle= {
             height: '100px',
             width: '100px',
-            backgroundColor: this.props.selected.indexOf(this.props.image) !== -1 ? 'green' : 'red'
+            border: this.props.selected.indexOf(this.props.image) !== -1 ? '2px dotted black' : ''
         };
 
         return (

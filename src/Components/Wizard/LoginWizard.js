@@ -15,7 +15,7 @@ class LoginWizard extends React.Component {
 
     handleChange = (event) => {
         this.setState({
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value
         })
     }
 
@@ -34,6 +34,7 @@ class LoginWizard extends React.Component {
                     <Step1
                         data={this.state}
                         handleChange={this.handleChange}
+                        rootchangehandler={this.props.rootchangehandler}
                         next={this.next}
                     />
                 )
@@ -42,6 +43,7 @@ class LoginWizard extends React.Component {
                     <Step2
                         data={this.state}
                         handleChange={this.handleChange}
+                        rootchangehandler={this.props.rootchangehandler}
                         next={this.next}
                         back={this.back}
                     />
@@ -51,9 +53,9 @@ class LoginWizard extends React.Component {
                     <Step3
                         data={this.state}
                         handleChange={this.handleChange}
+                        rootchangehandler={this.props.rootchangehandler}
                         next={this.next}
                         back={this.back}
-                        userchanged={this.props.userchanged}
                     />
                 )
             default:

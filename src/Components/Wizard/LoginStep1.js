@@ -9,20 +9,20 @@ import { login } from '../../Utils/CallMaster';
 class Step1 extends React.Component {
     /**
      * is triggered when clicking on the 'Anmelden' button
-     * @todo fehlermeldung bei falschen passwort bzw bei ungueltiger eingabe
      */
     tryLogin = () => {
         if (!this.props.data.email || !this.props.data.password)
-            return;
+            return alert('ungueltige eingabe!');
 
         login(this.props.data.email, this.props.data.password)
         .then((res) => {
-            console.log('login attempt', {t: this, response: res});
-
             let user = res.data;
 
             if (!user)
-                return;
+                return alert('anmelden fehlgeschlagen!');
+
+            // todo: kommt nach dem testen wieder raus
+            this.props.rootchangehandler('user', user);
 
             this.props.data.mainAccount = user;
             this.props.next();
