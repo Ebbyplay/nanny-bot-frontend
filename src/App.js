@@ -2,14 +2,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import React from 'react';
-import { HashRouter, Switch, Route, NavLink, Redirect } from 'react-router-dom';
+import { HashRouter, Switch, Redirect, NavLink } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
 import { getSessionStorage, setSessionStorage, clearSessionStorage } from './Utils/Session';
 
-import Home from './Views/Home';
-import Dashboard from './Views/Dashboard';
 import Tasks from './Views/Tasks';
 import Shop from './Views/Shop';
 import Login from './Views/Login';
@@ -58,10 +56,8 @@ class App extends React.Component {
                         <Container>
                             <Navbar.Brand>NannyBot</Navbar.Brand>
                             <Nav className="me-auto">
-                                <NavLink exact activeClassName="active" to="/">Home</NavLink>
                                 {this.state.user ? (
                                     <>
-                                        <NavLink activeClassName="active" to="/dashboard">Übersicht</NavLink>
                                         <NavLink activeClassName="active" to="/tasks">Tasks</NavLink>
                                         <NavLink activeClassName="active" to="/shop">Shop</NavLink>
                                         <NavLink activeClassName="active" to="/settings">Einstellungen</NavLink>
@@ -85,10 +81,8 @@ class App extends React.Component {
                     </Navbar>
 
                     <Switch>
-                        <Route exact user={this.state.user}  path="/" component={Home} />
                         <PublicRoute user={this.state.user}  path="/login" rootchangehandler={this.rootchangehandler} component={Login} />
                         <PublicRoute user={this.state.user}  path="/signup" component={Signup} />
-                        <PrivateRoute user={this.state.user} path="/dashboard" component={Dashboard} />
                         <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} path="/tasks" component={Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
