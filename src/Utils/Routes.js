@@ -6,7 +6,7 @@ export const PrivateRoute = function PrivateRoute({ component: Component, ...res
     return (
         <Route
             {...rest}
-            render={(props) =>  rest.user ? <Component {...props} user={rest.user} subaccounts={rest.subaccounts} rootchangehandler={rest.rootchangehandler} /> : <Redirect exact to={{ pathname: '/login', state: { from: props.location } }} />}
+            render={(props) => rest.user ? <Component {...props} user={rest.user} subaccounts={rest.subaccounts} rootchangehandler={rest.rootchangehandler} /> : <Redirect exact to={{ pathname: '/login', state: { from: props.location } }} />}
         />
     )
 }
@@ -16,7 +16,7 @@ export const PublicRoute = function PublicRoute({ component: Component, ...rest 
     return (
         <Route
             {...rest}
-            render={(props) => rest.user ? <Component {...props} user={rest.user} rootchangehandler={rest.rootchangehandler} /> : <Redirect exact to={{ pathname: '/dashboard' }} />}
+            render={(props) => !rest.user ? <Component {...props} user={rest.user} rootchangehandler={rest.rootchangehandler} /> : <Redirect exact to={{ pathname: '/dashboard' }} />}
         />
     )
 }
