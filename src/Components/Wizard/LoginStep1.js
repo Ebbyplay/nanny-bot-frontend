@@ -22,7 +22,7 @@ class Step1 extends React.Component {
                 return alert('anmelden fehlgeschlagen!');
 
             // todo: kommt nach dem testen wieder raus
-            this.props.rootchangehandler('user', user);
+            // this.props.rootchangehandler('user', user);
 
             this.props.data.mainAccount = user;
             this.props.next();

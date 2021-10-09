@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 import { getAllSubAccounts } from '../../Utils/CallMaster';
-import NannyAvatar from '../NannyAvatar';
+import NannyAvatarGrid from '../NannyAvatarGrid';
 
 
 class Step2 extends React.Component {
@@ -41,12 +41,7 @@ class Step2 extends React.Component {
         return (
             <>
                 <h3>Benutzer auswählen:</h3>
-
-                <div>
-                    {this.state.allAccounts.map((user) => (
-                        <NannyAvatar key={user.id} user={user} click={this.selectUser} />
-                    ))}
-                </div>
+                <NannyAvatarGrid users={this.state.allAccounts} click={this.selectUser} />
 
                 <Button variant="primary" onClick={this.props.back}>
                     Zurueck

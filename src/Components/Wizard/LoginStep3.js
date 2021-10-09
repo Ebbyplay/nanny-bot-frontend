@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 import { login } from '../../Utils/CallMaster';
-import NannyImage from '../NannyImage';
+import NannyImageGrid from '../NannyImageGrid';
 
 class Step3 extends React.Component {
     state = {
@@ -78,11 +78,7 @@ class Step3 extends React.Component {
     render() {
         return (
             <>
-                <div>
-                    {this.state.allImages.map((image, index) => (
-                        <NannyImage key={image.index} image={image} click={this.toggleImage} selected={this.state.selectedImages} />
-                    ))}
-                </div>
+                <NannyImageGrid images={this.state.allImages} click={this.toggleImage} selected={this.state.selectedImages} />
 
                 <Button variant="primary" onClick={this.submitImagePassword}>
                     Anmelden

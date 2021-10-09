@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { signupMain } from '../../Utils/CallMaster';
 
-import NannyImage from '../NannyImage';
+import NannyImageGrid from '../NannyImageGrid';
 
 class Step2 extends React.Component {
     state = {
@@ -78,18 +78,14 @@ class Step2 extends React.Component {
     render() {
         return (
             <>
-                <div>
-                    {this.state.allImages.map((image, index) => (
-                        <NannyImage key={image.index} image={image} click={this.toggleImage} selected={this.state.selectedImages} />
-                    ))}
-                </div>
-
-                <Button variant="primary" onClick={this.trySignup}>
-                    Registrieren
-                </Button>
+                <NannyImageGrid images={this.state.allImages} click={this.toggleImage} selected={this.state.selectedImages} />
 
                 <Button variant="primary" onClick={this.props.back}>
                     Zurueck
+                </Button>
+
+                <Button variant="primary" onClick={this.trySignup}>
+                    Registrieren
                 </Button>
             </>
         )
