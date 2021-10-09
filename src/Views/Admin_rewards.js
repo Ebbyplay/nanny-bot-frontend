@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getRewards, createReward, deleteReward, updateReward } from "../Utils/CallMaster";
-import RewardList from "../Components/RewardList";
+import RewardListAdmin from "../Components/RewardListAdmin";
 import NewReward from "../Components/NewReward";
 
 class Admin_rewards extends React.Component {
@@ -72,7 +72,7 @@ class Admin_rewards extends React.Component {
 
     switchView = () => {
         if (this.state.view === "list") {
-            return <RewardList handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
+            return <RewardListAdmin handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
         } else if (this.state.view === "edit") {
             return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.handleBackButton} onChange={this.onChange} state={this.state} />
         }

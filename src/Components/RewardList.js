@@ -1,26 +1,23 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 import Reward from "./Reward";
-import { CgMathPlus } from 'react-icons/cg';
 
 class RewardList extends React.Component {
+
     render() {
-        if (!this.props.rewards)
-            return null;
-
         return (
-            <>
-                <button className="btn btn-sm btn-success ms-3 mb-2" onClick={this.props.handleNewReward}><CgMathPlus className="pb-1" /> Neu</button>
-
-                {this.props.rewards.map((reward) => (
-                    <Reward
-                        key={reward.rewardId}
-                        reward={reward}
-                        user={this.props.user}
-                        handleDeleteReward={this.props.handleDeleteReward}
-                        handleEditReward={this.props.handleEditReward}
-                    />
-                ))}
-            </>
+            <Container>
+                {
+                    this.props.user_rewards.map((user_reward) => (
+                        < Reward
+                            user_reward={user_reward}
+                            buyReward={this.props.buyReward}
+                            key={user_reward.id}
+                            points={this.props.points}
+                        />
+                    ))
+                }
+            </ Container>
         )
     }
 }
