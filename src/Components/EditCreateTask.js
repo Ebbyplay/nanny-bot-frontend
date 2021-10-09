@@ -1,9 +1,10 @@
 import React from "react";
 import Select from 'react-select'
-import "./newtask.css";
-import { createTask } from "../../../Utils/CallMaster";
+import "./EditCreateTask.css";
+import { createTask, updateTask, getTask } from "../Utils/CallMaster"
+import { getSessionStorage } from '../Utils/Session';
 
-class NewTask extends React.Component {
+class EditCreateTask extends React.Component {
 
     repitions = [
         { value: 'ONCE', label: 'Einmalig' },
@@ -26,6 +27,35 @@ class NewTask extends React.Component {
         points: ''
     };
 
+    componentDidMount() {
+        if (this.props.editTask) {
+
+            getTask(this.props.taskid)
+                .then((res) => {
+                    const resultRepetition = this.getRepetition(res.data.repetition);
+
+                    this.setState({
+                        title: res.data.name,
+                        description: res.data.description,
+                        selectedRepetition: resultRepetition,
+                        points: res.data.weight
+                    })
+                })
+        }
+    }
+
+    getRepetition = (rep) => {
+        let ret = {};
+
+        this.repitions.forEach(element => {
+            if (element.value === rep) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -45,7 +75,19 @@ class NewTask extends React.Component {
     }
 
     saveChanges() {
-        createTask(this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points);
+        let user = getSessionStorage('user');
+
+        if (this.props.editTask) {
+            console.log(this.state);
+
+            updateTask(this.props.taskid, this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points)
+                .then(res => { this.props.taskchanged(res.data) });
+        }
+        else {
+            createTask(user.id, this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points)
+                .then(res => { this.props.taskadd(res.data) });
+        }
+
         this.props.hideOnClick("showNew");
     }
 
@@ -60,7 +102,7 @@ class NewTask extends React.Component {
                 Beschreibung:
                 <textarea name="description" value={this.state.description} onChange={this.handleChange} /> <br />
 
-                <Select id="selectbox" defaultValue={this.state.selectedRepetition} options={this.repitions} onChange={this.handleRepetition} /> <br />
+                <Select id="selectbox" value={this.state.selectedRepetition} options={this.repitions} onChange={this.handleRepetition} /> <br />
                 <Select id="selectbox" defaultValue={this.state.selectedChildren} isMulti options={this.children} onChange={this.handleChildren} /> <br />
 
                 Punkte:
@@ -72,4 +114,4 @@ class NewTask extends React.Component {
 }
 
 
-export default NewTask;
+export default EditCreateTask;
