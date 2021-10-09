@@ -31,7 +31,7 @@ class Settings extends React.Component {
 
     render() {
         if (!this.props.user)
-            return <Redirect to='/login' />
+            return <Redirect exact to='/login' />
 
         return (
             <Container>

@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom';
 class Dashboard extends React.Component {
     render() {
         if (!this.props.user)
-            return <Redirect to='/login' />
+            return <Redirect exact to='/login' />
 
         return (
             <>

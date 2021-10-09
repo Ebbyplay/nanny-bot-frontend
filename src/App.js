@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import React from 'react';
-import { HashRouter, Switch, Route, NavLink } from 'react-router-dom';
+import { HashRouter, Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
@@ -39,6 +39,8 @@ class App extends React.Component {
      * @param {*} value 
      */
     rootchangehandler = (key, value) => {
+        console.log('rootchangehandler', key, value);
+
         setSessionStorage(key, value);
 
         this.setState({
@@ -95,13 +97,14 @@ class App extends React.Component {
                     </Navbar>
 
                     <Switch>
-                        <Route exact  user={this.state.user} rootchangehandler={this.rootchangehandler} path="/" component={Home} />
-                        <PublicRoute  user={this.state.user} rootchangehandler={this.rootchangehandler} userchanged={this.userchanged} path="/login" component={Login} />
-                        <PublicRoute  user={this.state.user} rootchangehandler={this.rootchangehandler} path="/signup" component={Signup} />
+                        <Route exact user={this.state.user} rootchangehandler={this.rootchangehandler} path="/" component={Home} />
+                        <PublicRoute user={this.state.user} rootchangehandler={this.rootchangehandler} userchanged={this.userchanged} path="/login" component={Login} />
+                        <PublicRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/dashboard" component={Dashboard} />
                         <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} path="/tasks" component={Tasks} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
+                        <Redirect from="/" to="login" />
                     </Switch>
                 </HashRouter>
             </div>

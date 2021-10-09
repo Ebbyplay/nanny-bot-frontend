@@ -12,7 +12,7 @@ import SignupWizard from '../Components/Wizard/SignupWizard';
 class Signup extends React.Component {
     render() {
         if (this.props.user)
-            return <Redirect to='/dashboard' />
+            return <Redirect exact to='/dashboard' />
 
         return (
             <Container>

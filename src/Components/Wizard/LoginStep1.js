@@ -4,7 +4,7 @@ import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-import { login } from '../../Utils/CallMaster';
+import { getAllSubAccounts, login } from '../../Utils/CallMaster';
 
 class Step1 extends React.Component {
     /**
@@ -22,7 +22,20 @@ class Step1 extends React.Component {
                 return alert('anmelden fehlgeschlagen!');
 
             // todo: kommt nach dem testen wieder raus
-            // this.props.rootchangehandler('user', user);
+            getAllSubAccounts(user.id)
+            .then((res) => {
+                let subAccounts = res.data;
+
+                if (!subAccounts)
+                    return;
+
+                this.setState({
+                    allAccounts: subAccounts.concat(this.props.data.mainAccount)
+                });
+
+                this.props.rootchangehandler('subaccounts', subAccounts);
+                this.props.rootchangehandler('user', user);
+            })
 
             this.props.data.mainAccount = user;
             this.props.next();

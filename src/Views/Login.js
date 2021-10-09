@@ -12,7 +12,7 @@ import LoginWizard from '../Components/Wizard/LoginWizard';
 class Login extends React.Component {
     render() {
         if (this.props.user)
-            return <Redirect to='/dashboard' />
+            return <Redirect exact to='/dashboard' />
 
         return (
             <Container>

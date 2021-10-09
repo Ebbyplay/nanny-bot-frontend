@@ -1,23 +1,31 @@
 import React from 'react';
+
 import CurrentPoints from '../Components/CurrentPoints';
 import RewardList from '../Components/RewardList';
 import { claimUser_Reward, getPoints, getUser_Rewards } from '../Utils/CallMaster';
-import { getSessionStorage } from '../Utils/Session';
 
 /**
  * path: /shop
  */
 class Shop extends React.Component {
     state = {
-        user: getSessionStorage('user'),
+        user: null,
         user_rewards: [],
         currentPoints: 0
     }
 
     componentDidMount() {
-        const subAccountId = this.props.user.id;
+        let user = this.props.user;
 
-        getUser_Rewards(subAccountId)
+        if (!user) {
+            return;
+        }
+
+        this.setState({
+            user: user
+        });
+
+        getUser_Rewards(user.id)
             .then((res) => {
                 this.setState({ user_rewards: res.data })
             })
@@ -25,7 +33,7 @@ class Shop extends React.Component {
                 console.log('could not get user_rewards ', err);
             })
 
-        getPoints(subAccountId)
+        getPoints(user.id)
             .then((res) => {
                 this.setState({ currentPoints: res.data })
             })
