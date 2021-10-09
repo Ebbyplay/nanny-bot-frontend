@@ -100,7 +100,7 @@ class Reward extends React.Component {
                             </div>
                             <div style={image}>
                                 {this.state.reward.imagePath}
-                                <img src="/favicon.ico" />
+                                <img src="/favicon.ico" alt="" />
                             </div>
                         </div>
                     </Accordion.Toggle>

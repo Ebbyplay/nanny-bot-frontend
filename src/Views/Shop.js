@@ -41,7 +41,10 @@ class Shop extends React.Component {
                     user_rewards: this.state.user_rewards.map(user_reward => {
                         if (user_reward.id === res.data.id) {
                             user_reward = res.data;
-                            this.state.currentPoints -= cost
+
+                            this.setState({
+                                currentPoints: this.state.currentPoints - cost
+                            });
                         }
                         return user_reward
                     }),
