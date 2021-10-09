@@ -13,6 +13,7 @@ class EditCreateTask extends React.Component {
         { value: 'MONTHLY', label: 'Monatlich' }
     ]
 
+    // TODO: hardcoded stuff ersetzen (this.props.children hat die kinder)
     children = [
         { value: 'children1', label: 'Kind1' },
         { value: 'children2', label: 'Kind2' },

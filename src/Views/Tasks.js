@@ -96,6 +96,7 @@ class Tasks extends React.Component {
                             {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
 
                             {this.state.showEditCreate && <EditTask
+                                children={this.props.subaccounts}
                                 hideOnClick={this.hide}
                                 taskadd={this.taskadd}
                                 taskchanged={this.taskchanged}
