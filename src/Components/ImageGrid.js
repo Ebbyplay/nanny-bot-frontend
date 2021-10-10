@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 
-import NannyImage from './NannyImage';
+import NannyImage from './Image';
 
 class NannyImageGrid extends React.Component {
     render() {

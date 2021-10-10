@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 import { getAllSubAccounts } from '../../Utils/CallMaster';
-import NannyAvatarGrid from '../NannyAvatarGrid';
+import NannyAvatarGrid from '../AvatarGrid';
 
 
 class Step2 extends React.Component {
@@ -33,6 +33,9 @@ class Step2 extends React.Component {
      * @param {Object} user 
      */
     selectUser = (user) => {
+        // TODO: entfernen, wenn das mit dem imagePasswort funktioniert
+        this.props.rootchangehandler('user', user);
+
         this.props.data.selectedAccount = user;
         this.props.next();
     }

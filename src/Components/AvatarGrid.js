@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 
-import NannyAvatar from './NannyAvatar';
+import NannyAvatar from './Avatar';
 
 class NannyAvatarGrid extends React.Component {
     render() {

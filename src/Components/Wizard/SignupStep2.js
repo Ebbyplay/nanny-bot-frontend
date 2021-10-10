@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { signupMain } from '../../Utils/CallMaster';
 
-import NannyImageGrid from '../NannyImageGrid';
+import NannyImageGrid from '../ImageGrid';
 
 class Step2 extends React.Component {
     state = {
