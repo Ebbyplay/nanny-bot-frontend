@@ -70,11 +70,34 @@ class Admin_rewards extends React.Component {
         this.setState({ view: "list", rewardId: "", title: "", cost: 0 });
     }
 
+    createReward = (title, cost) => {
+        console.log('create reward');
+
+        // error handling
+        if (!title || !cost)
+            return alert('bitte fuellen sie alle felder aus!');
+
+        createReward(this.props.user.id, title, cost)
+        .then((res) => {
+            this.handleBackButton();
+
+            let newReward = res.data;
+
+            if (!newReward)
+                return;
+
+            this.setState({
+                rewards: this.state.rewards.concat(newReward)
+            });
+        })
+
+    }
+
     switchView = () => {
         if (this.state.view === "list") {
             return <RewardListAdmin handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
         } else if (this.state.view === "edit") {
-            return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.handleBackButton} onChange={this.onChange} state={this.state} />
+            return <NewReward create={this.createReward} handleBackButton={this.handleBackButton} />
         }
     }
 
