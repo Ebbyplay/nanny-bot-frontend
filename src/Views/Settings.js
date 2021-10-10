@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Container, Button, Col, Form, Row } from 'react-bootstrap';
 
 import NannyAvatar from '../Components/Avatar';
+import NannyImageGrid from '../Components/ImageGrid';
 
 /**
  * path: /settings
@@ -14,12 +15,18 @@ class Settings extends React.Component {
         name: '',
         email: '',
         password: '',
-        imagepassword: ''
+        selectedImages: ''
     }
 
     onChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
+        })
+    }
+
+    toggleImage = (images) => {
+        this.setState({
+            selectedImage: images
         })
     }
 
@@ -52,6 +59,12 @@ class Settings extends React.Component {
                         <Col className="my-1">
                             <Form.Label>Neues Passwort</Form.Label>
                             <Form.Control name="password" type="password" placeholder="Passwort" value={this.state.password} onChange={this.onChange} />
+                        </Col>
+                    </Row>
+                    <Row className="align-items-center">
+                        <Col className="my-1">
+                            <Form.Label>Neues Bilder Passwort:</Form.Label>
+                            <NannyImageGrid click={this.toggleImage} />
                         </Col>
                     </Row>
                     <Row className="align-items-center">
