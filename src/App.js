@@ -6,11 +6,12 @@ import { HashRouter, Switch, Redirect, Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
-import { getSessionStorage, setSessionStorage, clearSessionStorage } from './Utils/Session';
+import { getSessionStorage, setSessionStorage } from './Utils/Session';
 
 import Tasks from './Views/Tasks';
 import Shop from './Views/Shop';
 import Login from './Views/Login';
+import Logout from './Views/Logout';
 import Signup from './Views/Signup';
 import Settings from './Views/Settings';
 import Admin_rewards from './Views/Admin_rewards';
@@ -31,20 +32,6 @@ class App extends React.Component {
 
         this.setState({
             [key]: value
-        });
-    }
-
-    /**
-     * is triggered when the 'Abmelden' button is clicked
-     * clear sessionStorage
-     * redirect to 'login'
-     */
-     handleLogout = () => {
-        clearSessionStorage();
-
-        this.setState({
-            user: null,
-            subaccounts: []
         });
     }
 
@@ -72,7 +59,7 @@ class App extends React.Component {
                                                 <Navbar.Text>
                                                     Angemeldet als: {this.state.user.name}
                                                 </Navbar.Text>
-                                                <Nav.Link onClick={this.handleLogout}>Abmelden</Nav.Link>
+                                                <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
                                             </Nav>
                                         </>
                                     ) : (
@@ -92,6 +79,7 @@ class App extends React.Component {
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
                         <PrivateRoute user={this.state.user} path="/admin_rewards" component={Admin_rewards} />
+                        <PrivateRoute user={this.state.user} path="/logout" rootchangehandler={this.rootchangehandler} component={Logout} />
                         <Redirect from="/" to="login" />
                     </Switch>
                 </HashRouter>

@@ -15,7 +15,7 @@ class NannyAvatarGrid extends React.Component {
             <>
                 <div style={style}>
                     {this.props.users.map((user) => (
-                        <NannyAvatar key={user.id} user={user} click={this.click} />
+                        <NannyAvatar key={user.id} user={user} click={() => this.props.click(user)} />
                     ))}
                 </div>
             </>
