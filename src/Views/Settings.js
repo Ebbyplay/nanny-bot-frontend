@@ -1,80 +1,52 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { Container, Button, Col, Form, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
-import NannyAvatar from '../Components/Avatar';
-import NannyImageGrid from '../Components/ImageGrid';
+import NannyForm from '../Components/SettingsForm';
 
 /**
  * path: /settings
  */
 class Settings extends React.Component {
-    state = {
-        name: '',
-        email: '',
-        password: '',
-        selectedImages: ''
+    changeAvatar = () => {
+        // TODO: 
+        console.log('todo: open imageSelector')
     }
 
-    onChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    toggleImage = (images) => {
-        this.setState({
-            selectedImage: images
-        })
-    }
-
-    applyNewSettings = () => {
+    applyNewSettings = (newUserSettings) => {
         // TODO: backend call und werte uebernehmen
+        console.log('todo: apply new settings', newUserSettings)
     }
 
     render() {
-        if (!this.props.user)
-            return <Redirect exact to='/login' />
+        let isMainAccount = Boolean(this.props.user.email),
+            style = {
+                width: '300px'
+            };
 
         return (
             <Container>
-                <NannyAvatar user={this.props.user} click={this.props.click} />
-
-                <Form>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Neuer Benutzername</Form.Label>
-                            <Form.Control name="name" type="username" placeholder={this.props.user.name} value={this.state.name} onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Neue Email</Form.Label>
-                            <Form.Control name="email" type="email" placeholder={this.props.user.email} value={this.state.email} onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Neues Passwort</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Passwort" value={this.state.password} onChange={this.onChange} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Form.Label>Neues Bilder Passwort:</Form.Label>
-                            <NannyImageGrid click={this.toggleImage} />
-                        </Col>
-                    </Row>
-                    <Row className="align-items-center">
-                        <Col className="my-1">
-                            <Button variant="primary" onClick={this.tryLogin}>
-                                Speichern
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+                {isMainAccount ? (
+                    <Tabs defaultActiveKey="main" id="uncontrolled-tab-example" className="mb-3">
+                        <Tab eventKey="main" title="Dein Account">
+                            <div style={style}>
+                                <NannyForm key={this.props.user.key} user={this.props.user} apply={this.applyNewSettings} />
+                            </div>
+                        </Tab>
+                        <Tab eventKey="sub" title="Kinder">
+                            <div style={style}>
+                                {this.props.subaccounts.map((user) => (
+                                    <NannyForm key={user.id} user={user} apply={this.applyNewSettings} />
+                                ))}
+                            </div>
+                        </Tab>
+                    </Tabs>
+                ): (
+                    <NannyForm user={this.props.user} apply={this.applyNewSettings} />
+                )}
             </Container>
         )
     }

@@ -86,7 +86,7 @@ class App extends React.Component {
                         <PublicRoute user={this.state.user}  path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} path="/tasks" component={Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
-                        <PrivateRoute user={this.state.user} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
+                        <PrivateRoute user={this.state.user} subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} path="/settings" component={Settings} />
                         <PrivateRoute user={this.state.user} path="/admin_rewards" component={Admin_rewards} />
                         <Redirect from="/" to="login" />
                     </Switch>
