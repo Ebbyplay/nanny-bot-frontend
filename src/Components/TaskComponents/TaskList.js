@@ -16,7 +16,7 @@ class TaskList extends React.Component {
                         key={task.uuid}
                         task={task}
                         user={this.props.user}
-                        onEdit={this.props.editTask}
+                        edit={this.props.edit}
                     />
                 ))}
             </Container>

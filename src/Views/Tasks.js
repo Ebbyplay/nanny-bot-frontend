@@ -83,15 +83,12 @@ class Tasks extends React.Component {
     }
 
     render() {
-        let isSubAccount = this.props.user.email;
+        let isMainAccount = Boolean(this.props.user.email);
 
         return (
             <>
-                {!isSubAccount ?
-                    this.props.subaccounts.map(subAccount => (
-                        <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} />
-                    )
-                    ) : (
+                {isMainAccount ?
+                    (
                         <div>
                             {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
 
@@ -104,8 +101,14 @@ class Tasks extends React.Component {
                                 taskid={this.state.taskid} />
                             }
 
-                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} editTask={this.editTask} />}
+                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} />}
                         </div>
+                    ) : (
+                        <>
+                            {this.props.subaccounts.map((subAccount) => (
+                                <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} add={this.taskadd} edit={this.taskchanged} delete={this.removeTask} />
+                            ))}
+                        </>
                     )
                 }
             </>

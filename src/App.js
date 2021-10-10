@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import React from 'react';
-import { HashRouter, Switch, Redirect, NavLink } from 'react-router-dom';
+import { HashRouter, Switch, Redirect, Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { PrivateRoute, PublicRoute } from './Utils/Routes';
@@ -52,32 +52,36 @@ class App extends React.Component {
         return (
             <div className="App">
                 <HashRouter>
-                    <Navbar bg="light" variant="light">
+                    <Navbar expand="lg" bg="light" variant="light" sticky="top" collapseOnSelect>
                         <Container>
                             <Navbar.Brand>NannyBot</Navbar.Brand>
-                            <Nav className="me-auto">
-                                {this.state.user ? (
-                                    <>
-                                        <NavLink activeClassName="active" to="/tasks">Tasks</NavLink>
-                                        <NavLink activeClassName="active" to="/shop">Shop</NavLink>
-                                        {this.state.user.email ? (<NavLink activeClassName="active" to="/admin_rewards">Belohnungen</NavLink>) : <></>}
-                                        <NavLink activeClassName="active" to="/settings">Einstellungen</NavLink>
+                            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-                                        <Navbar.Toggle />
-                                        <Navbar.Collapse className="justify-content-end">
-                                            <Navbar.Text>
-                                                Angemeldet als: {this.state.user.name}
-                                            </Navbar.Text>
-                                            <Nav.Link onClick={this.handleLogout}>Abmelden</Nav.Link>
-                                        </Navbar.Collapse>
-                                    </>
-                                ) : (
-                                    <>
-                                        <NavLink activeClassName="active" to="/login">Anmelden</NavLink>
-                                        <NavLink activeClassName="active" to="/signup">Registrieren</NavLink>
-                                    </>
-                                )}
-                            </Nav>
+                            <Navbar.Collapse id="responsive-navbar-nav">
+                                
+                                    {this.state.user ? (
+                                        <>
+                                            <Nav className="me-auto">
+                                                <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
+                                                <Nav.Link href="#" as={Link} to="/shop" >Shop</Nav.Link>
+                                                {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
+                                                <Nav.Link href="#" as={Link} to="/settings" >Einstellungen</Nav.Link>
+                                            </Nav>
+
+                                            <Nav className="justify-content-end">
+                                                <Navbar.Text>
+                                                    Angemeldet als: {this.state.user.name}
+                                                </Navbar.Text>
+                                                <Nav.Link onClick={this.handleLogout}>Abmelden</Nav.Link>
+                                            </Nav>
+                                        </>
+                                    ) : (
+                                        <Nav className="me-auto">
+                                            <Nav.Link href="#" as={Link} to="/login" >Anmelden</Nav.Link>
+                                            <Nav.Link href="#" as={Link} to="/signup" >Registrieren</Nav.Link>
+                                        </Nav>
+                                    )}
+                            </Navbar.Collapse>
                         </Container>
                     </Navbar>
 

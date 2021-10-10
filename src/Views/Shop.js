@@ -9,23 +9,12 @@ import { claimUser_Reward, getPoints, getUser_Rewards } from '../Utils/CallMaste
  */
 class Shop extends React.Component {
     state = {
-        user: null,
         user_rewards: [],
         currentPoints: 0
     }
 
     componentDidMount() {
-        let user = this.props.user;
-
-        if (!user) {
-            return;
-        }
-
-        this.setState({
-            user: user
-        });
-
-        getUser_Rewards(user.id)
+        getUser_Rewards(this.props.user.id)
             .then((res) => {
                 this.setState({ user_rewards: res.data })
             })
@@ -33,7 +22,7 @@ class Shop extends React.Component {
                 console.log('could not get user_rewards ', err);
             })
 
-        getPoints(user.id)
+        getPoints(this.props.user.id)
             .then((res) => {
                 this.setState({ currentPoints: res.data })
             })

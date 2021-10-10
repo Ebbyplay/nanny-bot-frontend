@@ -1,24 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
+import { Button, Form } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 
 class Task extends React.Component {
-    editTask = () => {
-        this.props.onEdit(this.props.task.uuid)
-    }
-
-    verifyTask = (e) => {
-        console.log('verifyTask', e, this.props.task);
-    }
-
-    checkTask = (e) => {
-        console.log('checkTask', e);
-    }
-
     render() {
-        let isSubAccount = !this.props.user.email;
+        let isMainAccount = Boolean(this.props.user.email);
 
         return (
             <div>
@@ -35,13 +24,17 @@ class Task extends React.Component {
                             <Card.Body>
                                 {this.props.task.description}
 
-                                {isSubAccount ? (
-                                    <input type="checkbox" onClick={this.checkTask} />
-                                ) : (
+                                {isMainAccount ? (
                                     <>
-                                        <input type="Button" defaultValue="Verifizieren" onClick={this.verifyTask} />
-                                        <input type="Button" defaultValue="Bearbeiten" onClick={this.editTask} />
+                                        <Button onClick={() => this.props.verify(this.props.task.uuid)}>Verifizieren</Button>
+                                        <Button onClick={() => this.props.edit(this.props.task.uuid)}>Bearbeiten</Button>
                                     </>
+                                ) : (
+                                    <Form>
+                                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                            <Form.Check type="checkbox" label="Erledigt" onClick={() => this.props.edit(this.props.task.uuid)} />
+                                        </Form.Group>
+                                    </Form>
                                 )}
                             </Card.Body>
                         </Accordion.Collapse>
