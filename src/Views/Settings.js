@@ -4,7 +4,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Button, Col, Form, Row } from 'react-bootstrap';
 
-import NannyAvatar from '../Components/NannyAvatar';
+import NannyAvatar from '../Components/Avatar';
 
 /**
  * path: /settings
@@ -13,7 +13,8 @@ class Settings extends React.Component {
     state = {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        imagepassword: ''
     }
 
     onChange = (event) => {
@@ -22,11 +23,8 @@ class Settings extends React.Component {
         })
     }
 
-    /**
-     * @todo
-     */
     applyNewSettings = () => {
-        // backend call und werte uebernehmen
+        // TODO: backend call und werte uebernehmen
     }
 
     render() {
@@ -59,7 +57,7 @@ class Settings extends React.Component {
                     <Row className="align-items-center">
                         <Col className="my-1">
                             <Button variant="primary" onClick={this.tryLogin}>
-                                Anwenden
+                                Speichern
                             </Button>
                         </Col>
                     </Row>

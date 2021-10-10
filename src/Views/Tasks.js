@@ -1,9 +1,9 @@
 import React from 'react';
 
-import TaskList from '../Components/TaskList'
+import TaskList from '../Components/TaskComponents/TaskList'
 import { getTasks } from '../Utils/CallMaster';
 
-import EditTask from '../Components/EditCreateTask';
+import EditTask from '../Components/TaskComponents/EditCreateTask';
 
 /**
  * path: /tasks

@@ -1,8 +1,10 @@
+import "./EditCreateTask.css";
+
 import React from "react";
 import Select from 'react-select'
-import "./EditCreateTask.css";
-import { createTask, updateTask, getTask } from "../Utils/CallMaster"
-import { getSessionStorage } from '../Utils/Session';
+
+import { createTask, updateTask, getTask } from "../../Utils/CallMaster"
+import { getSessionStorage } from '../../Utils/Session';
 
 class EditCreateTask extends React.Component {
 

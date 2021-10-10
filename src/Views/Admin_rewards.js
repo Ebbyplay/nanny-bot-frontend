@@ -1,8 +1,8 @@
 import React from "react";
 
 import { getRewards, createReward, deleteReward, updateReward } from "../Utils/CallMaster";
-import RewardListAdmin from "../Components/RewardListAdmin";
-import NewReward from "../Components/NewReward";
+import RewardListAdmin from "../Components/RewardComponents/RewardListAdmin";
+import NewReward from "../Components/RewardComponents/NewReward";
 
 class Admin_rewards extends React.Component {
     state = {

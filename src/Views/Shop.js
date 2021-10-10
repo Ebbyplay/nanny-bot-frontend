@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CurrentPoints from '../Components/CurrentPoints';
-import RewardList from '../Components/RewardList';
+import RewardList from '../Components/RewardComponents/RewardList';
 import { claimUser_Reward, getPoints, getUser_Rewards } from '../Utils/CallMaster';
 
 /**

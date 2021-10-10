@@ -1,5 +1,5 @@
 import React from "react";
-import ImageSelector from "./ImageSelector";
+import ImageSelector from "../ImageSelector";
 import { Container } from 'react-bootstrap';
 import { FaRegSave } from 'react-icons/fa';
 import { IoReturnUpBack } from 'react-icons/io5';
