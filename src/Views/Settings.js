@@ -99,6 +99,9 @@ class Settings extends React.Component {
                                                 <Button variant="primary" onClick={this.createUser}>
                                                     Erstellen
                                                 </Button>
+                                                <Button variant="primary" onClick={this.toggleView}>
+                                                    Zurueck
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </Form>
