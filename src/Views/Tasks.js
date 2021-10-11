@@ -46,6 +46,18 @@ class Tasks extends React.Component {
         return ret;
     }
 
+    getTaskbyID = (taskId) => {
+        let ret = {};
+
+        this.state.tasks.forEach(element => {
+            if (element.uuid === taskId) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
     taskchanged = (task) => {
         let tasks = this.state.tasks,
             foundTask = this.getTask(task);
@@ -72,8 +84,14 @@ class Tasks extends React.Component {
     }
 
     removeTask = (taskID) => {
+        let tasks = this.state.tasks,
+            foundTask = this.getTaskbyID(taskID);
 
-        console.log(taskID)
+        tasks.splice(tasks.indexOf(foundTask), 1)
+
+        this.setState({
+            tasks: tasks
+        });
 
         deleteTask(taskID);
     }

@@ -106,7 +106,7 @@ export const updateTask = (taskId, title, description, repetition, weight) => {
  * @returns 
  */
 export const deleteTask = (taskId) => {
-    return axios.delete(`${host}/task/delete/` + taskId)
+    return axios.delete(`${host}/task/delete/${taskId}`)
 }
 
 /**
@@ -246,4 +246,17 @@ export const getAllSubAccounts = (userId) => {
  */
 export const getPoints = (userId) => {
     return axios.get(`${host}/subaccount/points/${userId}`)
+}
+
+/**
+ * get sub account points call
+ * @param {String} subAccountId 
+ * @param {String} taskId
+ * @returns 
+ */
+export const assignUserTask = (subAccountId, taskId) => {
+    return axios.post(`${host}/user_task/assign`, {
+        subAccountId: subAccountId,
+        taskId: taskId
+    })
 }

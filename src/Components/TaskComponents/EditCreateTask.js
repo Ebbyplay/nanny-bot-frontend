@@ -3,7 +3,7 @@ import "./EditCreateTask.css";
 import React from "react";
 import Select from 'react-select'
 
-import { createTask, updateTask, getTask } from "../../Utils/CallMaster"
+import { createTask, updateTask, getTask, assignUserTask } from "../../Utils/CallMaster"
 import { getSessionStorage } from '../../Utils/Session';
 
 class EditCreateTask extends React.Component {
@@ -80,8 +80,12 @@ class EditCreateTask extends React.Component {
     }
 
     handleChildren = event => {
+        let selectedChildren = this.state.selectedChildren;
+
+        selectedChildren.push(event[0])
+
         this.setState({
-            selectedChildren: event
+            selectedChildren: selectedChildren
         });
     }
 
@@ -95,8 +99,15 @@ class EditCreateTask extends React.Component {
                 .then(res => { this.props.taskchanged(res.data) });
         }
         else {
+            let createdTaskId = '';
+
             createTask(user.id, this.state.title, this.state.description, this.state.selectedRepetition.value, this.state.points)
-                .then(res => { this.props.taskadd(res.data) });
+                .then(res => { this.props.taskadd(res.data); console.log(res.data.uuid); createdTaskId = res.data.uuid })
+                .finally(() => {
+                    this.state.selectedChildren.forEach(element => {
+                        assignUserTask(element.value, createdTaskId);
+                    })
+                })
         }
 
         this.props.hideOnClick("showNew");
