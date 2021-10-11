@@ -1,5 +1,5 @@
 import React from "react";
-import AdminUserRewardList from "../Components/AdminUserRewardsComponent/AdminUserRewardList";
+import AdminUserRewardList from "../Components/AdminUserRewardsComponents/AdminUserRewardList";
 import SubAccDataSelector from "../Components/UtilComponents/SubAccDataSelector";
 
 class AdminUserRewards extends React.Component {
