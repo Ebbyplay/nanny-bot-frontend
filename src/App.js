@@ -16,6 +16,7 @@ import Signup from './Views/Signup';
 import Settings from './Views/Settings';
 import Admin_rewards from './Views/Admin_rewards';
 import UserSelect from './Components/UserSelect';
+import User_Tasks from './Views/User_Tasks';
 
 class App extends React.Component {
     state = {
@@ -50,7 +51,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <HashRouter>
-                    <Navbar expand="lg" bg="light" variant="light" sticky="top" collapseOnSelect>
+                <Navbar expand="lg" bg="light" variant="light" sticky="top" collapseOnSelect>
                         <Container>
                             <Navbar.Brand href="#" as={Link} to="/">NannyBot</Navbar.Brand>
 
@@ -83,6 +84,7 @@ class App extends React.Component {
                                         <>
                                             <Nav className="me-auto">
                                                 <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
+                                                <Nav.Link href="#" as={Link} to="/user_tasks" >User_Tasks</Nav.Link>
                                                 <Nav.Link href="#" as={Link} to="/shop" >Shop</Nav.Link>
                                                 {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
                                                 <Nav.Link href="#" as={Link} to="/settings" >Einstellungen</Nav.Link>
@@ -100,6 +102,7 @@ class App extends React.Component {
                                         <Nav className="me-auto">
                                             <Nav.Link href="#" as={Link} to="/login" >Anmelden</Nav.Link>
                                             <Nav.Link href="#" as={Link} to="/signup" >Registrieren</Nav.Link>
+                                            {this.state.changetouser ? (<Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>) : <></>}
                                         </Nav>
                                     )}
                             </Navbar.Collapse>
@@ -110,6 +113,7 @@ class App extends React.Component {
                         <PublicRoute user={this.state.user}  path="/login" rootchangehandler={this.rootchangehandler} changetouser={this.state.changetouser} component={Login} />
                         <PublicRoute user={this.state.user}  path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} path="/tasks" subaccounts={this.state.subaccounts} component={Tasks} />
+                        <PrivateRoute user={this.state.user} path="/user_tasks" component={User_Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} path="/settings" subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} component={Settings} />
                         <PrivateRoute user={this.state.user} path="/admin_rewards" component={Admin_rewards} />

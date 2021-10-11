@@ -4,6 +4,7 @@ import TaskList from '../Components/TaskComponents/TaskList'
 import { getTasks } from '../Utils/CallMaster';
 
 import EditTask from '../Components/TaskComponents/EditCreateTask';
+import UserTaskList from '../Components/User_TaskComponents/UserTaskList';
 
 /**
  * path: /tasks
@@ -18,19 +19,19 @@ class Tasks extends React.Component {
 
     componentDidMount() {
         getTasks(this.props.user.id)
-        .then((res) => {
-            console.log('response getTasks', res);
+            .then((res) => {
+                console.log('response getTasks', res);
 
-            let tasks = res.data;
+                let tasks = res.data;
 
-            if (!tasks)
-                return;
+                if (!tasks)
+                    return;
 
-            
-            this.setState({
-                tasks: tasks
-            });
-        })
+
+                this.setState({
+                    tasks: tasks
+                });
+            })
     }
 
     getTask = (task) => {
@@ -105,9 +106,6 @@ class Tasks extends React.Component {
                         </div>
                     ) : (
                         <>
-                            {this.props.subaccounts.map((subAccount) => (
-                                <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} add={this.taskadd} edit={this.taskchanged} delete={this.removeTask} />
-                            ))}
                         </>
                     )
                 }
