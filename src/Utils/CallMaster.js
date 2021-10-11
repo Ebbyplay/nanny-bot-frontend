@@ -106,7 +106,7 @@ export const updateTask = (taskId, title, description, repetition, weight) => {
  * @returns 
  */
 export const deleteTask = (taskId) => {
-    return axios.delete(`${host}/task/delete`, taskId)
+    return axios.delete(`${host}/task/delete/` + taskId)
 }
 
 /**

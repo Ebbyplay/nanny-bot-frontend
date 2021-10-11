@@ -28,6 +28,7 @@ class Task extends React.Component {
                                     <>
                                         <Button onClick={() => this.props.verify(this.props.task.uuid)}>Verifizieren</Button>
                                         <Button onClick={() => this.props.edit(this.props.task.uuid)}>Bearbeiten</Button>
+                                        <Button onClick={() => this.props.delete(this.props.task.uuid)}>Löschen</Button>
                                     </>
                                 ) : (
                                     <Form>

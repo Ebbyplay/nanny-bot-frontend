@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TaskList from '../Components/TaskComponents/TaskList'
-import { getTasks } from '../Utils/CallMaster';
+import { getTasks, deleteTask } from '../Utils/CallMaster';
 
 import EditTask from '../Components/TaskComponents/EditCreateTask';
 
@@ -18,19 +18,19 @@ class Tasks extends React.Component {
 
     componentDidMount() {
         getTasks(this.props.user.id)
-        .then((res) => {
-            console.log('response getTasks', res);
+            .then((res) => {
+                console.log('response getTasks', res);
 
-            let tasks = res.data;
+                let tasks = res.data;
 
-            if (!tasks)
-                return;
+                if (!tasks)
+                    return;
 
-            
-            this.setState({
-                tasks: tasks
-            });
-        })
+
+                this.setState({
+                    tasks: tasks
+                });
+            })
     }
 
     getTask = (task) => {
@@ -70,6 +70,13 @@ class Tasks extends React.Component {
         console.log('taskadd', this.state.tasks);
     }
 
+    removeTask = (taskID) => {
+
+        console.log(taskID)
+
+        deleteTask(taskID);
+    }
+
     newTask = () => {
         this.setState({ showEditCreate: true, edit: false });
     }
@@ -101,12 +108,12 @@ class Tasks extends React.Component {
                                 taskid={this.state.taskid} />
                             }
 
-                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} />}
+                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} delete={this.removeTask} />}
                         </div>
                     ) : (
                         <>
                             {this.props.subaccounts.map((subAccount) => (
-                                <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} add={this.taskadd} edit={this.taskchanged} delete={this.removeTask} />
+                                <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} add={this.taskadd} edit={this.taskchanged} />
                             ))}
                         </>
                     )

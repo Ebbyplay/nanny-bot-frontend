@@ -15,12 +15,7 @@ class EditCreateTask extends React.Component {
         { value: 'MONTHLY', label: 'Monatlich' }
     ]
 
-    // TODO: hardcoded stuff ersetzen (this.props.children hat die kinder)
-    children = [
-        { value: 'children1', label: 'Kind1' },
-        { value: 'children2', label: 'Kind2' },
-        { value: 'children3', label: 'Kind3' }
-    ]
+    children = []
 
     state = {
         title: '',
@@ -31,6 +26,12 @@ class EditCreateTask extends React.Component {
     };
 
     componentDidMount() {
+        console.log(this.props.children)
+
+        this.setChildren();
+
+        console.log(this.children)
+
         if (this.props.editTask) {
 
             getTask(this.props.taskid)
@@ -57,6 +58,17 @@ class EditCreateTask extends React.Component {
         });
 
         return ret;
+    }
+
+    setChildren = () => {
+        let i = 0;
+
+        this.props.children.forEach(element => {
+
+            this.children[i] = { value: element.id, label: element.name };
+
+            i++;
+        })
     }
 
     handleChange = event => {
