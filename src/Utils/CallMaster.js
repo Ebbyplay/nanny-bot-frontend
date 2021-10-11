@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 
-const host = 'http://localhost:8081';
+const host = 'https://www.nannybot.de:8443';
 
 /**
  * login call
@@ -51,6 +51,15 @@ export const signupSub = (parentId, username, password) => {
         name: username,
         password: password
     })
+}
+
+/**
+ * get all SubAccounts by MainAccount
+ * @param {String} parentId 
+ * @returns 
+ */
+export const getSubAccsByMainAcc = (parentId) => {
+    return axios.get(`${host}/subaccount/getAll/${parentId}`)
 }
 
 /**
@@ -116,6 +125,15 @@ export const getTasks = (userId) => {
  */
 export const getTask = (taskID) => {
     return axios.get(`${host}/task/get/${taskID}`)
+}
+
+/**
+ * get user_tasks call
+ * @param {String} userId 
+ * @returns 
+ */
+export const getUser_Tasks = (userId) => {
+    return axios.get(`${host}/user_task/findAllAsignedTasks/${userId}`)
 }
 
 /**
@@ -186,7 +204,7 @@ export const getUser_Rewards = (userId) => {
 }
 
 /**
- * claim user_rewards call
+ * claim user_reward call
  * @param {String} user_rewardId 
  * @returns 
  */
@@ -195,7 +213,7 @@ export const claimUser_Reward = (user_rewardId) => {
 }
 
 /**
- * UNclaim user_rewards call
+ * UNclaim user_reward call
  * @param {String} user_rewardId 
  * @returns 
  */
