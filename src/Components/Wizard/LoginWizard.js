@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getSessionStorage } from '../../Utils/Session';
+
 import Step1 from './LoginStep1';
 import Step2 from './LoginStep2';
 import Step3 from './LoginStep3';
@@ -9,8 +11,23 @@ class LoginWizard extends React.Component {
         currentStep: 1,
         email: '',
         password: '',
-        mainAccount: null,
-        selectedAccount: null
+        mainaccount: null,
+        user: null,
+        selectedAccount: null,
+    }
+
+    componentDidMount() {
+        let changetouser = this.props.changetouser;
+
+        if (!changetouser)
+            return;
+
+        this.setState({
+            selectedAccount: changetouser,
+            mainaccount: getSessionStorage('mainuser')
+        })
+
+        this.next();
     }
 
     handleChange = (event) => {

@@ -10,6 +10,8 @@ class Logout extends React.Component {
         clearSessionStorage();
 
         this.props.rootchangehandler('user', null);
+        this.props.rootchangehandler('mainuser', null);
+        this.props.rootchangehandler('changetouser', null);
         this.props.rootchangehandler('subaccounts', []);
     }
 

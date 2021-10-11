@@ -13,11 +13,11 @@ class Step3 extends React.Component {
 
     /**
      * is triggered when selecting an image
-     * @param {Object} image 
+     * @param {Array} images
      */
      toggleImage = (images) => {
         this.setState({
-            selectedImage: images
+            selectedImages: images
         })
     }
 
@@ -48,7 +48,6 @@ class Step3 extends React.Component {
                 this.props.rootchangehandler('user', user);
                 this.props.rootchangehandler('subaccounts', this.props.data.subaccounts);
             })
-        
     }
 
     render() {
@@ -60,9 +59,14 @@ class Step3 extends React.Component {
                     Anmelden
                 </Button>
 
-                <Button variant="primary" onClick={this.props.back}>
-                    Zurueck
-                </Button>
+                {this.props.data.mainaccount ? (
+                    <></>
+                ) : (
+                    <Button variant="primary" onClick={this.props.back}>
+                        Zurueck
+                    </Button>
+                )}
+                
             </>
         )
     }

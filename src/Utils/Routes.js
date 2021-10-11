@@ -16,7 +16,7 @@ export const PublicRoute = function PublicRoute({ component: Component, ...rest 
     return (
         <Route
             {...rest}
-            render={(props) => !rest.user ? <Component {...props} user={rest.user} rootchangehandler={rest.rootchangehandler} /> : <Redirect exact to={{ pathname: '/tasks' }} />}
+            render={(props) => !rest.user ? <Component {...props} user={rest.user} rootchangehandler={rest.rootchangehandler} changetouser={rest.changetouser} /> : <Redirect exact to={{ pathname: '/tasks' }} />}
         />
     )
 }

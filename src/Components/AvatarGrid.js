@@ -7,7 +7,6 @@ import NannyAvatar from './Avatar';
 class NannyAvatarGrid extends React.Component {
     render() {
         let style = {
-            width: '300px',
             display: 'flex'
         }
 
@@ -15,7 +14,7 @@ class NannyAvatarGrid extends React.Component {
             <>
                 <div style={style}>
                     {this.props.users.map((user) => (
-                        <NannyAvatar key={user.id} user={user} click={() => this.props.click(user)} />
+                        <NannyAvatar imageStyle={this.props.imageStyle} key={user.id} user={user} click={() => this.props.click(user)} />
                     ))}
                 </div>
             </>

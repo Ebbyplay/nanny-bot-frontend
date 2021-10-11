@@ -6,14 +6,20 @@ import Button from 'react-bootstrap/Button';
 import { getAllSubAccounts } from '../../Utils/CallMaster';
 import NannyAvatarGrid from '../AvatarGrid';
 
-
 class Step2 extends React.Component {
     state = {
         allAccounts: []
     }
 
     componentDidMount() {
-        getAllSubAccounts(this.props.data.mainAccount.id)
+        let selectedAccount = this.props.data.selectedAccount;
+
+        if (selectedAccount) {
+            this.props.next();
+            return;
+        }
+
+        getAllSubAccounts(this.props.data.user.id)
         .then((res) => {
             let subAccounts = res.data;
 
@@ -21,7 +27,7 @@ class Step2 extends React.Component {
                 return;
 
             this.setState({
-                allAccounts: subAccounts.concat(this.props.data.mainAccount)
+                allAccounts: subAccounts.concat(this.props.data.user)
             });
 
             this.props.rootchangehandler('subaccounts', subAccounts);

@@ -54,7 +54,7 @@ class Step2 extends React.Component {
     render() {
         return (
             <>
-                <NannyImageGrid images={this.state.allImages} click={this.toggleImage} selected={this.state.selectedImages} />
+                <NannyImageGrid click={this.toggleImage} selected={this.state.selectedImages} />
 
                 <Button variant="primary" onClick={this.props.back}>
                     Zurueck
