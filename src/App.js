@@ -100,7 +100,7 @@ class App extends React.Component {
                                             <>
                                                 <Nav className="me-auto">
                                                     <Nav.Link href="#" as={Link} to="/shop" >Shop</Nav.Link>
-                                                    <Nav.Link href="#" as={Link} to="/user_tasks" >User_Tasks</Nav.Link>
+                                                    <Nav.Link href="#" as={Link} to="/user_tasks" >Aufgaben</Nav.Link>
                                                 </Nav>
                                             </>
                                         )}

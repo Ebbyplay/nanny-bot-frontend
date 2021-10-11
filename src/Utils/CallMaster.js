@@ -146,6 +146,25 @@ export const completeUser_Task = (user_TaskId) => {
 }
 
 /**
+ * verify user_tasks call
+ * @param {String} user_TaskId 
+ * @returns 
+ */
+export const verifyUser_Task = (user_TaskId) => {
+    return axios.put(`${host}/user_task/verify/${user_TaskId}`)
+}
+
+/**
+ * reject user_tasks call
+ * @param {String} user_TaskId 
+ * @returns 
+ */
+export const rejectUser_Task = (user_TaskId) => {
+    console.log("REJECT ", user_TaskId)
+    return axios.put(`${host}/user_task/reject/${user_TaskId}`)
+}
+
+/**
  * create reward call
  * @param {String} userId 
  * @param {String} name 
