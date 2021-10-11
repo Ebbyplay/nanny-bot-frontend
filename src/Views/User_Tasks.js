@@ -29,7 +29,7 @@ class UserTasks extends React.Component {
                 this.setState(
                     this.state.user_tasks.map((user_task) => {
                         if (user_task.id === id) {
-                            user_task.completetAt = res.data.completetAt;
+                            user_task.completedAt = res.data.completedAt;
                         }
                         return user_task;
                     })

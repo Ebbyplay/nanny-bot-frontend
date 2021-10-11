@@ -38,9 +38,9 @@ class UserTask extends React.Component {
                         </div>
                         <div>
                             {
-                                this.props.user_task.completetAt != null ? (
+                                this.props.user_task.completedAt != null ? (
                                     <>
-                                        Du hast diese Aufgabe am {createDate(this.props.user_task.completetAt)} als erledigt markiert.
+                                        Du hast diese Aufgabe am {createDate(this.props.user_task.completedAt)} als erledigt markiert.
                                     </>
                                 ) : (
                                     <input type="button" value="Abschließen" name={this.props.user_task.id} onClick={(e) => this.completeTask(e)} />
