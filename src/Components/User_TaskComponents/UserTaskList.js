@@ -12,7 +12,7 @@ class UserTaskList extends React.Component {
         return (
             <div className="user-task-list">
                 {
-                    !this.props.user_tasks ? (
+                    this.props.user_tasks.length !== 0 ? (
                         <>
                             <span>Aufgaben:</span>
                             {
