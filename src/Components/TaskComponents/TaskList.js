@@ -7,19 +7,16 @@ import Task from './Task';
 
 class TaskList extends React.Component {
     render() {
-
-        let tasks = this.props.tasks;
-
         return (
             <Container>
                 <span>Aufgaben:</span>
 
-                {tasks.map((task) => (
+                {this.props.tasks.map((task) => (
                     <Task
                         key={task.uuid}
                         task={task}
                         user={this.props.user}
-                        onEdit={this.props.editTask}
+                        edit={this.props.edit}
                     />
                 ))}
             </Container>

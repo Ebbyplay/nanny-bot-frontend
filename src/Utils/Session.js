@@ -27,3 +27,10 @@ export const setSessionStorage = (key, value) => {
 export const unsetSessionStorage = (key) => {
     sessionStorage.removeItem(key);
 }
+
+/**
+ * 
+ */
+export const clearSessionStorage = () => {
+    sessionStorage.clear();
+}

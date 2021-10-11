@@ -1,17 +1,15 @@
 import React from 'react';
-import { getSessionStorage } from '../Utils/Session';
-import TaskList from '../Components/TaskList'
-import { getAllSubAccounts, getTasks } from '../Utils/CallMaster';
 
-import EditTask from '../Components/EditCreateTask';
+import TaskList from '../Components/TaskComponents/TaskList'
+import { getTasks } from '../Utils/CallMaster';
+
+import EditTask from '../Components/TaskComponents/EditCreateTask';
 
 /**
- * path: /shop
+ * path: /tasks
  */
 class Tasks extends React.Component {
     state = {
-        user: getSessionStorage('user'),
-        subAccounts: [],
         tasks: [],
         showEditCreate: false,
         edit: false,
@@ -19,22 +17,20 @@ class Tasks extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.user.email)
-            return;
+        getTasks(this.props.user.id)
+        .then((res) => {
+            console.log('response getTasks', res);
 
-        getAllSubAccounts(this.state.user.id)
-            .then((subAccounts) => {
-                this.setState({ subAccounts: subAccounts });
-            })
-            .catch((err) => {
-                console.log('could not get all sub accounts', err);
-            })
+            let tasks = res.data;
 
-        getTasks(this.state.user.id)
-            .then((res) => {
-                console.log('response getTasks', res)
-                this.setState({ tasks: res.data });
-            })
+            if (!tasks)
+                return;
+
+            
+            this.setState({
+                tasks: tasks
+            });
+        })
     }
 
     getTask = (task) => {
@@ -50,17 +46,16 @@ class Tasks extends React.Component {
     }
 
     taskchanged = (task) => {
-
-        let tasks = this.state.tasks;
-
-        let foundTask = this.getTask(task);
+        let tasks = this.state.tasks,
+            foundTask = this.getTask(task);
 
         tasks[tasks.indexOf(foundTask)] = task;
 
-        this.setState({ tasks: tasks });
+        this.setState({
+            tasks: tasks
+        });
 
         console.log('taskchanged', this.state.tasks);
-
     }
 
     taskadd = (task) => {
@@ -68,9 +63,11 @@ class Tasks extends React.Component {
 
         tasks.push(task);
 
-        this.setState({ tasks: tasks });
+        this.setState({
+            tasks: tasks
+        });
 
-        console.log('taskchanged', this.state.tasks);
+        console.log('taskadd', this.state.tasks);
     }
 
     newTask = () => {
@@ -86,19 +83,17 @@ class Tasks extends React.Component {
     }
 
     render() {
-        let isSubAccount = !this.state.user.email;
+        let isMainAccount = Boolean(this.props.user.email);
 
         return (
             <>
-                {isSubAccount ?
-                    this.state.subAccounts.map(subAccount => (
-                        <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} />
-                    )
-                    ) : (
+                {isMainAccount ?
+                    (
                         <div>
                             {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
 
                             {this.state.showEditCreate && <EditTask
+                                children={this.props.subaccounts}
                                 hideOnClick={this.hide}
                                 taskadd={this.taskadd}
                                 taskchanged={this.taskchanged}
@@ -106,8 +101,14 @@ class Tasks extends React.Component {
                                 taskid={this.state.taskid} />
                             }
 
-                            {!this.state.showEditCreate && <TaskList user={this.state.user} key={this.state.user.id} tasks={this.state.tasks} editTask={this.editTask} />}
+                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} />}
                         </div>
+                    ) : (
+                        <>
+                            {this.props.subaccounts.map((subAccount) => (
+                                <TaskList user={subAccount} key={subAccount.id} tasks={this.state.tasks} add={this.taskadd} edit={this.taskchanged} delete={this.removeTask} />
+                            ))}
+                        </>
                     )
                 }
             </>

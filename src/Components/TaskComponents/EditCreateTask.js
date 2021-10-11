@@ -1,8 +1,10 @@
+import "./EditCreateTask.css";
+
 import React from "react";
 import Select from 'react-select'
-import "./EditCreateTask.css";
-import { createTask, updateTask, getTask } from "../Utils/CallMaster"
-import { getSessionStorage } from '../Utils/Session';
+
+import { createTask, updateTask, getTask } from "../../Utils/CallMaster"
+import { getSessionStorage } from '../../Utils/Session';
 
 class EditCreateTask extends React.Component {
 
@@ -13,6 +15,7 @@ class EditCreateTask extends React.Component {
         { value: 'MONTHLY', label: 'Monatlich' }
     ]
 
+    // TODO: hardcoded stuff ersetzen (this.props.children hat die kinder)
     children = [
         { value: 'children1', label: 'Kind1' },
         { value: 'children2', label: 'Kind2' },
