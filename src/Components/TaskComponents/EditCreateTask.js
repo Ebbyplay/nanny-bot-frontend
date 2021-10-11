@@ -26,11 +26,7 @@ class EditCreateTask extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props.children)
-
         this.setChildren();
-
-        console.log(this.children)
 
         if (this.props.editTask) {
 
