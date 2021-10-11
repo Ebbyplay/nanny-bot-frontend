@@ -74,4 +74,4 @@ class SubAccDataSelector extends React.Component {
         )
     }
 }
-export default SubAccDataSelector
+export default SubAccDataSelector;

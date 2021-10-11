@@ -17,6 +17,7 @@ import Settings from './Views/Settings';
 import Admin_rewards from './Views/Admin_rewards';
 import UserSelect from './Components/UserSelect';
 import User_Tasks from './Views/User_Tasks';
+import AdminUserRewards from './Views/AdminUserRewards';
 
 class App extends React.Component {
     state = {
@@ -90,6 +91,7 @@ class App extends React.Component {
                                         {this.state.user.email ? (
                                             <Nav className="justify-content-end">
                                                 <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
+                                                <Nav.Link href="#" as={Link} to="/adminuser_rewards" >Belohnungsübersicht</Nav.Link>
                                                 <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
                                             </Nav>
                                         ) : (
@@ -116,6 +118,7 @@ class App extends React.Component {
                         <PublicRoute user={this.state.user} path="/login" rootchangehandler={this.rootchangehandler} changetouser={this.state.changetouser} component={Login} />
                         <PublicRoute user={this.state.user} path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} path="/tasks" subaccounts={this.state.subaccounts} component={Tasks} />
+                        <PrivateRoute user={this.state.user} path="/adminuser_rewards" subaccounts={this.state.subaccounts} component={AdminUserRewards} />
                         <PrivateRoute user={this.state.user} path="/user_tasks" component={User_Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
                         <PrivateRoute user={this.state.user} path="/settings" subaccounts={this.state.subaccounts} rootchangehandler={this.rootchangehandler} component={Settings} />
