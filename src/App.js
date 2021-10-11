@@ -51,7 +51,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <HashRouter>
-                <Navbar expand="lg" bg="light" variant="light" sticky="top" collapseOnSelect>
+                    <Navbar expand="lg" bg="light" variant="light" sticky="top" collapseOnSelect>
                         <Container>
                             <Navbar.Brand href="#" as={Link} to="/">NannyBot</Navbar.Brand>
 
@@ -79,39 +79,42 @@ class App extends React.Component {
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
                             <Navbar.Collapse id="responsive-navbar-nav">
-                                
-                                    {this.state.user ? (
-                                        <>
-                                            <Nav className="me-auto">
-                                                <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
-                                                <Nav.Link href="#" as={Link} to="/user_tasks" >User_Tasks</Nav.Link>
-                                                <Nav.Link href="#" as={Link} to="/shop" >Shop</Nav.Link>
-                                                {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
-                                                <Nav.Link href="#" as={Link} to="/settings" >Einstellungen</Nav.Link>
-                                            </Nav>
 
-                                            {this.state.user.email ? (
-                                                <Nav className="justify-content-end">
-                                                    <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
-                                                </Nav>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
-                                    ) : (
+                                {this.state.user ? (
+                                    <>
                                         <Nav className="me-auto">
-                                            <Nav.Link href="#" as={Link} to="/login" >Anmelden</Nav.Link>
-                                            <Nav.Link href="#" as={Link} to="/signup" >Registrieren</Nav.Link>
-                                            {this.state.changetouser ? (<Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>) : <></>}
+                                            {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
+                                            <Nav.Link href="#" as={Link} to="/settings" >Einstellungen</Nav.Link>
                                         </Nav>
-                                    )}
+
+                                        {this.state.user.email ? (
+                                            <Nav className="justify-content-end">
+                                                <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
+                                                <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
+                                            </Nav>
+                                        ) : (
+                                            <>
+                                                <Nav className="me-auto">
+                                                    <Nav.Link href="#" as={Link} to="/shop" >Shop</Nav.Link>
+                                                    <Nav.Link href="#" as={Link} to="/user_tasks" >User_Tasks</Nav.Link>
+                                                </Nav>
+                                            </>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Nav className="me-auto">
+                                        <Nav.Link href="#" as={Link} to="/login" >Anmelden</Nav.Link>
+                                        <Nav.Link href="#" as={Link} to="/signup" >Registrieren</Nav.Link>
+                                        {this.state.changetouser ? (<Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>) : <></>}
+                                    </Nav>
+                                )}
                             </Navbar.Collapse>
                         </Container>
                     </Navbar>
 
                     <Switch>
-                        <PublicRoute user={this.state.user}  path="/login" rootchangehandler={this.rootchangehandler} changetouser={this.state.changetouser} component={Login} />
-                        <PublicRoute user={this.state.user}  path="/signup" component={Signup} />
+                        <PublicRoute user={this.state.user} path="/login" rootchangehandler={this.rootchangehandler} changetouser={this.state.changetouser} component={Login} />
+                        <PublicRoute user={this.state.user} path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} path="/tasks" subaccounts={this.state.subaccounts} component={Tasks} />
                         <PrivateRoute user={this.state.user} path="/user_tasks" component={User_Tasks} />
                         <PrivateRoute user={this.state.user} path="/shop" component={Shop} />
