@@ -137,6 +137,15 @@ export const getUser_Tasks = (userId) => {
 }
 
 /**
+ * complete user_tasks call
+ * @param {String} user_TaskId 
+ * @returns 
+ */
+export const completeUser_Task = (user_TaskId) => {
+    return axios.put(`${host}/user_task/complete/${user_TaskId}`)
+}
+
+/**
  * create reward call
  * @param {String} userId 
  * @param {String} name 
