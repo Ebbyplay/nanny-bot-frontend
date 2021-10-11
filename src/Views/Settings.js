@@ -90,7 +90,7 @@ class Settings extends React.Component {
                                         <Row className="align-items-center">
                                             <Col className="my-1">
                                                 <Form.Label>Bilder Passwort:</Form.Label>
-                                                <NannyImageGrid click={this.toggleImage} />
+                                                <NannyImageGrid click={this.toggleImage} selected={this.state.selectedImages} />
                                             </Col>
                                         </Row>
 
