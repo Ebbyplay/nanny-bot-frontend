@@ -106,7 +106,6 @@ class Tasks extends React.Component {
                         </div>
                     ) : (
                         <>
-                            <UserTaskList />
                         </>
                     )
                 }
