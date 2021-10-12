@@ -100,7 +100,7 @@ class Settings extends React.Component {
                                                     Erstellen
                                                 </Button>
                                                 <Button variant="primary" onClick={this.toggleView}>
-                                                    Zurueck
+                                                    Zurück
                                                 </Button>
                                             </Col>
                                         </Row>

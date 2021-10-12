@@ -11,6 +11,12 @@ class Step2 extends React.Component {
         selectedImages: []
     }
 
+    componentDidMount() {
+        this.setState({
+            selectedImages: this.props.data.selectedImages
+        })
+    }
+
     /**
      * is triggered when selecting an image
      * @param {Object} image 
@@ -19,6 +25,8 @@ class Step2 extends React.Component {
         this.setState({
             selectedImages: images
         })
+
+        this.props.handleChange(images);
     }
 
     /**
@@ -57,7 +65,7 @@ class Step2 extends React.Component {
                 <NannyImageGrid click={this.toggleImage} selected={this.state.selectedImages} />
 
                 <Button variant="primary" onClick={this.props.back}>
-                    Zurueck
+                    Zurück
                 </Button>
 
                 <Button variant="primary" onClick={this.trySignup}>

@@ -53,7 +53,7 @@ class Step2 extends React.Component {
                 <NannyAvatarGrid users={this.state.allAccounts} click={this.selectUser} />
 
                 <Button variant="primary" onClick={this.props.back}>
-                    Zurueck
+                    Zurück
                 </Button>
             </>
         )

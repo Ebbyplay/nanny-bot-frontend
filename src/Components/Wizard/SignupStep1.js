@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 class Step1 extends React.Component {
@@ -51,9 +51,12 @@ class Step1 extends React.Component {
                         </Form.Text>
                     </Col>
                     <Col className="my-1">
+                    <OverlayTrigger placement="top" overlay={<Tooltip>Im nächsten Schritt legen Sie sich einen Pin (Bilder) an.</Tooltip>}>
                         <Button variant="primary" onClick={this.validateForm}>
                             Weiter
                         </Button>
+                    </OverlayTrigger>
+                        
                     </Col>
                 </Row>
             </Form>

@@ -9,12 +9,19 @@ class SignupWizard extends React.Component {
         name: '',
         email: '',
         password: '',
-        repassword: ''
+        repassword: '',
+        selectedImages: []
     }
 
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
+        })
+    }
+
+    handleImageChange = (images) => {
+        this.setState({
+            selectedImages: images
         })
     }
 
@@ -40,7 +47,7 @@ class SignupWizard extends React.Component {
                 return (
                     <Step2
                         data={this.state}
-                        handleChange={this.handleChange}
+                        handleChange={this.handleImageChange}
                         next={this.next}
                         back={this.back}
                     />

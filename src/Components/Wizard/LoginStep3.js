@@ -63,7 +63,7 @@ class Step3 extends React.Component {
                     <></>
                 ) : (
                     <Button variant="primary" onClick={this.props.back}>
-                        Zurueck
+                        Zurück
                     </Button>
                 )}
                 

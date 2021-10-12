@@ -21,7 +21,7 @@ class NannyForm extends React.Component {
 
     toggleImage = (images) => {
         this.setState({
-            selectedImage: images
+            selectedImages: images
         })
     }
 

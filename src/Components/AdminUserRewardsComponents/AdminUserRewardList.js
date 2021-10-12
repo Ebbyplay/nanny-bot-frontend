@@ -8,7 +8,7 @@ class AdminUserRewardList extends React.Component {
         return (
             <div className="list">
                 {
-                    this.props.user_rewards.length == 0 ? (
+                    this.props.user_rewards.length === 0 ? (
                         <span>Diesem Kind wurden noch keine Belohnungen zugewiesen.</span>
                     ) : (
                         <>
