@@ -1,12 +1,11 @@
 import React from "react";
-import { getSessionStorage } from '../Utils/Session';
+
 import { getRewards, createReward, deleteReward, updateReward } from "../Utils/CallMaster";
-import RewardList from "../Components/RewardList";
-import NewReward from "../Components/NewReward";
+import RewardListAdmin from "../Components/RewardComponents/RewardListAdmin";
+import NewReward from "../Components/RewardComponents/NewReward";
 
 class Admin_rewards extends React.Component {
     state = {
-        user: getSessionStorage('user'),
         view: "list",
         rewards: [],
         points: 0,
@@ -21,7 +20,7 @@ class Admin_rewards extends React.Component {
     }
 
     fetchRewardsAndUpadteState() {
-        getRewards(this.state.user.id)
+        getRewards(this.props.user.id)
             .then((res) => {
                 this.setState({ rewards: res.data });
             });
@@ -36,7 +35,6 @@ class Admin_rewards extends React.Component {
     }
 
     handleDeleteReward = (e) => {
-        console.log(e.target.name)
         deleteReward(e.target.name);
     }
 
@@ -52,19 +50,20 @@ class Admin_rewards extends React.Component {
             rewardId: currentReward.rewardId,
             title: currentReward.name,
             cost: currentReward.cost
-        });
+        }, () => { this.fetchRewardsAndUpadteState() });
+
     }
 
     handleSaveReward = (e) => {
         if (this.state.rewardId.length) {
             updateReward(this.state.rewardId, this.state.title, this.state.cost);
         } else {
-            createReward(this.state.user.id, this.state.title, this.state.cost);
+            createReward(this.props.user.id, this.state.title, this.state.cost);
         }
 
-        this.setState({ view: "list", rewardId: "", title: "", cost: 0 }, () => {
-            this.fetchRewardsAndUpadteState();
-        })
+        this.setState({
+            view: "list", rewardId: "", title: "", cost: 0
+        }, () => { this.fetchRewardsAndUpadteState(); })
     }
 
     handleBackButton = (e) => {
@@ -73,14 +72,18 @@ class Admin_rewards extends React.Component {
 
     switchView = () => {
         if (this.state.view === "list") {
-            return <RewardList handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
+            return <RewardListAdmin handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
         } else if (this.state.view === "edit") {
             return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.handleBackButton} onChange={this.onChange} state={this.state} />
         }
     }
 
     render() {
-        return (this.switchView());
+        return (
+            <div className="mt-3">
+                {this.switchView()}
+            </div>
+        )
     }
 }
 

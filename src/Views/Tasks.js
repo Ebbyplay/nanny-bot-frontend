@@ -1,42 +1,136 @@
 import React from 'react';
-import { getSessionStorage } from '../Utils/Session';
-import TaskList from '../Components/TaskList'
-import { getAllSubAccounts } from '../Utils/CallMaster';
+
+import TaskList from '../Components/TaskComponents/TaskList'
+import { getTasks, deleteTask } from '../Utils/CallMaster';
+
+import EditTask from '../Components/TaskComponents/EditCreateTask';
 
 /**
- * path: /shop
+ * path: /tasks
  */
 class Tasks extends React.Component {
     state = {
-        user: getSessionStorage('user'),
-        subAccounts: []
+        tasks: [],
+        showEditCreate: false,
+        edit: false,
+        taskid: ''
     }
 
     componentDidMount() {
-        if (!this.state.user.email)
-            return;
+        getTasks(this.props.user.id)
+            .then((res) => {
+                console.log('response getTasks', res);
 
-        getAllSubAccounts(this.state.user.id)
-        .then((subAccounts) => {
-            this.setState({subAccounts: subAccounts});
-        })
-        .catch((err) => {
-            console.log('could not get all sub accounts', err);
-        })
+                let tasks = res.data;
+
+                if (!tasks)
+                    return;
+
+
+                this.setState({
+                    tasks: tasks
+                });
+            })
+    }
+
+    getTask = (task) => {
+        let ret = {};
+
+        this.state.tasks.forEach(element => {
+            if (element.uuid === task.uuid) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
+    getTaskbyID = (taskId) => {
+        let ret = {};
+
+        this.state.tasks.forEach(element => {
+            if (element.uuid === taskId) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
+    taskchanged = (task) => {
+        let tasks = this.state.tasks,
+            foundTask = this.getTask(task);
+
+        tasks[tasks.indexOf(foundTask)] = task;
+
+        this.setState({
+            tasks: tasks
+        });
+
+        console.log('taskchanged', this.state.tasks);
+    }
+
+    taskadd = (task) => {
+        let tasks = this.state.tasks;
+
+        tasks.push(task);
+
+        this.setState({
+            tasks: tasks
+        });
+
+        console.log('taskadd', this.state.tasks);
+    }
+
+    removeTask = (taskID) => {
+        let tasks = this.state.tasks,
+            foundTask = this.getTaskbyID(taskID);
+
+        tasks.splice(tasks.indexOf(foundTask), 1)
+
+        this.setState({
+            tasks: tasks
+        });
+
+        deleteTask(taskID);
+    }
+
+    newTask = () => {
+        this.setState({ showEditCreate: true, edit: false });
+    }
+
+    editTask = (taskid) => {
+        this.setState({ showEditCreate: true, edit: true, taskid: taskid });
+    }
+
+    hide = () => {
+        this.setState({ showEditCreate: false });
     }
 
     render() {
-        let isSubAccount = !this.state.user.email;
+        let isMainAccount = Boolean(this.props.user.email);
 
         return (
             <>
-                <p>todo: tasks view</p>
-                {isSubAccount ? 
-                        this.state.subAccounts.map(subAccount => (
-                            <TaskList user={subAccount} key={subAccount.id} />
-                        )
+                {isMainAccount ?
+                    (
+                        <div>
+                            {!this.state.showEditCreate && <button onClick={() => this.newTask()}>Neu</button>}
+
+                            {this.state.showEditCreate && <EditTask
+                                children={this.props.subaccounts}
+                                hideOnClick={this.hide}
+                                taskadd={this.taskadd}
+                                taskchanged={this.taskchanged}
+                                editTask={this.state.edit}
+                                taskid={this.state.taskid} />
+                            }
+
+                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} delete={this.removeTask} />}
+                        </div>
                     ) : (
-                        <TaskList user={this.state.user} key={this.state.user.id} />
+                        <>
+                        </>
                     )
                 }
             </>
