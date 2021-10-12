@@ -4,7 +4,6 @@ import SubAccDataSelector from "../Components/UtilComponents/SubAccDataSelector"
 import { rejectUser_Task, verifyUser_Task } from "../Utils/CallMaster";
 
 class AdminUserTasks extends React.Component {
-    //verifizieren und ablehnen
     state = {
         user_tasks: [],
         dataType: "user_tasks",
@@ -19,7 +18,13 @@ class AdminUserTasks extends React.Component {
     verify = (id) => {
         verifyUser_Task(id)
             .then((res) => {
-                console.log(res)
+                this.setState({
+                    user_tasks: this.state.user_tasks.map((user_task) => {
+                        if (user_task.id === id)
+                            user_task = res.data;
+                        return user_task;
+                    })
+                });
             })
             .catch((err) => {
                 console.log("Could not verify user_task ", err);
@@ -29,7 +34,13 @@ class AdminUserTasks extends React.Component {
     reject = (id) => {
         rejectUser_Task(id)
             .then((res) => {
-                console.log(res)
+                this.setState({
+                    user_tasks: this.state.user_tasks.map((user_task) => {
+                        if (user_task.id === id)
+                            user_task = res.data;
+                        return user_task;
+                    })
+                });
             })
             .catch((err) => {
                 console.log("Could not reject user_task ", err);

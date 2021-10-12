@@ -1,4 +1,5 @@
 import React from "react";
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 import { getTask } from "../../Utils/CallMaster";
 
 import { createDate } from "../../Utils/Time"
@@ -25,7 +26,6 @@ class AdminUserTask extends React.Component {
     }
 
     reject = (e) => {
-        console.log("REJECT 1", this.props.user_task);
         this.props.reject(e.target.name)
     }
 
@@ -37,27 +37,39 @@ class AdminUserTask extends React.Component {
                 <div className="content">
                     {task.name}<br />
                     {
-                        this.props.user_task.completedAt != null ? (
-                            <>
-                                Abgeschlossen am {createDate(this.props.user_task.completedAt)}<br />
-                                {/* show only if user_reward is claimed */}
-                                <input
-                                    type="Button"
-                                    value="GEPRÜFT"
-                                    name={user_task.id}
-                                    onClick={(e) => this.verify(e)}
-                                />
-                                <input
-                                    type="Button"
-                                    value="ABLEHNEN"
-                                    name={user_task.id}
-                                    onClick={(e) => this.reject(e)}
-                                />
-                            </>
-                        ) : (
+                        this.props.user_task.completedAt === null ? (
                             <div>
                                 Diese Aufgabe wurde noch nicht abgeschlossen.
                             </div>
+                        ) : (
+                            <>
+                                Abgeschlossen am {this.props.user_task.completedAt}<br />
+                                {
+                                    this.props.user_task.verifiedAt !== null ? (
+                                        <>
+                                            <div>
+                                                Diese Aufgabe wurde bereits geprüft.
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <input
+                                                type="Button"
+                                                value="GEPRÜFT"
+                                                name={user_task.id}
+                                                onClick={(e) => this.verify(e)}
+                                            />
+                                            <input
+                                                type="Button"
+                                                value="ABLEHNEN"
+                                                name={user_task.id}
+                                                onClick={(e) => this.reject(e)}
+                                            />
+                                        </>
+                                    )
+                                }
+                            </>
+
                         )
                     }
 
@@ -66,7 +78,7 @@ class AdminUserTask extends React.Component {
                     {task.imagePath}
                     <img src="/favicon.ico" alt="" />
                 </div>
-            </div>
+            </div >
         )
     }
 }

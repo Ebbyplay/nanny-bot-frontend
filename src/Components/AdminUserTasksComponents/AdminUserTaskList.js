@@ -7,6 +7,7 @@ class AdminUserTaskList extends React.Component {
 
         return (
             <>
+
                 {
                     this.props.user_tasks.map((user_task) => (
                         <AdminUserTask
