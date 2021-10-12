@@ -17,6 +17,7 @@ class TaskList extends React.Component {
                         task={task}
                         user={this.props.user}
                         edit={this.props.edit}
+                        delete={this.props.delete}
                     />
                 ))}
             </Container>

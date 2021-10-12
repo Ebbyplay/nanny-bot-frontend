@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TaskList from '../Components/TaskComponents/TaskList'
-import { getTasks } from '../Utils/CallMaster';
+import { getTasks, deleteTask } from '../Utils/CallMaster';
 
 import EditTask from '../Components/TaskComponents/EditCreateTask';
 
@@ -45,6 +45,18 @@ class Tasks extends React.Component {
         return ret;
     }
 
+    getTaskbyID = (taskId) => {
+        let ret = {};
+
+        this.state.tasks.forEach(element => {
+            if (element.uuid === taskId) {
+                ret = element;
+            }
+        });
+
+        return ret;
+    }
+
     taskchanged = (task) => {
         let tasks = this.state.tasks,
             foundTask = this.getTask(task);
@@ -68,6 +80,19 @@ class Tasks extends React.Component {
         });
 
         console.log('taskadd', this.state.tasks);
+    }
+
+    removeTask = (taskID) => {
+        let tasks = this.state.tasks,
+            foundTask = this.getTaskbyID(taskID);
+
+        tasks.splice(tasks.indexOf(foundTask), 1)
+
+        this.setState({
+            tasks: tasks
+        });
+
+        deleteTask(taskID);
     }
 
     newTask = () => {
@@ -101,7 +126,7 @@ class Tasks extends React.Component {
                                 taskid={this.state.taskid} />
                             }
 
-                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} />}
+                            {!this.state.showEditCreate && <TaskList user={this.props.user} key={this.props.user.id} tasks={this.state.tasks} edit={this.editTask} delete={this.removeTask} />}
                         </div>
                     ) : (
                         <>
