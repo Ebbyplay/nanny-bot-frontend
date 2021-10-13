@@ -1,6 +1,11 @@
 import React from "react";
 import AdminUserTask from "./AdminUserTask";
 
+/**
+ *  @Component AdminUserTaskList
+ *  @description Component for drawing all given UserTasks as AdminUserTask
+ *  
+ */
 class AdminUserTaskList extends React.Component {
 
     render() {

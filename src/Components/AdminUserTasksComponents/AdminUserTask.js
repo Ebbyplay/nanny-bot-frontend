@@ -4,6 +4,11 @@ import { getTask } from "../../Utils/CallMaster";
 
 import { createDate } from "../../Utils/Time"
 
+/**
+ *  @Component AdminUserTask
+ *  @description Component showing all user_task data an actions for admins
+ *  
+ */
 class AdminUserTask extends React.Component {
     state = {
         task: {},
