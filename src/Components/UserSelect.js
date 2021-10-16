@@ -28,23 +28,20 @@ class UserSelect extends React.Component {
         }
 
         this.props.change('userselect', false);
-        this.props.change('changetouser', user);
-        this.props.change('user', null);
+        this.props.change('user', user);
     }
 
     render() {
         let style = {
             width: '25px',
-            height: '25px',
-            paddingRight: '50px',
-            fontSize: '12px'
+            height: '25px'
         };
 
         return (
-            <>
+            <div>
                 <span>Benutzer wechseln:</span>
                 <NannyAvatarGrid users={this.state.users} click={this.selectUser} imageStyle={style} />
-            </>
+            </div>
         )
     }
 }

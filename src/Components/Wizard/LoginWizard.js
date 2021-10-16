@@ -16,20 +16,6 @@ class LoginWizard extends React.Component {
         selectedAccount: null,
     }
 
-    componentDidMount() {
-        let changetouser = this.props.changetouser;
-
-        if (!changetouser)
-            return;
-
-        this.setState({
-            selectedAccount: changetouser,
-            mainaccount: getSessionStorage('mainuser')
-        })
-
-        this.next();
-    }
-
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value

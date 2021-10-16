@@ -61,7 +61,7 @@ class App extends React.Component {
                                 <Navbar.Brand onClick={this.exitUserSelect}>
                                     <img
                                         alt=""
-                                        src={'/' + this.state.user.name}
+                                        src={'/tile022.png'}
                                         width="30"
                                         height="30"
                                         className="d-inline-block align-top"
@@ -85,8 +85,9 @@ class App extends React.Component {
                                 {this.state.user ? (
                                     <>
                                         <Nav className="me-auto">
-                                            {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
+                                            <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
                                             <Nav.Link href="#" as={Link} to="/settings" >Einstellungen</Nav.Link>
+                                            {this.state.user.email ? <Nav.Link href="#" as={Link} to="/admin_rewards" >Belohnungen</Nav.Link> : <></>}
                                         </Nav>
 
                                         {this.state.user.email ? (
@@ -94,7 +95,6 @@ class App extends React.Component {
                                                 <Nav.Link href="#" as={Link} to="/task" >Tasks</Nav.Link>
                                                 <Nav.Link href="#" as={Link} to="/adminuser_tasks" >Aufgabenübersicht</Nav.Link>
                                                 <Nav.Link href="#" as={Link} to="/adminuser_rewards" >Belohnungsübersicht</Nav.Link>
-                                                <Nav.Link href="#" as={Link} to="/logout">Abmelden</Nav.Link>
                                             </Nav>
                                         ) : (
                                             <>

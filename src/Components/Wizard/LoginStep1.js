@@ -7,15 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { login } from '../../Utils/CallMaster';
 
 class Step1 extends React.Component {
-    onComponentMount() {
-        let changetouser = this.props.data.changetouser;
-
-        if (!changetouser)
-            return;
-
-        this.props.next();
-    }
-
     /**
      * is triggered when clicking on the 'Anmelden' button
      */

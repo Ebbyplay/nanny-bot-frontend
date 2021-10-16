@@ -12,13 +12,6 @@ class Step2 extends React.Component {
     }
 
     componentDidMount() {
-        let selectedAccount = this.props.data.selectedAccount;
-
-        if (selectedAccount) {
-            this.props.next();
-            return;
-        }
-
         getAllSubAccounts(this.props.data.user.id)
         .then((res) => {
             let subAccounts = res.data;
@@ -47,10 +40,15 @@ class Step2 extends React.Component {
     }
 
     render() {
+        let style = {
+            width: '120px',
+            height: '120px'
+        };
+        
         return (
             <>
                 <h3>Benutzer auswählen:</h3>
-                <NannyAvatarGrid users={this.state.allAccounts} click={this.selectUser} />
+                <NannyAvatarGrid users={this.state.allAccounts} click={this.selectUser} imageStyle={style} />
 
                 <Button variant="primary" onClick={this.props.back}>
                     Zurück
