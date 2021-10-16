@@ -1,14 +1,12 @@
 import React from "react";
-
-import { Container } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 
 class RewardAdmin extends React.Component {
     render() {
         return (
-            <Container fluid>
-                <div className="mx-auto text-left card p-1">
+            <>
+                <div className="mx-auto text-left card p-2">
                     <h4>{this.props.reward.name}</h4>
                     <h6>Punkte: {this.props.reward.cost}</h6>
 
@@ -21,7 +19,7 @@ class RewardAdmin extends React.Component {
                         </div>
                     </div>
                 </div>
-            </Container >
+            </>
         )
     }
 }
