@@ -16,7 +16,7 @@ class Signup extends React.Component {
 
         return (
             <Container>
-                <SignupWizard rootchangehandler={this.props.rootchangehandler} />
+                <SignupWizard rootchangehandler={this.props.rootchangehandler} {...this.props} />
             </Container>
         )
     }

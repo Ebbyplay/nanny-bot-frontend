@@ -32,8 +32,10 @@ class Step2 extends React.Component {
      * @param {Object} user 
      */
     selectUser = (user) => {
-        // TODO: entfernen, wenn das mit dem imagePasswort funktioniert
-        this.props.rootchangehandler('user', user);
+        // skippydy bap - mainUser hat kein image-password also instant einloggen
+        // TODO: passwort eingabe anzeigen anstelle der bilder-pin
+        if (user.email)
+            this.props.rootchangehandler('user', user);
 
         this.props.data.selectedAccount = user;
         this.props.next();

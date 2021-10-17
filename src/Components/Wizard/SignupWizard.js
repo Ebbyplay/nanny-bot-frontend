@@ -46,6 +46,7 @@ class SignupWizard extends React.Component {
             case 2:
                 return (
                     <Step2
+                        {...this.props}
                         data={this.state}
                         handleChange={this.handleImageChange}
                         next={this.next}

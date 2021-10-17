@@ -14,7 +14,7 @@ class Step1 extends React.Component {
         if (!this.props.data.email || !this.props.data.password)
             return alert('ungueltige eingabe!');
 
-        login(this.props.data.email, this.props.data.password)
+        login(null, this.props.data.email, this.props.data.password, null)
         .then((res) => {
             let user = res.data;
 

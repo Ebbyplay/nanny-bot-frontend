@@ -35,7 +35,7 @@ class Step2 extends React.Component {
      */
      trySignup = () => {
         let selectedImages = this.state.selectedImages,
-            { name, email, password, repassword } = this.props.data;
+            { name, email, password } = this.props.data;
 
         if (selectedImages.length < 3)
             return alert('waehlen sie mindestens drei bilder aus!');
@@ -46,16 +46,17 @@ class Step2 extends React.Component {
             imgPassword += image.name;
         })*/
 
-        signupMain(name, email, password, repassword)
+        console.log('signup', this.props)
+
+        signupMain(name, email, password)
         .then((res) => {
             let user = res.data;
 
             if (!user)
                 return alert('anmeldung fehlgeschlagen!');
 
-            this.props.rootchangehandler('user', user);
-            this.history.push('/login');
-        })
+            this.props.history.push('/login');
+        }).catch((err) => {})
         
     }
 

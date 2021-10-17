@@ -61,7 +61,7 @@ class App extends React.Component {
                                 <Navbar.Brand onClick={this.exitUserSelect}>
                                     <img
                                         alt=""
-                                        src={'/tile022.png'}
+                                        src={'/' + this.state.user.imagePath + '.png'}
                                         width="30"
                                         height="30"
                                         className="d-inline-block align-top"
@@ -117,7 +117,7 @@ class App extends React.Component {
                     </Navbar>
 
                     <Switch>
-                        <PublicRoute user={this.state.user} path="/login" rootchangehandler={this.rootchangehandler} changetouser={this.state.changetouser} component={Login} />
+                        <PublicRoute user={this.state.user} path="/login" rootchangehandler={this.rootchangehandler} component={Login} />
                         <PublicRoute user={this.state.user} path="/signup" component={Signup} />
                         <PrivateRoute user={this.state.user} path="/tasks" subaccounts={this.state.subaccounts} component={Tasks} />
                         <PrivateRoute user={this.state.user} path="/adminuser_tasks" subaccounts={this.state.subaccounts} component={AdminUserTasks} />

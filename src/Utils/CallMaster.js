@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 
-const host = 'https://www.nannybot.de:8443';
+const host = 'https://nannybot.de:8443';
 
 /**
  * login call
@@ -13,11 +13,12 @@ const host = 'https://www.nannybot.de:8443';
  * @param {*} parentId 
  * @returns 
  */
-export const login = (email, password, parentId = null) => {
+export const login = (name, email, password, parentId = null) => {
     return axios.post(`${host}/login`, {
+        username: name,
         email: email,
         password: password,
-        parentId: parentId
+        mainAccountId: parentId
     })
 }
 
@@ -26,15 +27,13 @@ export const login = (email, password, parentId = null) => {
  * @param {String} username 
  * @param {String} email 
  * @param {String} password 
- * @param {String} repassword 
  * @returns 
  */
-export const signupMain = (username, email, password, repassword) => {
-    return axios.post(`${host}/register/mainAccount`, {
+export const signupMain = (username, email, password) => {
+    return axios.post(`${host}/login/register/mainAccount`, {
         name: username,
         email: email,
-        password: password,
-        repassword: repassword
+        password: password
     })
 }
 
@@ -42,14 +41,16 @@ export const signupMain = (username, email, password, repassword) => {
  * signup subaccount call
  * @param {String} parentId 
  * @param {String} username
- * @param {String} password 
+ * @param {String} password
+ * @param {String} imagePath 
  * @returns 
  */
-export const signupSub = (parentId, username, password) => {
-    return axios.post(`${host}/register/subAccount`, {
+export const signupSub = (parentId, username, password, imagePath) => {
+    return axios.post(`${host}/login/register/subAccount`, {
         parentId: parentId,
         name: username,
-        password: password
+        password: password,
+        imagePath: imagePath
     })
 }
 
@@ -274,7 +275,7 @@ export const getPoints = (userId) => {
  * @returns 
  */
 export const assignUserTask = (subAccountId, taskId) => {
-    return axios.post(`${host}/user_task/assign`, {
+    return axios.post(`${host}/user_task/asign`, {
         subAccountId: subAccountId,
         taskId: taskId
     })

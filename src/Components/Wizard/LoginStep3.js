@@ -27,7 +27,8 @@ class Step3 extends React.Component {
      */
     submitImagePassword = () => {
         let selectedImages = this.state.selectedImages,
-            selectedAccount = this.props.data.selectedAccount;
+            selectedAccount = this.props.data.selectedAccount,
+            parentAccount = this.props.data.user;
 
         if (selectedImages.length < 3)
             return alert('waehlen sie mindestens drei bilder aus!');
@@ -38,16 +39,15 @@ class Step3 extends React.Component {
             imgPassword += image.name;
         })
 
-        login(selectedAccount.email, imgPassword, selectedAccount.parentId)
+        login(selectedAccount.name, selectedAccount.email ? selectedAccount.email : null, imgPassword, selectedAccount.email ? null : parentAccount.id)
         .then((res) => {
             let user = res.data;
 
             if (!user)
                 return alert('anmelden fehlgeschlagen - ueberpruefen sie ihre anmeldedaten');
 
-                this.props.rootchangehandler('user', user);
-                this.props.rootchangehandler('subaccounts', this.props.data.subaccounts);
-            })
+            this.props.rootchangehandler('user', user);
+        })
     }
 
     render() {

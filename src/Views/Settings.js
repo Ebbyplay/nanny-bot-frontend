@@ -50,14 +50,18 @@ class Settings extends React.Component {
             password += image.name;
         })
 
-        signupSub(this.props.user.id, this.state.name, password)
+        signupSub(this.props.user.id, this.state.name, password, 'tile027')
         .then((res) => {
             let newSubAccount = res.data;
 
             if (!newSubAccount)
                 return;
 
-            this.props.rootchangehandler('subaccounts', this.props.subacounts.concat(newSubAccount));
+            this.props.rootchangehandler('subaccounts', this.props.subaccounts.concat(newSubAccount));
+
+            this.setState({
+                createView: false
+            });
         })
     }
 

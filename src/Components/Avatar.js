@@ -13,7 +13,7 @@ class NannyAvatar extends React.Component {
         return (
             <>
                 <div>
-                    <Image style={this.props.imageStyle} src={'/tile0' + randomNum + '.png'} rounded onClick={this.props.click} />
+                    <Image style={this.props.imageStyle} src={'/' + this.props.user.imagePath + '.png'} rounded onClick={this.props.click} />
                     <center><p>{this.props.user.name}</p></center>
                 </div>
             </>
