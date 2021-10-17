@@ -35,7 +35,6 @@ class Admin_rewards extends React.Component {
     }
 
     handleDeleteReward = (e) => {
-        console.log(e.target.name)
         deleteReward(e.target.name);
     }
 
@@ -51,7 +50,8 @@ class Admin_rewards extends React.Component {
             rewardId: currentReward.rewardId,
             title: currentReward.name,
             cost: currentReward.cost
-        });
+        }, () => { this.fetchRewardsAndUpadteState() });
+
     }
 
     handleSaveReward = (e) => {
@@ -61,9 +61,9 @@ class Admin_rewards extends React.Component {
             createReward(this.props.user.id, this.state.title, this.state.cost);
         }
 
-        this.setState({ view: "list", rewardId: "", title: "", cost: 0 }, () => {
-            this.fetchRewardsAndUpadteState();
-        })
+        this.setState({
+            view: "list", rewardId: "", title: "", cost: 0
+        }, () => { this.fetchRewardsAndUpadteState(); })
     }
 
     handleBackButton = (e) => {
@@ -79,7 +79,11 @@ class Admin_rewards extends React.Component {
     }
 
     render() {
-        return (this.switchView());
+        return (
+            <div className="mt-3">
+                {this.switchView()}
+            </div>
+        )
     }
 }
 
