@@ -43,6 +43,9 @@ class App extends React.Component {
     }
 
     exitUserSelect = () => {
+        if (this.state.subaccounts.length === 0)
+            return;
+
         this.setState({
             changetouser: null,
             userselect: true
@@ -61,7 +64,7 @@ class App extends React.Component {
                                 <Navbar.Brand onClick={this.exitUserSelect}>
                                     <img
                                         alt=""
-                                        src={'/' + this.state.user.imagePath + '.png'}
+                                        src={'/' + (this.state.user.email ?  'tile012' : this.state.user.imagePath) + '.png'}
                                         width="30"
                                         height="30"
                                         className="d-inline-block align-top"

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import { login } from '../../Utils/CallMaster';
 import NannyImageGrid from '../ImageGrid';
+import PasswortGrid from '../PasswortGrid';
 
 class Step3 extends React.Component {
     state = {
@@ -54,6 +55,7 @@ class Step3 extends React.Component {
         return (
             <>
                 <NannyImageGrid click={this.toggleImage} />
+                <PasswortGrid images={this.state.selectedImages} />
 
                 <Button variant="primary" onClick={this.submitImagePassword}>
                     Anmelden

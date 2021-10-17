@@ -47,13 +47,11 @@ class NannyImageGrid extends React.Component {
         }
 
         return (
-            <>
-                <div style={style}>
-                    {this.state.images.map((image) => (
-                        <NannyImage key={image.index} image={image} click={this.toggleImage} selected={this.state.selected} />
-                    ))}
-                </div>
-            </>
+           <div style={style}>
+                {this.state.images.map((image) => (
+                    <NannyImage key={image.index} image={image} click={this.toggleImage} selected={this.state.selected} />
+                ))}
+            </div>
         );
     }
 }
