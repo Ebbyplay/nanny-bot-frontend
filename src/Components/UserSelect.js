@@ -9,13 +9,10 @@ class UserSelect extends React.Component {
     state = {
         users: []
     }
-
+ 
     componentDidMount() {
-        let users = this.props.subaccounts;
-        
-        if (!this.props.user.email && users.indexOf(this.props.mainuser) === -1)
-            users.push(this.props.mainuser);
-
+        let users = this.props.subaccounts.concat(this.props.mainuser);
+   
         this.setState({
             users: users
         });
