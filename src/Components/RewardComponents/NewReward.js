@@ -16,15 +16,15 @@ class NewReward extends React.Component {
                             </div>
 
                             <div className="col-6 text-end">
-                                <button className="btn btn-sm btn-success" name={this.props.rewardId} onClick={this.props.handleSaveReward}><FaRegSave className="pb-1" />Speichern</button>
+                                <button className="btn btn-sm btn-success" name={this.props.currentReward.rewardId} onClick={this.props.handleSaveReward}><FaRegSave className="pb-1" />Speichern</button>
                             </div>
                         </div>
                         <div>
                             <label htmlFor="title">Titel</label>
-                            <input type="text" className="form-control" name="title" onChange={this.props.onChange} value={this.props.state.title} />
+                            <input type="text" className="form-control" name="title" onChange={this.props.handleChange} value={this.props.currentReward.title} />
                             <label htmlFor="cost">Punkte</label>
-                            <input type="number" className="form-control w-25 mb-3" name="cost" min="0" onChange={this.props.onChange} value={this.props.state.cost} />
-                            <ImageSelector />
+                            <input type="number" className="form-control w-25 mb-3" name="cost" min="0" onChange={this.props.handleChange} value={this.props.currentReward.cost} />
+                            <ImageSelector selectedImage={this.props.currentReward.selectedImage} />
                         </div>
                     </div>
                 </div>

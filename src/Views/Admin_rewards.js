@@ -8,30 +8,30 @@ class Admin_rewards extends React.Component {
     state = {
         view: "list",
         rewards: [],
-        points: 0,
-        image: "",
-        rewardId: "",
-        title: "",
-        cost: 0,
+        currentReward: [
+            {
+                points: 0,
+                imagePath: "",
+                rewardId: "",
+                title: "",
+                cost: 0,
+            }
+        ]
     }
 
     componentDidMount() {
-        this.fetchRewardsAndUpadteState();
-    }
-
-    fetchRewardsAndUpadteState() {
         getRewards(this.props.user.id)
             .then((res) => {
                 this.setState({ rewards: res.data });
-            });
+            })
+            .catch((err) => {
+                console.log("Could not get rewards ", err);
+            })
     }
 
-    /**
-     * is triggered when typing in input fields
-     * @param {*} e 
-     */
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+    handleChange = (e) => {
+        console.log(e.target)
+        this.setState({ currentReward: { title: e.target.title, cost: e.target.cost } });
     }
 
     handleDeleteReward = (e) => {
@@ -39,19 +39,21 @@ class Admin_rewards extends React.Component {
     }
 
     handleNewReward = (e) => {
-        this.setState({ view: "edit", rewardId: "", title: "", cost: 0 });
+        this.setState({ view: "edit", currentReward: {} });
     }
 
     handleEditReward = (e) => {
-        let currentReward = this.state.rewards.filter(reward => { return reward.rewardId === e.target.name })[0];
+        let currentReward = this.state.rewards.filter((reward) => { return reward.rewardId === e.target.name })[0];
 
         this.setState({
             view: "edit",
-            rewardId: currentReward.rewardId,
-            title: currentReward.name,
-            cost: currentReward.cost
-        }, () => { this.fetchRewardsAndUpadteState() });
-
+            currentReward: {
+                rewardId: currentReward.rewardId,
+                title: currentReward.name,
+                cost: currentReward.cost,
+                imagePath: currentReward.imagePath
+            }
+        });
     }
 
     handleSaveReward = (e) => {
@@ -61,20 +63,18 @@ class Admin_rewards extends React.Component {
             createReward(this.props.user.id, this.state.title, this.state.cost);
         }
 
-        this.setState({
-            view: "list", rewardId: "", title: "", cost: 0
-        }, () => { this.fetchRewardsAndUpadteState(); })
+        this.resetView();
     }
 
-    handleBackButton = (e) => {
-        this.setState({ view: "list", rewardId: "", title: "", cost: 0 });
+    resetView = () => {
+        this.setState({ view: "list", currentReward: {} });
     }
 
     switchView = () => {
         if (this.state.view === "list") {
             return <RewardListAdmin handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
         } else if (this.state.view === "edit") {
-            return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.handleBackButton} onChange={this.onChange} state={this.state} />
+            return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.resetView} onChange={this.handleChange} currentReward={this.state.currentReward} />
         }
     }
 

@@ -43,7 +43,7 @@ class ImageSelector extends React.Component {
 
     render() {
         return (
-            <div className="row px-2">
+            <div className="row">
                 {this.state.rewardImages.map((image) => (
                     <RewardImage
                         key={image.imageId}

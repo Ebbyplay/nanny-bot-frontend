@@ -6,7 +6,7 @@ class RewardAdmin extends React.Component {
     render() {
         return (
             <>
-                <div className="mx-auto text-left card p-2">
+                <div className="mx-auto text-left card p-2 mb-2">
                     <h4>{this.props.reward.name}</h4>
                     <h6>Punkte: {this.props.reward.cost}</h6>
 

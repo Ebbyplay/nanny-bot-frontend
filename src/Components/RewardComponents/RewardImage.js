@@ -3,11 +3,12 @@ import React from 'react'
 class RewardImage extends React.Component {
     render() {
         return (
-            <div className="col-md-4 col-sm-6 mb-2 px-1">
-                <div className={`card p-1 ${this.props.selected ? "border-success" : ""}`}>
-                    <img src={this.props.path} alt={this.props.path} id={this.props.imageId} onClick={() => this.props.handleSelectImage(this.props.imageId)} />
-                </div>
-            </div>
+            <div className="col-6 col-sm-3">
+                <div className={`card ${this.props.selected ? "border-success" : ""}`}>
+                    < img src={this.props.path} alt={this.props.path} id={this.props.imageId} onClick={() => this.props.handleSelectImage(this.props.imageId)
+                    } />
+                </div >
+            </div >
         )
     }
 }
