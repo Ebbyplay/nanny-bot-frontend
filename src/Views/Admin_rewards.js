@@ -10,11 +10,11 @@ class Admin_rewards extends React.Component {
         rewards: [],
         currentReward: [
             {
+                rewardId: "",
                 points: 0,
                 imagePath: "",
-                rewardId: "",
                 title: "",
-                cost: 0,
+                cost: 0
             }
         ]
     }
@@ -22,24 +22,24 @@ class Admin_rewards extends React.Component {
     componentDidMount() {
         getRewards(this.props.user.id)
             .then((res) => {
-                this.setState({ rewards: res.data });
+                this.setState({ rewards: res.data, currentReward: {} });
             })
             .catch((err) => {
                 console.log("Could not get rewards ", err);
             })
     }
 
-    handleChange = (e) => {
-        console.log(e.target)
-        this.setState({ currentReward: { title: e.target.title, cost: e.target.cost } });
-    }
-
-    handleDeleteReward = (e) => {
-        deleteReward(e.target.name);
-    }
-
     handleNewReward = (e) => {
-        this.setState({ view: "edit", currentReward: {} });
+        this.setState({
+            view: "edit",
+            currentReward: {
+                rewardId: "",
+                points: 0,
+                imagePath: "",
+                title: "",
+                cost: 0
+            }
+        });
     }
 
     handleEditReward = (e) => {
@@ -56,25 +56,78 @@ class Admin_rewards extends React.Component {
         });
     }
 
-    handleSaveReward = (e) => {
-        if (this.state.rewardId.length) {
-            updateReward(this.state.rewardId, this.state.title, this.state.cost);
+    resetView = () => {
+        this.setState({
+            view: "list",
+            currentReward: {
+                rewardId: "",
+                points: 0,
+                imagePath: "",
+                title: "",
+                cost: 0
+            }
+        });
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            currentReward: {
+                ...this.state.currentReward,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    handleDeleteReward = (e) => {
+        console.log(e.target)
+        //deleteReward(e.target.name);
+    }
+
+    handleSaveReward = () => {
+        if (this.state.currentReward.rewardId !== "") {
+            updateReward(this.state.currentReward.rewardId, this.state.currentReward.title, this.state.currentReward.cost);
+
+            this.setState(prevState => {
+                return {
+                    rewards: prevState.rewards.map(reward => {
+                        if (reward.rewardId === this.state.currentReward.rewardId) {
+                            return {
+                                ...reward,
+                                title: this.state.currentReward.title,
+                                cost: this.state.currentReward.cost
+                            }
+                        }
+                    })
+                }
+            })
         } else {
-            createReward(this.props.user.id, this.state.title, this.state.cost);
+            createReward(this.props.user.id, this.state.currentReward.title, this.state.currentReward.cost);
+
+            let newRewards = this.state.rewards;
+            newRewards.push(this.state.currentReward);
+
+            this.setState({ rewards: newRewards });
         }
 
         this.resetView();
     }
 
-    resetView = () => {
-        this.setState({ view: "list", currentReward: {} });
-    }
-
     switchView = () => {
         if (this.state.view === "list") {
-            return <RewardListAdmin handleDeleteReward={this.handleDeleteReward} handleEditReward={this.handleEditReward} handleNewReward={this.handleNewReward} rewards={this.state.rewards} />
+            return <RewardListAdmin
+                handleDeleteReward={this.handleDeleteReward}
+                handleEditReward={this.handleEditReward}
+                handleNewReward={this.handleNewReward}
+                rewards={this.state.rewards}
+            />
         } else if (this.state.view === "edit") {
-            return <NewReward handleSaveReward={this.handleSaveReward} handleBackButton={this.resetView} onChange={this.handleChange} currentReward={this.state.currentReward} />
+            return <NewReward
+                rewards={this.state.rewards}
+                handleSaveReward={this.handleSaveReward}
+                handleBackButton={this.resetView}
+                handleChange={this.handleChange}
+                currentReward={this.state.currentReward}
+            />
         }
     }
 
