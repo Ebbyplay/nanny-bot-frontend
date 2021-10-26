@@ -1,25 +1,23 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import React from 'react';
+import { Component, React } from 'react';
+import { inject, observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import LoginWizard from '../Components/Wizard/LoginWizard';
 
-/**
- * path: /login
- */
-class Login extends React.Component {
+class Login extends Component {
     render() {
-        if (this.props.user)
+        const { user } = this.props.AuthStore;
+
+        if (user.email)
             return <Redirect exact to='/dashboard' />
 
         return (
             <Container>
-                <LoginWizard rootchangehandler={this.props.rootchangehandler} user={this.props.user} changetouser={this.props.changetouser} />
+                <LoginWizard />
             </Container>
-        )
+        );
     }
 }
 
-export default Login;
+export default inject('AuthStore')(observer(Login));

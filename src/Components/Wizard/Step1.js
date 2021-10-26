@@ -1,30 +1,17 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import React from 'react';
+import { Component, React } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-import { login } from '../../Utils/CallMaster';
-
-class Step1 extends React.Component {
+class Step1 extends Component {
     /**
      * is triggered when clicking on the 'Anmelden' button
      */
     tryLogin = () => {
-        if (!this.props.data.email || !this.props.data.password)
-            return alert('ungueltige eingabe!');
-
-        login(null, this.props.data.email, this.props.data.password, null)
+        this.props.auth.login()
         .then((res) => {
-            let user = res.data;
-
-            if (!user)
-                return alert('anmelden fehlgeschlagen!');
-
-            this.props.rootchangehandler('mainuser', user);
-            this.props.data.user = user;
-            this.props.next();
+            console.log(res)
         })
+        
     }
 
     render() {
@@ -33,13 +20,13 @@ class Step1 extends React.Component {
                 <Row className="align-items-center">
                     <Col className="my-1">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control name="email" type="email" placeholder="E-Mail eingeben" value={this.props.data.email} onChange={this.props.handleChange} />
+                        <Form.Control name="email" type="email" placeholder="E-Mail eingeben" value={this.props.auth.email} onChange={this.props.handleChange} />
                     </Col>
                 </Row>
                 <Row className="align-items-center">
                     <Col className="my-1">
                         <Form.Label>Passwort</Form.Label>
-                        <Form.Control name="password" type="password" placeholder="Passwort" value={this.props.data.password} onChange={this.props.handleChange} />
+                        <Form.Control name="password" type="password" placeholder="Passwort" value={this.props.auth.password} onChange={this.props.handleChange} />
                     </Col>
                 </Row>
                 <Row className="align-items-center">

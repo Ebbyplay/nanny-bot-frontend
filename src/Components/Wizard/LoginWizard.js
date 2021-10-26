@@ -1,23 +1,13 @@
-import React from 'react';
+import { Component, React } from 'react';
+import { inject, observer } from 'mobx-react'
 
-import Step1 from './LoginStep1';
-import Step2 from './LoginStep2';
-import Step3 from './LoginStep3';
+import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
 
-class LoginWizard extends React.Component {
+class LoginWizard extends Component {
     state = {
-        currentStep: 1,
-        email: '',
-        password: '',
-        mainaccount: null,
-        user: null,
-        selectedAccount: null
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        currentStep: 1
     }
 
     next = () => {
@@ -33,9 +23,7 @@ class LoginWizard extends React.Component {
             case 1:
                 return (
                     <Step1
-                        data={this.state}
-                        handleChange={this.handleChange}
-                        rootchangehandler={this.props.rootchangehandler}
+                        auth={this.props.AuthStore}
                         next={this.next}
                     />
                 )
@@ -43,8 +31,6 @@ class LoginWizard extends React.Component {
                 return (
                     <Step2
                         data={this.state}
-                        handleChange={this.handleChange}
-                        rootchangehandler={this.props.rootchangehandler}
                         next={this.next}
                         back={this.back}
                     />
@@ -53,8 +39,6 @@ class LoginWizard extends React.Component {
                 return (
                     <Step3
                         data={this.state}
-                        handleChange={this.handleChange}
-                        rootchangehandler={this.props.rootchangehandler}
                         next={this.next}
                         back={this.back}
                     />
@@ -67,4 +51,4 @@ class LoginWizard extends React.Component {
     }
 }
 
-export default LoginWizard;
+export default inject('AuthStore')(observer(LoginWizard));
