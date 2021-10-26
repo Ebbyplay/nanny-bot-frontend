@@ -65,19 +65,19 @@ class UserStore {
         this.subAccounts.splice(this.subAccounts.indexOf(subAccount), 1);
     }
 
-    editCurrentUser(currentUser) {
+    editCurrentUser(id, currentUser) {
         // api call
         this.currentUser = currentUser;
     }
 
-    editMainAccount(mainAccount) {
+    editMainAccount(id, mainAccount) {
         // api call
-        this.mainAccounts[this.mainAccounts.indexOf(mainAccount)] = mainAccount;
+        this.mainAccounts[this.mainAccounts.indexOf(this.mainAccounts.find((account) => account.id === id))] = mainAccount;
     }
 
-    editSubAccount(subAccount) {
+    editSubAccount(id, subAccount) {
         // api call
-        this.subAccounts[this.subAccounts.indexOf(subAccount)] = subAccount;
+        this.subAccounts[this.subAccounts.indexOf(this.subAccounts.find((account) => account.id === id))] = subAccount;
     }
 }
 
