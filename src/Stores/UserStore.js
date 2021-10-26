@@ -12,11 +12,11 @@ class UserStore {
     subAccounts = [];
 
     getMainAccount(id) {
-        return this.mainAccounts.find((account) => account.id = id);
+        return this.mainAccounts.find((account) => account.id === id);
     }
 
     getSubAccount(id) {
-        return this.subAccounts.find((account) => account.id = id);
+        return this.subAccounts.find((account) => account.id === id);
     }
 
     setUser(user) {
