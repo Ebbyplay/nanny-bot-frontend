@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import UserStore from './UserStore';
-import ApiService from '../Services/ApiService';
+import { ApiService } from '../Services';
 
 class AuthStore {
     constructor() {
@@ -41,8 +41,10 @@ class AuthStore {
 
         return ApiService.login(this.user)
             .then((res) => {
-                if (!res)
-                    return;
+                if (!res || !res.data || !res.data.id) {
+                    this.errors = "E-Mail oder Passwort falsch!";
+                    throw Error;
+                }
 
                 UserStore.setUser(res.data);
             })
@@ -51,6 +53,7 @@ class AuthStore {
                 throw err;
             })
             .finally(() => {
+                this.errors = null;
                 this.isLoading = false;
             })
     }
