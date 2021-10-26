@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import { ApiService, StorageService } from '../Services';
+import { /*ApiService,*/ StorageService } from '../Services';
 
 class UserStore {
     constructor() {
@@ -10,6 +10,14 @@ class UserStore {
     currentUser = StorageService.get('user');
     mainAccounts = [];
     subAccounts = [];
+
+    getMainAccount(id) {
+        return this.mainAccounts.find((account) => account.id = id);
+    }
+
+    getSubAccount(id) {
+        return this.subAccounts.find((account) => account.id = id);
+    }
 
     setUser(user) {
         this.currentUser = user;
