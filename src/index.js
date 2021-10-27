@@ -7,13 +7,14 @@ import { Provider } from 'mobx-react';
 
 import App from './App';
 
-import { AuthStore, UserStore, TaskStore, RewardStore } from './Stores';
+import { AuthStore, UserStore, TaskStore, RewardStore, CommonStore } from './Stores';
 
 const stores = {
     AuthStore,
-    UserStore,
-    TaskStore,
+    CommonStore,
     RewardStore,
+    TaskStore,
+    UserStore
 };
 
 ReactDOM.render(

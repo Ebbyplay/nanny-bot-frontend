@@ -9,4 +9,4 @@ class Settings extends Component {
     }
 }
 
-export default inject('UserStore')(observer(Settings));;;
+export default inject('UserStore')(observer(Settings));

@@ -1,51 +1,89 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 
-// import { ApiService } from '../Services';
+import { ApiService } from '../Services';
 
 class TaskStore {
     constructor() {
         makeAutoObservable(this);
     }
 
-    tasks = [];
+    isLoading = false;
+    tasks = observable.map();
 
-    getTask(id) {
-        return this.tasks.find((task) => task.id === id)
+    loadTasks() {
+        this.isLoading = true;
+
+        return ApiService.getTasks()
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.tasks.clear();
+                res.data.forEach(task => this.tasks.set(task.uuid, task));
+            })
+            .catch((err) => {
+                this.errors = err.response && err.response.body && err.response.body.errors;
+                throw err;
+            })
+            .finally(() => {
+                this.isLoading = false;
+            })
     }
 
-    setTasks(tasks) {
-        this.tasks = tasks;
-    }
-
-    unsetTasks() {
-        this.tasks = [];
+    getTask(uuid) {
+        return this.tasks.get(uuid)
     }
 
     addTask(task) {
-        // TODO: api call
-        this.tasks.push(task);
+        return ApiService.createTask(task)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.tasks.set(res.data.uuid, res.data);
+                return res.data;
+            })
     }
 
-    editTask(id, task) {
-        // api call
-        this.tasks[this.tasks.indexOf(this.tasks.find((task) => task.id === id))] = task;
+    updateTask(task) {
+        return ApiService.updateTask(task)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.tasks.set(res.data.uuid, res.data);
+                return res.data;
+            })
     }
 
-    removeTask(task) {
-        // api call
-        this.tasks.splice(this.tasks.indexOf(task), 1);
+    deleteTask(uuid) {
+        return ApiService.deleteTask(uuid)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.tasks.delete(uuid);
+            })
+            .catch(((err) => {
+                this.loadTasks();
+                throw err;
+            }));
     }
 
-    verifyTask(task) {
+    verifyTask(uuid) {
         // api call
     }
 
-    checkTask(task) {
+    checkTask(uuid) {
         // api call
     }
 
-    uncheckTask(task) {
+    uncheckTask(uuid) {
         // api call
+    }
+
+    clear() {
+        this.tasks.clear();
     }
 }
 

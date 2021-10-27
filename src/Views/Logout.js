@@ -12,4 +12,4 @@ class Logout extends Component {
     }
 }
 
-export default inject('UserStore')(observer(Logout));;;
+export default inject('UserStore')(observer(Logout));

@@ -3,12 +3,17 @@
  */
 
 import axios from 'axios';
+import { UserStore } from '../Stores';
 
  const 
     host = 'https://nannybot.de',
     port = 8443;
 
 class ApiService {
+    getUserID() {
+        return UserStore.currentUser.id;
+    }
+
     login(data) {
         return axios.post(`${host}:${port}/login`, data)
     }
@@ -26,8 +31,12 @@ class ApiService {
     }
 
 
-    getTasks(userId) {
-        return axios.get(`${host}:${port}/task/getAll/${userId}`)
+    getTasks() {
+        return axios.get(`${host}:${port}/task/getAll/${this.getUserID()}`)
+    }
+
+    getRewards() {
+        return axios.get(`${host}:${port}/reward/getAll/${this.getUserID()}`)
     }
 
 }

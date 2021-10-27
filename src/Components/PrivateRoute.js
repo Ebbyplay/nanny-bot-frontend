@@ -4,9 +4,9 @@ import { inject, observer } from 'mobx-react';
 
 class PrivateRoute extends Component {
     render() {
-        const { userStore, ...props } = this.props;
+        const { UserStore, ...props } = this.props;
 
-        if (userStore.currentUser && userStore.currentUse.id)
+        if (UserStore.currentUser && UserStore.currentUser.id)
             return <Route {...props} />;
         else 
             return <Redirect to="/login" />;

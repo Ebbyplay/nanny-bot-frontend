@@ -1,39 +1,77 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 
-// import { ApiService } from '../Services';
+import { ApiService } from '../Services';
 
 class RewardStore {
     constructor() {
         makeAutoObservable(this);
     }
 
-    rewards = [];
+    isLoading = false;
+    rewards = observable.map();
 
-    getReward(id) {
-        return this.rewards.find((reward) => reward.id === id)
+    loadRewards() {
+        this.isLoading = true;
+
+        return ApiService.getRewards()
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.rewards.clear();
+                res.data.forEach(reward => this.rewards.set(reward.uuid, reward));
+            })
+            .catch((err) => {
+                this.errors = err.response && err.response.body && err.response.body.errors;
+                throw err;
+            })
+            .finally(() => {
+                this.isLoading = false;
+            })
     }
 
-    setRewards(rewards) {
-        this.rewards = rewards;
+    getReward(uuid) {
+        return this.rewards.get(uuid)
     }
 
-    unsetRewards() {
-        this.rewards = [];
+    addReward(reward) {
+        return ApiService.createReward(reward)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.rewards.set(res.data.uuid, res.data);
+                return res.data;
+            })
     }
 
-    addRewards(reward) {
-        // TODO: api call
-        this.rewards.push(reward);
+    updateReward(reward) {
+        return ApiService.updateReward(reward)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.rewards.set(res.data.uuid, res.data);
+                return res.data;
+            })
     }
 
-    editRewards(id, reward) {
-        // api call
-        this.rewards[this.rewards.indexOf(this.rewards.find((reward) => reward.id === id))] = reward;
+    deleteReward(uuid) {
+        return ApiService.deleteReward(uuid)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.rewards.delete(uuid);
+            })
+            .catch(((err) => {
+                this.loadTasks();
+                throw err;
+            }));
     }
 
-    removeRewards(reward) {
-        // api call
-        this.rewards.splice(this.rewards.indexOf(reward), 1);
+    clear() {
+        this.rewards.clear();
     }
 }
 

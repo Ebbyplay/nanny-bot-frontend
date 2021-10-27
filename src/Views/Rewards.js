@@ -9,4 +9,4 @@ class Rewards extends Component {
     }
 }
 
-export default inject('RewardStore', 'UserStore')(observer(Rewards));;;
+export default inject('RewardStore', 'UserStore')(observer(Rewards));
