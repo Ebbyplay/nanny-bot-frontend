@@ -1,10 +1,14 @@
 import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 
+import List from '../Components/List';
+
 class Rewards extends Component {
     render() {
+        const { rewards, isLoading } = this.props.RewardStore;
+
         return (
-            <p>Rewards</p>
+            <List elements={rewards} loading={isLoading} />
         );
     }
 }

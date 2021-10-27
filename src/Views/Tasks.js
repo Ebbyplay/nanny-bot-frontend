@@ -1,14 +1,14 @@
 import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 
-class Tasks extends Component {
-    componentDidMount() {
-        console.log(this.props.TaskStore.tasks)
-    }
+import List from '../Components/List';
 
+class Tasks extends Component {
     render() {
+        const { tasks, isLoading } = this.props.TaskStore;
+
         return (
-            <p>Tasks</p>
+            <List elements={tasks} loading={isLoading} />
         );
     }
 }
