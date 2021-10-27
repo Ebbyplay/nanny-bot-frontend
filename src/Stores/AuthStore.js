@@ -64,8 +64,10 @@ class AuthStore {
 
         return ApiService.signup(this.user)
         .then((res) => {
-            if (!res)
-                return;
+            if (!res) {
+                this.errors = "Keine Ahnung aber irgendwas ist schief gelaufen";
+                throw Error;
+            }
 
             // redirect to login
         })
@@ -74,6 +76,7 @@ class AuthStore {
             throw err;
         })
         .finally(() => {
+            this.errors = null;
             this.isLoading = false;
         })
     }
