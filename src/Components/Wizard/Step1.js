@@ -1,7 +1,6 @@
 import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button, Form } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 
 class Step1 extends Component {
     handleSubmit = () => {
@@ -24,12 +23,6 @@ class Step1 extends Component {
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                     <Form.Label>Passwort</Form.Label>
                     <Form.Control type="password" placeholder="Passwort" value={this.props.AuthStore.password} onChange={ (e) => this.props.AuthStore.setPassword(e.target.value) } />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlText1">
-                    <Form.Text className="text-muted">
-                        Noch keinen Account?<br />
-                        <NavLink activeClassName="active" to="/signup">Hier registrieren</NavLink>
-                    </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlSubmit1">
                     <Button variant="primary" onClick={this.handleSubmit}>

@@ -8,9 +8,13 @@ class TaskStore {
     }
 
     isLoading = false;
-    tasks = observable.map();
+    tasksMap = observable.map();
 
-    loadTasks() {
+    get tasks() {
+        return this.tasksMap.values();
+    }
+
+    load() {
         this.isLoading = true;
 
         return ApiService.getTasks()
@@ -18,8 +22,8 @@ class TaskStore {
                 if (!res || !res.data )
                     throw Error;
 
-                this.tasks.clear();
-                res.data.forEach(task => this.tasks.set(task.uuid, task));
+                this.tasksMap.clear();
+                this.set(res.data)
             })
             .catch((err) => {
                 this.errors = err.response && err.response.body && err.response.body.errors;
@@ -30,39 +34,43 @@ class TaskStore {
             })
     }
 
-    getTask(uuid) {
-        return this.tasks.get(uuid)
+    set(tasks) {
+        tasks.forEach((task) => this.tasksMap.set(task.uuid, task));
     }
 
-    addTask(task) {
+    get(uuid) {
+        return this.tasksMap.get(uuid)
+    }
+
+    add(task) {
         return ApiService.createTask(task)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.tasks.set(res.data.uuid, res.data);
+                this.tasksMap.set(res.data.uuid, res.data);
                 return res.data;
             })
     }
 
-    updateTask(task) {
+    update(task) {
         return ApiService.updateTask(task)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.tasks.set(res.data.uuid, res.data);
+                this.tasksMap.set(res.data.uuid, res.data);
                 return res.data;
             })
     }
 
-    deleteTask(uuid) {
+    delete(uuid) {
         return ApiService.deleteTask(uuid)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.tasks.delete(uuid);
+                this.tasksMap.delete(uuid);
             })
             .catch(((err) => {
                 this.loadTasks();
@@ -70,20 +78,20 @@ class TaskStore {
             }));
     }
 
-    verifyTask(uuid) {
+    verify(uuid) {
         // api call
     }
 
-    checkTask(uuid) {
+    check(uuid) {
         // api call
     }
 
-    uncheckTask(uuid) {
+    uncheck(uuid) {
         // api call
     }
 
     clear() {
-        this.tasks.clear();
+        this.tasksMap.clear();
     }
 }
 

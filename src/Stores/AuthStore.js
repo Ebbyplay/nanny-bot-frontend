@@ -64,12 +64,9 @@ class AuthStore {
 
         return ApiService.signup(this.user)
         .then((res) => {
-            if (!res) {
-                this.errors = "Keine Ahnung aber irgendwas ist schief gelaufen";
+            if (!res || !res.data || !res.data.id) {
                 throw Error;
             }
-
-            // redirect to login
         })
         .catch((err) => {
             this.errors = err.response && err.response.body && err.response.body.errors;

@@ -6,8 +6,8 @@ class Navbar extends Component {
         let { RewardStore, TaskStore, UserStore } = this.props;
 
         if (UserStore.currentUser && UserStore.currentUser.id) {   
-            TaskStore.loadTasks();
-            RewardStore.loadRewards();
+            TaskStore.load();
+            RewardStore.load();
         }
     }
 

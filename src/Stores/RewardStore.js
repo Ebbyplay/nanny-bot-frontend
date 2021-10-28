@@ -8,9 +8,13 @@ class RewardStore {
     }
 
     isLoading = false;
-    rewards = observable.map();
+    rewardsMap = observable.map();
 
-    loadRewards() {
+    get rewards() {
+        return this.rewardsMap.values();
+    }
+
+    load() {
         this.isLoading = true;
 
         return ApiService.getRewards()
@@ -18,8 +22,8 @@ class RewardStore {
                 if (!res || !res.data )
                     throw Error;
 
-                this.rewards.clear();
-                res.data.forEach(reward => this.rewards.set(reward.uuid, reward));
+                this.rewardsMap.clear();
+                this.set(res.data)
             })
             .catch((err) => {
                 this.errors = err.response && err.response.body && err.response.body.errors;
@@ -30,39 +34,43 @@ class RewardStore {
             })
     }
 
-    getReward(uuid) {
-        return this.rewards.get(uuid)
+    set(rewards) {
+        rewards.forEach((reward) => this.rewardsMap.set(reward.uuid, reward));
     }
 
-    addReward(reward) {
+    get(uuid) {
+        return this.rewardsMap.get(uuid)
+    }
+
+    add(reward) {
         return ApiService.createReward(reward)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.rewards.set(res.data.uuid, res.data);
+                this.rewardsMap.set(res.data.uuid, res.data);
                 return res.data;
             })
     }
 
-    updateReward(reward) {
+    update(reward) {
         return ApiService.updateReward(reward)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.rewards.set(res.data.uuid, res.data);
+                this.rewardsMap.set(res.data.uuid, res.data);
                 return res.data;
             })
     }
 
-    deleteReward(uuid) {
+    delete(uuid) {
         return ApiService.deleteReward(uuid)
             .then((res) => {
                 if (!res || !res.data )
                     throw Error;
 
-                this.rewards.delete(uuid);
+                this.rewardsMap.delete(uuid);
             })
             .catch(((err) => {
                 this.loadTasks();
@@ -71,7 +79,7 @@ class RewardStore {
     }
 
     clear() {
-        this.rewards.clear();
+        this.rewardsMap.clear();
     }
 }
 
