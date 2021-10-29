@@ -2,15 +2,6 @@ import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 
 class Navbar extends Component {
-    componentDidMount() {
-        let { RewardStore, TaskStore, UserStore } = this.props;
-
-        if (UserStore.currentUser && UserStore.currentUser.id) {   
-            TaskStore.load();
-            RewardStore.load();
-        }
-    }
-
     render() {
         return (
             <p>NAVBAR</p>
@@ -18,4 +9,4 @@ class Navbar extends Component {
     }
 }
 
-export default inject('RewardStore', 'TaskStore', 'UserStore')(observer(Navbar));
+export default inject('UserStore')(observer(Navbar));
