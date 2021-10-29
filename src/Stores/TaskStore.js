@@ -23,6 +23,8 @@ class TaskStore {
                 if (!res || !res.data )
                     throw Error;
 
+                console.log('tasks', res.data)
+
                 this.tasksMap.clear();
                 res.data.forEach((task) => this.set(task));
             })
@@ -79,10 +81,6 @@ class TaskStore {
                 this.loadTasks();
                 throw err;
             }));
-    }
-
-    verify(uuid) {
-        // api call
     }
 
     clear() {

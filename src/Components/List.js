@@ -1,7 +1,7 @@
 import { Component, React } from 'react';
 
 import ListItem from './ListItem';
-import Loading from '../Components/Loading';
+import Loading from './Widgets/Loading';
 
 class List extends Component {
     render() {

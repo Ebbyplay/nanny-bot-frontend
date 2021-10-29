@@ -35,11 +35,35 @@ class AuthStore {
         }
     }
 
-    login() {
+    firstLogin() {
         this.isLoading = true;
         this.errors = null;
 
         return ApiService.login(this.user)
+            .then((res) => {
+                if (!res || !res.data || !res.data.id) {
+                    this.errors = "E-Mail oder Passwort falsch!";
+                    throw Error;
+                }
+
+                UserStore.setCurrentUser(res.data); // remove
+                UserStore.setUserInProcess(res.data);
+            })
+            .catch((err) => {
+                this.errors = err.response && err.response.body && err.response.body.errors;
+                throw err;
+            })
+            .finally(() => {
+                this.errors = null;
+                this.isLoading = false;
+            })
+    }
+
+    secondLogin(user) {
+        this.isLoading = true;
+        this.errors = null;
+
+        return ApiService.login(user)
             .then((res) => {
                 if (!res || !res.data || !res.data.id) {
                     this.errors = "E-Mail oder Passwort falsch!";

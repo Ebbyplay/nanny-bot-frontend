@@ -1,4 +1,5 @@
 import { Component, React } from 'react';
+import { inject, observer } from 'mobx-react';
 
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -7,6 +8,16 @@ import Step3 from './Step3';
 class LoginWizard extends Component {
     state = {
         currentStep: 1
+    }
+
+    componentDidMount() {
+        const { currentUser, userInProcess } = this.props.UserStore;
+    
+        if (currentUser && currentUser.id)
+            this.props.history.push('/tasks');
+
+        if (userInProcess && userInProcess.id)
+            this.setState({currentStep: 2})
     }
 
     next = () => {
@@ -47,4 +58,4 @@ class LoginWizard extends Component {
     }
 }
 
-export default LoginWizard;
+export default inject('UserStore')(observer(LoginWizard));

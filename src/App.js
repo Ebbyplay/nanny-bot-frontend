@@ -4,13 +4,13 @@ import { Container } from 'react-bootstrap';
 
 import { Login, Logout, Rewards, Settings, Tasks } from './Views/';
 import PrivateRoute from './Components/PrivateRoute';
-import Navbar from './Components/Navbar';
+import Header from './Components/Header';
 
 class App extends Component {
     render() {
         return (
             <Container>
-                <Navbar />
+                <Header />
                 <Switch>
                     <Route path="/login" component={Login} />
                     <Route path="/logout" component={Logout} />

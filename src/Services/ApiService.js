@@ -11,6 +11,9 @@ import { UserStore } from '../Stores';
 
 class ApiService {
     getUserID() {
+        if (!UserStore.currentUser)
+            return UserStore.userInProcess.id;
+
         return UserStore.currentUser.id;
     }
 
@@ -28,6 +31,11 @@ class ApiService {
 
     getSubAccountsByMainAccount(parentId) {
         return axios.get(`${host}:${port}/subaccount/getAll/${parentId}`)
+    }
+
+    // TODO
+    getUsers() {
+        return axios.get(`${host}:${port}/????/${this.getUserID()}`)
     }
 
     getTasks() {

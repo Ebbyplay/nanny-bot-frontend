@@ -7,6 +7,9 @@ class UserStore {
         makeAutoObservable(this);
     }
 
+    isLoading = false;
+
+    userInProcess = StorageService.get('user_in_process');
     currentUser = StorageService.get('user');
     userMap = observable.map()
 
@@ -14,14 +17,24 @@ class UserStore {
         return this.userMap.toJSON();
     }
 
-    setCurrentUser(user) {
-        this.currentUser = user;
-        StorageService.set('user', user);
-    }
+    load() {
+        this.isLoading = true;
 
-    unsetCurrentUser() {
-        this.currentUser = null;
-        StorageService.unset('user');
+        return ApiService.getUsers()
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.userMap.clear();
+                res.data.forEach((task) => this.set(task));
+            })
+            .catch((err) => {
+                this.errors = err.response && err.response.body && err.response.body.errors;
+                throw err;
+            })
+            .finally(() => {
+                this.isLoading = false;
+            })
     }
 
     set(user) {
@@ -68,6 +81,28 @@ class UserStore {
             this.loadTasks();
             throw err;
         }));
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
+        StorageService.set('user', user);
+
+        this.unsetUserInProcess();
+    }
+
+    unsetCurrentUser() {
+        this.currentUser = null;
+        StorageService.unset('user');
+    }
+
+    setUserInProcess(user) {
+        this.userInProcess = user;
+        StorageService.set('user_in_process', user);
+    }
+
+    unsetUserInProcess() {
+        this.userInProcess = null;
+        StorageService.unset('user_in_process');
     }
 }
 

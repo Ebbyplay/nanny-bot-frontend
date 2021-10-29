@@ -7,7 +7,7 @@ class TaskModel {
     description = '';
     imagePath = '';
     repetition = '';
-    weight = '';
+    weight = 0;
 
     constructor(store) {
         this.store = store;
@@ -15,10 +15,11 @@ class TaskModel {
     }
 
     init(data) {
+        
         if (!data)
             return;
 
-        if (data.description && data.description.lenth > 0)
+        if (data.description && data.description.length > 0)
             this.description = data.description;
 
         if (data.imagePath && data.imagePath.length > 0)
@@ -39,7 +40,6 @@ class TaskModel {
 
     setDescription(description) {
         this.description = description;
-        console.log('setDescription', this.name, description)
     }
 
     setName(name) {
@@ -52,7 +52,6 @@ class TaskModel {
 
     save() {
         this.store.update(this);
-        console.log('save')
     }
 
     destroy() {

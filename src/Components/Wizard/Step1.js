@@ -2,16 +2,16 @@ import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button, Form } from 'react-bootstrap';
 
-import Error from '../Error';
+import Error from '../Widgets/Error';
 
 class Step1 extends Component {
     handleSubmit = () => {
-        this.props.AuthStore.login()
+        this.props.AuthStore.firstLogin()
         .then(() => {
             this.props.next();
         })
         .catch((err) => {
-            // fehlermeldung?
+            // fehlermeldung - falsche email/ passwort falsch
         })
     }
 
