@@ -1,6 +1,6 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 
-import { /*ApiService,*/ StorageService } from '../Services';
+import { ApiService, StorageService } from '../Services';
 
 class UserStore {
     constructor() {
@@ -8,76 +8,66 @@ class UserStore {
     }
 
     currentUser = StorageService.get('user');
-    mainAccounts = [];
-    subAccounts = [];
+    userMap = observable.map()
 
-    getMainAccount(id) {
-        return this.mainAccounts.find((account) => account.id === id);
+    get users() {
+        return this.userMap.toJSON();
     }
 
-    getSubAccount(id) {
-        return this.subAccounts.find((account) => account.id === id);
-    }
-
-    setUser(user) {
+    setCurrentUser(user) {
         this.currentUser = user;
         StorageService.set('user', user);
     }
 
-    setMainAccounts(mainAccounts) {
-        this.mainAccounts = mainAccounts;
-    }
-
-    setSubAccounts(subAccounts) {
-        this.subAccounts = subAccounts;
-    }
-
-    unsetUser() {
+    unsetCurrentUser() {
         this.currentUser = null;
         StorageService.unset('user');
     }
 
-    unsetMainAccounts() {
-        this.mainAccounts = [];
+    set(user) {
+        this.userMap.set(user.uuid, user);
     }
 
-    unsetSubAccounts() {
-        this.subAccounts = [];
+    get(uuid) {
+        return this.userMap.get(uuid);
     }
 
-    addMainAccount(mainAccount) {
-        // TODO: api call => wenn success dann
-        this.mainAccounts.push(mainAccount);
+    add(user) {
+        return ApiService.addUser(user)
+            .then((res) => {
+                if (!res || !res.data )
+                    throw Error;
+
+                this.set(res.data);
+                return this.get(res.data.uuid);
+            })
     }
 
-    addSubAccount(subAccount) {
-        // api call
-        this.subAccounts.push(subAccount);
+    async update(user) {
+        const res = await ApiService.updateUser(user);
+
+        if (!res || !res.data)
+            throw Error;
+
+        if (user.id === this.currentUser.id)
+            this.currentUser = res.data;
+
+        this.set(res.data);
+        return this.get(res.data.uuid);
     }
 
-    removeMainAccount(mainAccount) {
-        // api call
-        this.mainAccounts.splice(this.mainAccounts.indexOf(mainAccount), 1);
-    }
+    delete(uuid) {
+        return ApiService.deleteUser(uuid)
+        .then((res) => {
+            if (!res || !res.data )
+                throw Error;
 
-    removeSubAccount(subAccount) {
-        // api call
-        this.subAccounts.splice(this.subAccounts.indexOf(subAccount), 1);
-    }
-
-    editCurrentUser(id, currentUser) {
-        // api call
-        this.currentUser = currentUser;
-    }
-
-    editMainAccount(id, mainAccount) {
-        // api call
-        this.mainAccounts[this.mainAccounts.indexOf(this.mainAccounts.find((account) => account.id === id))] = mainAccount;
-    }
-
-    editSubAccount(id, subAccount) {
-        // api call
-        this.subAccounts[this.subAccounts.indexOf(this.subAccounts.find((account) => account.id === id))] = subAccount;
+            this.userMap.delete(uuid);
+        })
+        .catch(((err) => {
+            this.loadTasks();
+            throw err;
+        }));
     }
 }
 

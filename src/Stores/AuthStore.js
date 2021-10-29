@@ -46,7 +46,7 @@ class AuthStore {
                     throw Error;
                 }
 
-                UserStore.setUser(res.data);
+                UserStore.setCurrentUser(res.data);
             })
             .catch((err) => {
                 this.errors = err.response && err.response.body && err.response.body.errors;
@@ -79,7 +79,7 @@ class AuthStore {
     }
 
     logout() {
-        UserStore.unsetUser();
+        UserStore.unsetCurrentUser();
         return Promise.resolve()
     }
 }
