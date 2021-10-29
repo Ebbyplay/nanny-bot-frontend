@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable } from 'mobx';
 
 import { ApiService } from '../Services';
+import TaskModel from '../Models/TaskModel';
 
 class TaskStore {
     constructor() {
@@ -11,7 +12,7 @@ class TaskStore {
     tasksMap = observable.map();
 
     get tasks() {
-        return this.tasksMap.values();
+        return this.tasksMap.toJSON();
     }
 
     load() {
@@ -23,7 +24,7 @@ class TaskStore {
                     throw Error;
 
                 this.tasksMap.clear();
-                this.set(res.data)
+                res.data.forEach((task) => this.set(task));
             })
             .catch((err) => {
                 this.errors = err.response && err.response.body && err.response.body.errors;
@@ -34,8 +35,11 @@ class TaskStore {
             })
     }
 
-    set(tasks) {
-        tasks.forEach((task) => this.tasksMap.set(task.uuid, task));
+    set(task) {
+        let taskModel = new TaskModel(this);
+        taskModel.init(task);
+
+        this.tasksMap.set(taskModel.uuid, taskModel);
     }
 
     get(uuid) {
@@ -48,20 +52,19 @@ class TaskStore {
                 if (!res || !res.data )
                     throw Error;
 
-                this.tasksMap.set(res.data.uuid, res.data);
-                return res.data;
+                this.set(res.data);
+                return this.get(res.data.uuid);
             })
     }
 
-    update(task) {
-        return ApiService.updateTask(task)
-            .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+    async update(task) {
+        const res = await ApiService.updateTask(task);
 
-                this.tasksMap.set(res.data.uuid, res.data);
-                return res.data;
-            })
+        if (!res || !res.data)
+            throw Error;
+
+        this.set(res.data);
+        return this.get(res.data.uuid);
     }
 
     delete(uuid) {
@@ -79,14 +82,6 @@ class TaskStore {
     }
 
     verify(uuid) {
-        // api call
-    }
-
-    check(uuid) {
-        // api call
-    }
-
-    uncheck(uuid) {
         // api call
     }
 

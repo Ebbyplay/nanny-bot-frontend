@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable } from 'mobx';
 
 import { ApiService } from '../Services';
+import RewardModel from '../Models/RewardModel';
 
 class RewardStore {
     constructor() {
@@ -11,7 +12,7 @@ class RewardStore {
     rewardsMap = observable.map();
 
     get rewards() {
-        return this.rewardsMap.values();
+        return this.rewardsMap.toJSON();
     }
 
     load() {
@@ -23,7 +24,7 @@ class RewardStore {
                     throw Error;
 
                 this.rewardsMap.clear();
-                this.set(res.data)
+                res.data.forEach((reward) => this.set(reward));
             })
             .catch((err) => {
                 this.errors = err.response && err.response.body && err.response.body.errors;
@@ -34,8 +35,11 @@ class RewardStore {
             })
     }
 
-    set(rewards) {
-        rewards.forEach((reward) => this.rewardsMap.set(reward.uuid, reward));
+    set(reward) {
+        let rewardModel = new RewardModel(this);
+        rewardModel.init(reward);
+
+        this.rewardsMap.set(rewardModel.uuid, rewardModel);
     }
 
     get(uuid) {
@@ -48,20 +52,19 @@ class RewardStore {
                 if (!res || !res.data )
                     throw Error;
 
-                this.rewardsMap.set(res.data.uuid, res.data);
-                return res.data;
+                this.set(res.data.uuid, res.data);
+                return this.get(res.data.uuid);
             })
     }
 
-    update(reward) {
-        return ApiService.updateReward(reward)
-            .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+    async update(reward) {
+        const res = await ApiService.updateReward(reward);
 
-                this.rewardsMap.set(res.data.uuid, res.data);
-                return res.data;
-            })
+        if (!res || !res.data)
+            throw Error;
+
+        this.set(res.data);
+        return this.get(res.data.uuid);
     }
 
     delete(uuid) {
