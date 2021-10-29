@@ -9,16 +9,18 @@ import Header from './Components/Header';
 class App extends Component {
     render() {
         return (
-            <Container>
+            <>
                 <Header />
-                <Switch>
-                    <Route path="/login" component={Login} />
-                    <Route path="/logout" component={Logout} />
-                    <PrivateRoute path="/tasks" component={Tasks} />
-                    <PrivateRoute path="/rewards" component={Rewards} />
-                    <PrivateRoute path="/settings" component={Settings} />
-                </Switch>
-            </Container>
+                <Container>
+                    <Switch>
+                        <Route path="/login" component={Login} />
+                        <Route path="/logout" component={Logout} />
+                        <PrivateRoute path="/tasks" component={Tasks} />
+                        <PrivateRoute path="/rewards" component={Rewards} />
+                        <PrivateRoute path="/settings" component={Settings} />
+                    </Switch>
+                </Container>
+            </>
         );
     }
 }
