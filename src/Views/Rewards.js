@@ -4,6 +4,11 @@ import { inject, observer } from 'mobx-react';
 import List from '../Components/List';
 
 class Rewards extends Component {
+    componentDidMount() {
+        const { RewardStore } = this.props;
+        RewardStore.load();
+    }
+
     render() {
         // const { currentUser } = this.props.UserStore;
         const { rewards, isLoading } = this.props.RewardStore;

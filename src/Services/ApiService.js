@@ -18,11 +18,11 @@ class ApiService {
         return axios.post(`${host}:${port}/login`, data)
     }
 
-   signupMain(data) {
+    signupMain(data) {
         return axios.post(`${host}:${port}/login/register/mainAccount`, data)
     }
 
-   signupSub(data) {
+    signupSub(data) {
         return axios.post(`${host}:${port}/login/register/subAccount`, data)
     }
 
@@ -30,13 +30,22 @@ class ApiService {
         return axios.get(`${host}:${port}/subaccount/getAll/${parentId}`)
     }
 
-
     getTasks() {
         return axios.get(`${host}:${port}/task/getAll/${this.getUserID()}`)
     }
 
     getRewards() {
         return axios.get(`${host}:${port}/reward/getAll/${this.getUserID()}`)
+    }
+
+    updateTask(task) {
+        return axios.put(`${host}:${port}/task/update`, {
+            taskId: task.uuid,
+            name: task.name,
+            description: task.description,
+            repetition: task.repetition,
+            weight: task.weight
+        })
     }
 
 }
