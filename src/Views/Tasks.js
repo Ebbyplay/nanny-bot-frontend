@@ -2,23 +2,20 @@ import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import List from '../Components/List';
+import Loading from '../Components/Widgets/Loading';
 
 class Tasks extends Component {
     componentDidMount() {
-        const { TaskStore } = this.props;
-        TaskStore.load();
+        this.props.TaskStore.load();
     }
 
     render() {
-        // const { currentUser } = this.props.UserStore;
         const { tasks, isLoading } = this.props.TaskStore;
 
         if (isLoading)
-            return <p>1</p>
+            return <Loading />
 
-        return (
-            <List elements={tasks} loading={isLoading} />
-        );
+        return <List elements={tasks} store={this.props.TaskStore} />
     }
 }
 

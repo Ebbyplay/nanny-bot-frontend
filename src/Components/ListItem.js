@@ -2,11 +2,8 @@ import { Component, React } from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 
 class ListItem extends Component {
-
     render() {
         const { element } = this.props;
-
-        console.log('ListItem', element);
 
         return (
             <Accordion defaultActiveKey="1">

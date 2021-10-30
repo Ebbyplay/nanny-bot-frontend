@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 
 import { Login, Logout, Rewards, Settings, Tasks } from './Views/';
 import PrivateRoute from './Components/PrivateRoute';
-import Header from './Components/Header';
+import { /*Footer,*/ Header } from './Components/UI';
 
 class App extends Component {
     render() {

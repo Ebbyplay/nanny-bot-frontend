@@ -3,10 +3,11 @@ import { inject, observer } from 'mobx-react';
 
 class Step2 extends Component {
     componentDidMount() {
-        // TODO: alle users holen
         const { userInProcess } = this.props.UserStore;
-
         console.log('step 2', userInProcess)
+        
+        // TODO: users holen
+        this.props.UserStore.load(userInProcess);
     }
 
     selectUser(user) {
@@ -14,7 +15,7 @@ class Step2 extends Component {
         this.props.next();
     }
 
-    // TODO - alle users anzeigen - netflix user select
+    // TODO - users anzeigen - netflix user select
     render() {
         return (
             <p>step 2</p>
