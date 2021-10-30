@@ -45,20 +45,22 @@ class List extends Component {
     }
 
     submit = (element) => {
-        console.log('submit', element);
-        return;
+        element.repetition = element.repetition.value;
 
-        element.save()
+        console.log('submit', element);
+
+        // TODO: Kommentar entfernen, wenn alles passt
+        /*element.save()
         .then(() => {
             this.setState({
                 editView: false,
                 element: null
             });
-        })
+        })*/
     }
 
     render() {
-        const { elements } = this.props;
+        const { elements, user } = this.props;
         const { editView, element } = this.state;
 
         if (editView) {
@@ -75,10 +77,10 @@ class List extends Component {
         return (
             <div>
                 {elements.map((element) => (
-                    <ListItem key={element[1].uuid} element={element[1]} />
+                    <ListItem key={element[1].uuid} element={element[1]} edit={this.edit} user={user} />
                 ))}
 
-                <Button onClick={() => {this.edit(null)}}>Hinzufügen</Button>
+                <Button variant="primary" onClick={() => {this.edit(null)}}>Add</Button>
             </div>
         )
     }

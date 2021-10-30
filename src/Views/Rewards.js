@@ -10,12 +10,13 @@ class Rewards extends Component {
     }
 
     render() {
+        const { currentUser } = this.props.UserStore;
         const { rewards, isLoading } = this.props.RewardStore;
 
         if (isLoading)
             return <Loading />
 
-        return <List elements={rewards} store={this.props.RewardStore} />
+        return <List elements={rewards} store={this.props.RewardStore} user={currentUser} />
     }
 }
 

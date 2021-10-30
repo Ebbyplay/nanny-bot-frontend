@@ -35,7 +35,7 @@ class ApiService {
 
     // TODO
     getUsers() {
-        return axios.get(`${host}:${port}/????/${this.getUserID()}`)
+        return axios.get(`${host}:${port}/family/getAll/${this.getUserID()}`)
     }
 
     getTasks() {

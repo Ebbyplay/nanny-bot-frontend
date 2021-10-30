@@ -1,8 +1,8 @@
 import { Component, React } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 
-import LoginWizard from '../Components/Wizard/LoginWizard';
-import SignupWizard from '../Components/Wizard/SignupWizard';
+import LoginWizard from '../Components/Wizard/Login/LoginWizard';
+import SignupWizard from '../Components/Wizard/Signup/SignupWizard';
 
 class Login extends Component {
     render() {

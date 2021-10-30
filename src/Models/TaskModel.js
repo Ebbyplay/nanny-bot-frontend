@@ -5,6 +5,7 @@ class TaskModel {
     uuid = 0;
     name = '';
     description = '';
+    user = [];
     imagePath = '';
     repetition = '';
     weight = 0;
@@ -15,7 +16,6 @@ class TaskModel {
     }
 
     init(data) {
-        
         if (!data)
             return;
 
@@ -27,6 +27,9 @@ class TaskModel {
 
         if (data.name && data.name.length > 0)
             this.name = data.name;
+
+        if (data.users && data.users.length > 0)
+            this.users = data.users;
 
         if (data.repetition && data.repetition.length > 0)
             this.repetition = data.repetition;

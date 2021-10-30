@@ -10,12 +10,13 @@ class Tasks extends Component {
     }
 
     render() {
+        const { currentUser } = this.props.UserStore;
         const { tasks, isLoading } = this.props.TaskStore;
 
         if (isLoading)
             return <Loading />
 
-        return <List elements={tasks} store={this.props.TaskStore} />
+        return <List elements={tasks} store={this.props.TaskStore} user={currentUser} />
     }
 }
 

@@ -14,7 +14,8 @@ class AuthStore {
     user = {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        rePassword: ''
     };
 
     setUsername(name) {
@@ -27,6 +28,10 @@ class AuthStore {
 
     setPassword(password) {
         this.user.password = password;
+    }
+
+    setRePassword(password) {
+        this.user.rePassword = password;
     }
 
     clear() {
@@ -46,7 +51,7 @@ class AuthStore {
                     throw Error;
                 }
 
-                UserStore.setCurrentUser(res.data); // remove
+                UserStore.setCurrentUser(res.data);
                 UserStore.setUserInProcess(res.data);
             })
             .catch((err) => {

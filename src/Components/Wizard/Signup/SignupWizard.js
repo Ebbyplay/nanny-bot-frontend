@@ -2,7 +2,6 @@ import { Component, React } from 'react';
 
 import Step1 from './Step1';
 import Step2 from './Step2';
-import Step3 from './Step3';
 
 // TODO
 class SignupWizard extends Component {
@@ -29,13 +28,6 @@ class SignupWizard extends Component {
             case 2:
                 return (
                     <Step2
-                        next={this.next}
-                        back={this.back}
-                    />
-                )
-            case 3:
-                return (
-                    <Step3
                         next={this.next}
                         back={this.back}
                     />

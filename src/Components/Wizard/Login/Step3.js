@@ -2,7 +2,7 @@ import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
 
 class Step3 extends Component {
-    handleSubmit = () => {
+    submit = () => {
         const user = this.props.UserStore.userInProcess;
 
         this.props.AuthStore.secondLogin(user)
@@ -11,6 +11,13 @@ class Step3 extends Component {
         })
     }
 
+    // TODO - Passwort aus Bildern erstellen
+    // und user zuweisen
+    handlePinChange = (image) => {
+
+    }
+
+    // TOOD - Bilder-Pin anzeigen
     render() {
         return (
             <p>step 3</p>
