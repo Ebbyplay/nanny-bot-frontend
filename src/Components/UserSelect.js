@@ -8,7 +8,8 @@ class UserSelect extends Component {
 
         return (
             users.map((user) => (
-                <User key={user[1].uuid} user={user[1]} />
+                // <User key={user[1].uuid} user={user[1]} select={this.props.select} />
+                <User key={user.uuid} user={user} select={this.props.select} />
             ))
         )
     }
