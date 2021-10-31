@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable } from 'mobx';
 
 import { ApiService, StorageService } from '../Services';
+import UserModel from '../Models/UserModel';
 
 class UserStore {
     constructor() {
@@ -8,9 +9,10 @@ class UserStore {
     }
 
     isLoading = false;
+    errors = null;
 
-    userInProcess = StorageService.get('user_in_process');
-    currentUser = StorageService.get('user');
+    currentUser = StorageService.get('currentUser');
+    userInProcess = StorageService.get('userInProcess');
     userMap = observable.map()
 
     get users() {
@@ -18,27 +20,35 @@ class UserStore {
     }
 
     load() {
-        this.isLoading = true;
+        this.setErrors(null);
+        this.setIsLoading(true);
 
         return ApiService.getUsers()
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data ) {
+                    let error = new Error('userStore load: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.userMap.clear();
                 res.data.forEach((task) => this.set(task));
             })
             .catch((err) => {
-                this.errors = err.response && err.response.body && err.response.body.errors;
+                this.setErrors(err);
                 throw err;
             })
             .finally(() => {
-                this.isLoading = false;
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
     set(user) {
-        this.userMap.set(user.uuid, user);
+        let userModel = new UserModel(this);
+        userModel.init(user);
+
+        this.userMap.set(userModel.uuid, userModel);
     }
 
     get(uuid) {
@@ -46,63 +56,95 @@ class UserStore {
     }
 
     add(user) {
+        this.setErrors(null);
+        this.setIsLoading(true);
+
         return ApiService.addUser(user)
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data ) {
+                    let error = new Error('userStore add: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.set(res.data);
                 return this.get(res.data.uuid);
             })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(false);
+            })
     }
 
-    async update(user) {
-        const res = await ApiService.updateUser(user);
+    update(user) {
+        this.setErrors(null);
+        this.isLoading(true);
 
-        if (!res || !res.data)
-            throw Error;
+        return ApiService.updateUser(user)
+            .then((res) => {
+                if (!res || !res.data) {
+                    let error = new Error('userStore update: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
-        if (user.id === this.currentUser.id)
-            this.currentUser = res.data;
-
-        this.set(res.data);
-        return this.get(res.data.uuid);
+                this.set(res.data);
+                return this.get(res.data.uuid);
+            })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.isLoading(true);
+            });
     }
 
     delete(uuid) {
+        this.setErrors(null);
+        this.setIsLoading(true);
+
         return ApiService.deleteUser(uuid)
-        .then((res) => {
-            if (!res || !res.data )
-                throw Error;
+            .then((res) => {
+                if (!res || !res.data) {
+                    let error = new Error('userStore delete: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
-            this.userMap.delete(uuid);
-        })
-        .catch(((err) => {
-            this.loadTasks();
-            throw err;
-        }));
+                this.userMap.delete(uuid);
+            })
+            .catch(((err) => {
+                this.loadTasks();
+                throw err;
+            }))
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(false);
+            });
     }
 
-    setCurrentUser(user) {
-        this.currentUser = user;
-        StorageService.set('user', user);
-
-        this.unsetUserInProcess();
+    setUser(key, uuid) {
+        this[key] = uuid;
+        StorageService.set(key, uuid);
     }
 
-    unsetCurrentUser() {
-        this.currentUser = null;
-        StorageService.unset('user');
+    unsetUser(key) {
+        this[key] = null;
+        StorageService.unset(key);
     }
 
-    setUserInProcess(user) {
-        this.userInProcess = user;
-        StorageService.set('user_in_process', user);
+    setIsLoading(isLoading) {
+        this.isLoading = isLoading;
     }
 
-    unsetUserInProcess() {
-        this.userInProcess = null;
-        StorageService.unset('user_in_process');
+    setErrors(errors) {
+        this.errors = errors;
     }
 }
 

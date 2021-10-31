@@ -9,6 +9,8 @@ class TaskStore {
     }
 
     isLoading = false;
+    errors = null;
+
     tasksMap = observable.map();
 
     get tasks() {
@@ -16,24 +18,27 @@ class TaskStore {
     }
 
     load() {
-        this.isLoading = true;
+        this.setErrors(null);
+        this.setIsLoading(true);
 
         return ApiService.getTasks()
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
-
-                console.log('tasks', res.data)
+                if (!res || !res.data ) {
+                    let error = new Error('taskStore load: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.tasksMap.clear();
                 res.data.forEach((task) => this.set(task));
             })
             .catch((err) => {
-                this.errors = err.response && err.response.body && err.response.body.errors;
+                this.setErrors(err);
                 throw err;
             })
             .finally(() => {
-                this.isLoading = false;
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
@@ -49,42 +54,88 @@ class TaskStore {
     }
 
     add(task) {
+        this.setErrors(null);
+        this.setIsLoading(true);
+
         return ApiService.createTask(task)
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data) {
+                    let error = new Error('taskStore add: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.set(res.data);
                 return this.get(res.data.uuid);
             })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(true);
+            })
     }
 
-    async update(task) {
-        const res = await ApiService.updateTask(task);
+    update(task) {
+        this.setErrors(null);
+        this.isLoading(true);
 
-        if (!res || !res.data)
-            throw Error;
+        return ApiService.updateTask(task)
+            .then((res) => {
+                if (!res || !res.data) {
+                    let error = new Error('taskStore update: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
-        this.set(res.data);
-        return this.get(res.data.uuid);
+                this.set(res.data);
+                return this.get(res.data.uuid);
+            })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.isLoading(true);
+            });
     }
 
     delete(uuid) {
+        this.setErrors(null);
+        this.isLoading(true);
+
         return ApiService.deleteTask(uuid)
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data) {
+                    let error = new Error('taskStore delete: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.tasksMap.delete(uuid);
             })
             .catch(((err) => {
                 this.loadTasks();
                 throw err;
-            }));
+            })).finally(() => {
+                this.setErrors(null);
+                this.isLoading(true);
+            });
     }
 
     clear() {
         this.tasksMap.clear();
+    }
+
+    setIsLoading(isLoading) {
+        this.isLoading = isLoading;
+    }
+
+    setErrors(errors) {
+        this.errors = errors;
     }
 }
 

@@ -9,6 +9,8 @@ class RewardStore {
     }
 
     isLoading = false;
+    errors = null;
+
     rewardsMap = observable.map();
 
     get rewards() {
@@ -16,22 +18,27 @@ class RewardStore {
     }
 
     load() {
-        this.isLoading = true;
+        this.setErrors(null);
+        this.setIsLoading(true);
 
         return ApiService.getRewards()
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data ) {
+                    let error = new Error('rewardStore load: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.rewardsMap.clear();
-                res.data.forEach((reward) => this.set(reward));
+                res.data.forEach((task) => this.set(task));
             })
             .catch((err) => {
-                this.errors = err.response && err.response.body && err.response.body.errors;
+                this.setErrors(err);
                 throw err;
             })
             .finally(() => {
-                this.isLoading = false;
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
@@ -47,42 +54,89 @@ class RewardStore {
     }
 
     add(reward) {
+        this.setErrors(null);
+        this.setIsLoading(true);
+
         return ApiService.createReward(reward)
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data ) {
+                    let error = new Error('rewardStore add: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
-                this.set(res.data.uuid, res.data);
+                this.set(res.data);
                 return this.get(res.data.uuid);
+            })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
-    async update(reward) {
-        const res = await ApiService.updateReward(reward);
+    update(reward) {
+        this.setErrors(null);
+        this.isLoading(true);
 
-        if (!res || !res.data)
-            throw Error;
+        return ApiService.updateReward(reward)
+            .then((res) => {
+                if (!res || !res.data) {
+                    let error = new Error('rewardStore update: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
-        this.set(res.data);
-        return this.get(res.data.uuid);
+                this.set(res.data);
+                return this.get(res.data.uuid);
+            })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.isLoading(true);
+            });
     }
 
     delete(uuid) {
+        this.setErrors(null);
+        this.setIsLoading(true);
+
         return ApiService.deleteReward(uuid)
             .then((res) => {
-                if (!res || !res.data )
-                    throw Error;
+                if (!res || !res.data) {
+                    let error = new Error('rewardStore delete: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
 
                 this.rewardsMap.delete(uuid);
             })
             .catch(((err) => {
                 this.loadTasks();
                 throw err;
-            }));
+            }))
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(false);
+            });
     }
 
     clear() {
         this.rewardsMap.clear();
+    }
+
+    setIsLoading(isLoading) {
+        this.isLoading = isLoading;
+    }
+
+    setErrors(errors) {
+        this.errors = errors;
     }
 }
 

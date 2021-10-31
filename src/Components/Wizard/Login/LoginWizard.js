@@ -12,11 +12,13 @@ class LoginWizard extends Component {
 
     componentDidMount() {
         const { currentUser, userInProcess } = this.props.UserStore;
+
+        console.log('loginWizard mount', currentUser, userInProcess)
     
-        if (currentUser && currentUser.id)
+        if (currentUser)
             this.props.history.push('/tasks');
 
-        if (userInProcess && userInProcess.id)
+        if (userInProcess)
             this.setState({currentStep: 2})
     }
 

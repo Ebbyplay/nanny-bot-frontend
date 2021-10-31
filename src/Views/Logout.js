@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
     componentDidMount() {
-        this.props.UserStore.unsetCurrentUser();
-        this.props.UserStore.unsetUserInProcess();
+        this.props.AuthStore.logout()
     }
 
     render() {
@@ -13,4 +12,4 @@ class Logout extends Component {
     }
 }
 
-export default inject('UserStore')(observer(Logout));
+export default inject('AuthStore')(observer(Logout));

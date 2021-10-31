@@ -41,75 +41,88 @@ class AuthStore {
     }
 
     firstLogin() {
-        this.isLoading = true;
-        this.errors = null;
+        this.setIsLoading(true);
+        this.setErrors(null);
 
         return ApiService.login(this.user)
             .then((res) => {
                 if (!res || !res.data || !res.data.id) {
-                    this.errors = "E-Mail oder Passwort falsch!";
-                    throw Error;
+                    let error = new Error('E-Mail oder Passwort falsch!');
+                    this.setErrors(error);
+                    throw error;
                 }
 
-                UserStore.setCurrentUser(res.data);
-                UserStore.setUserInProcess(res.data);
+                UserStore.setUser('userInProcess', res.data.id);
+                UserStore.setUser('currentUser', res.data.id); // muss wieder raus
             })
             .catch((err) => {
-                this.errors = err.response && err.response.body && err.response.body.errors;
+                this.setErrors(err);
                 throw err;
             })
             .finally(() => {
-                this.errors = null;
-                this.isLoading = false;
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
     secondLogin(user) {
-        this.isLoading = true;
-        this.errors = null;
+        this.setErrors(null);
+        this.setIsLoading(true);
 
         return ApiService.login(user)
             .then((res) => {
                 if (!res || !res.data || !res.data.id) {
-                    this.errors = "E-Mail oder Passwort falsch!";
-                    throw Error;
+                    let error = new Error('Pin falsch!');
+                    this.setErrors(error);
+                    throw error;
                 }
 
-                UserStore.setCurrentUser(res.data);
+                UserStore.setUser('currentUser', res.data.id);
             })
             .catch((err) => {
-                this.errors = err.response && err.response.body && err.response.body.errors;
+                this.setErrors(err);
                 throw err;
             })
             .finally(() => {
-                this.errors = null;
-                this.isLoading = false;
+                this.setErrors(null);
+                this.setIsLoading(false);
             })
     }
 
     signup() {
-        this.isLoading = true;
-        this.error = null;
+        this.setErrors(null);
+        this.setIsLoading(true);
 
         return ApiService.signup(this.user)
-        .then((res) => {
-            if (!res || !res.data || !res.data.id) {
-                throw Error;
-            }
-        })
-        .catch((err) => {
-            this.errors = err.response && err.response.body && err.response.body.errors;
-            throw err;
-        })
-        .finally(() => {
-            this.errors = null;
-            this.isLoading = false;
-        })
+            .then((res) => {
+                if (!res || !res.data || !res.data.id) {
+                    let error = new Error('authStore signup: some error message');
+                    this.setErrors(error);
+                    throw error;
+                }
+            })
+            .catch((err) => {
+                this.setErrors(err);
+                throw err;
+            })
+            .finally(() => {
+                this.setErrors(null);
+                this.setIsLoading(false);
+            })
     }
 
     logout() {
-        UserStore.unsetCurrentUser();
+        UserStore.unsetUser('currentUser');
+        UserStore.unsetUser('userInProcess'); // kann raus - sollte nach dem setzen von currentUser geloescht werden
         return Promise.resolve()
+    }
+
+    setErrors(errors) {
+        this.errors = errors;
+    }
+
+    setIsLoading(isLoading) {
+        this.isLoading = isLoading;
     }
 }
 

@@ -10,11 +10,11 @@ import { UserStore } from '../Stores';
     port = 8443;
 
 class ApiService {
-    getUserID() {
-        if (!UserStore.currentUser)
-            return UserStore.userInProcess.id;
+    getUserUUID() {
+        if (!UserStore.userInProcess)
+            return UserStore.userInProcess;
 
-        return UserStore.currentUser.id;
+        return UserStore.currentUser;
     }
 
     login(data) {
@@ -35,15 +35,15 @@ class ApiService {
 
     // TODO
     getUsers() {
-        return axios.get(`${host}:${port}/family/getAll/${this.getUserID()}`)
+        return axios.get(`${host}:${port}/family/getAll/${this.getUserUUID()}`)
     }
 
     getTasks() {
-        return axios.get(`${host}:${port}/task/getAll/${this.getUserID()}`)
+        return axios.get(`${host}:${port}/task/getAll/${this.getUserUUID()}`)
     }
 
     getRewards() {
-        return axios.get(`${host}:${port}/reward/getAll/${this.getUserID()}`)
+        return axios.get(`${host}:${port}/reward/getAll/${this.getUserUUID()}`)
     }
 
     updateTask(task) {

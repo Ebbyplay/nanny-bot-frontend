@@ -7,7 +7,7 @@ class User extends Component {
         // TODO: User Avatar + Name anzeigen
         // bei klick auf user: this.props.select(user) ausfuehren
         return (
-            <p>user</p>
+            <p onClick={() => {this.props.submit(this.props.user)}}>user</p>
         )
     }
 }
