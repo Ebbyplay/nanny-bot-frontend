@@ -1,20 +1,18 @@
 import { Component, React } from 'react';
 
 import Step1 from './Step1';
-import Step2 from './Step2';
 
-// TODO
 class SignupWizard extends Component {
     state = {
         currentStep: 1
     }
 
     next = () => {
-        this.setState({currentStep: this.state.currentStep + 1})
+        this.setState({currentStep: this.state.currentStep + 1});
     }
 
     back = () => {
-        this.setState({currentStep: this.state.currentStep - 1})
+        this.setState({currentStep: this.state.currentStep - 1});
     }
 
     render() {
@@ -23,13 +21,6 @@ class SignupWizard extends Component {
                 return (
                     <Step1
                         next={this.next}
-                    />
-                )
-            case 2:
-                return (
-                    <Step2
-                        next={this.next}
-                        back={this.back}
                     />
                 )
             default:

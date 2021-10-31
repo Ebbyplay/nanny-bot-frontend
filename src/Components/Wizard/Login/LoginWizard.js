@@ -12,22 +12,20 @@ class LoginWizard extends Component {
 
     componentDidMount() {
         const { currentUser, userInProcess } = this.props.UserStore;
-
-        console.log('loginWizard mount', currentUser, userInProcess)
     
         if (currentUser)
             this.props.history.push('/tasks');
 
         if (userInProcess)
-            this.setState({currentStep: 2})
+            this.setState({currentStep: 2});
     }
 
     next = () => {
-        this.setState({currentStep: this.state.currentStep + 1})
+        this.setState({currentStep: this.state.currentStep + 1});
     }
 
     back = () => {
-        this.setState({currentStep: this.state.currentStep - 1})
+        this.setState({currentStep: this.state.currentStep - 1});
     }
 
     render() {

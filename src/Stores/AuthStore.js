@@ -92,7 +92,7 @@ class AuthStore {
         this.setErrors(null);
         this.setIsLoading(true);
 
-        return ApiService.signup(this.user)
+        return ApiService.signupMain(this.user)
             .then((res) => {
                 if (!res || !res.data || !res.data.id) {
                     let error = new Error('authStore signup: some error message');

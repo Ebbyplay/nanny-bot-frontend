@@ -70,7 +70,7 @@ class List extends Component {
                 case 'RewardModel':
                     return <EditReward submit={this.submit} back={this.back} reward={element} />
                 default:
-                    this.back()
+                    this.back();
             }
         }
 

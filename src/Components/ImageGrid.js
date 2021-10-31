@@ -5,7 +5,7 @@ import NannyImage from './Image';
 
 class ImageGrid extends Component {
      componentDidMount() {
-        this.props.ImageStore.load()
+        this.props.ImageStore.load();
     }
 
     render() {
@@ -17,4 +17,4 @@ class ImageGrid extends Component {
     }
 }
  
-export default inject('ImageStore', 'UserStore')(observer(ImageGrid));;
+export default inject('ImageStore', 'UserStore')(observer(ImageGrid));
