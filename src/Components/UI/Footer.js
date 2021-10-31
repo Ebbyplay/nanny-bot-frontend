@@ -9,7 +9,7 @@ class Header extends Component {
             <footer>
                 <p>Nannybot&trade;</p>
             </footer>
-        );
+        )
     }
 }
 

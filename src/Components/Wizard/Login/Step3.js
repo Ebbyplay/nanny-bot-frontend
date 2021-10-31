@@ -1,5 +1,6 @@
 import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
+import ImageGrid from '../../ImageGrid';
 
 class Step3 extends Component {
     state = {
@@ -14,8 +15,8 @@ class Step3 extends Component {
         console.log('submit', user, imagePassword);
 
         /*this.props.AuthStore.secondLogin(user)
-        .catch((err) => {
-            // fehlermeldung - bilder pin falsch
+        .then(() => {
+            // redirect auf dashboard
         })*/
     }
 
@@ -36,7 +37,7 @@ class Step3 extends Component {
     // TOOD - Bilder-Pin anzeigen
     render() {
         return (
-            <p>step 3</p>
+            <ImageGrid change={this.handleChange} selected={this.state.selectedImages} />
         )
     }
 }

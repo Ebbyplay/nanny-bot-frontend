@@ -2,12 +2,13 @@ import { Component, React } from 'react';
 
 class User extends Component {
     render() {
-        // const { user } = this.props;
+        const { user } = this.props;
 
-        // TODO: User Avatar + Name anzeigen
-        // bei klick auf user: this.props.select(user) ausfuehren
+        // TODO: User Avatar anzeigen
         return (
-            <p onClick={() => {this.props.submit(this.props.user)}}>user</p>
+            <p onClick={() => {this.props.select(user)}}>
+                {user.name}
+            </p>
         )
     }
 }

@@ -6,12 +6,10 @@ class PrivateRoute extends Component {
     render() {
         const { UserStore, ...props } = this.props;
 
-        console.log('privateRoute', UserStore.currentUser)
-
         if (UserStore.currentUser)
-            return <Route {...props} />;
+            return <Route {...props} />
         else 
-            return <Redirect to="/login" />;
+            return <Redirect to="/login" />
     }
 }
 

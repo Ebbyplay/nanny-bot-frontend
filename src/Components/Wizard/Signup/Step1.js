@@ -11,9 +11,6 @@ class Step1 extends Component {
         .then(() => {
             this.props.next();
         })
-        .catch((err) => {
-            // TODO: fehlermeldung - ungueltige email / email bereits vergeben
-        })
     }
 
     render() {

@@ -11,7 +11,7 @@ class Login extends Component {
                 <Tab eventKey="login" title="Anmelden"><LoginWizard {...this.props} /></Tab>
                 <Tab eventKey="signup" title="Registrieren"><SignupWizard {...this.props} /></Tab>
             </Tabs>
-        );
+        )
     }
 }
 

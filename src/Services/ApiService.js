@@ -17,6 +17,7 @@ class ApiService {
         return UserStore.currentUser;
     }
 
+    /** POST CALLS */
     login(data) {
         return axios.post(`${host}:${port}/login`, data)
     }
@@ -29,8 +30,10 @@ class ApiService {
         return axios.post(`${host}:${port}/login/register/subAccount`, data)
     }
 
-    getSubAccountsByMainAccount(parentId) {
-        return axios.get(`${host}:${port}/subaccount/getAll/${parentId}`)
+    /** GET CALLS */
+
+    getSubAccountsByMainAccount() {
+        return axios.get(`${host}:${port}/subaccount/getAll/${this.getUserUUID()}`)
     }
 
     // TODO
@@ -46,6 +49,12 @@ class ApiService {
         return axios.get(`${host}:${port}/reward/getAll/${this.getUserUUID()}`)
     }
 
+    getImages() {
+        return axios.get(`${host}:${port}/images/getAll`)
+    }
+
+    /** PUT CALLS */
+
     updateTask(task) {
         return axios.put(`${host}:${port}/task/update`, {
             taskId: task.uuid,
@@ -55,6 +64,8 @@ class ApiService {
             weight: task.weight
         })
     }
+
+    /** DELETE CALLS */
 
 }
 

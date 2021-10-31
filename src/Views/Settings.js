@@ -5,7 +5,7 @@ class Settings extends Component {
     render() {
         return (
             <p>Settings</p>
-        );
+        )
     }
 }
 
