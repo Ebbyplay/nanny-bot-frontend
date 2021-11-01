@@ -54,6 +54,9 @@ class TaskModel {
     }
 
     save() {
+        if (this.uuid === 0)
+            return this.store.add(this);
+
         this.store.update(this);
     }
 
