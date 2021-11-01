@@ -16,7 +16,8 @@ class List extends Component {
 
     back = () => {
         this.setState({
-            editView: false
+            editView: false,
+            element: null
         });
     }
 
@@ -52,10 +53,7 @@ class List extends Component {
         // TODO: Kommentar entfernen, wenn alles passt
         /*element.save()
         .then(() => {
-            this.setState({
-                editView: false,
-                element: null
-            });
+            this.back();
         })*/
     }
 

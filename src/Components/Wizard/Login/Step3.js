@@ -1,45 +1,53 @@
 import { Component, React } from 'react';
 import { inject, observer } from 'mobx-react';
+
+import { Button } from 'react-bootstrap';
 import ImageGrid from '../../ImageGrid';
+import Loading from '../../Widgets/Loading';
+import Error from '../../Widgets/Error';
 
 class Step3 extends Component {
-    state = {
-        selectedImages: []
+    componentDidMount() {
+        this.props.ImageStore.init();
     }
 
     submit = () => {
-        const user = this.props.UserStore.userInProcess;
+        const { history, AuthStore, ImageStore, UserStore } = this.props;
+        const user = UserStore.userInProcess;
+        const selectedImages = ImageStore.images.filter((image) => image[1].isSelected);
 
-        let imagePassword = 'TODO: aus selectedImages bauen';
+        let imagePassword = '';
 
-        console.log('submit', user, imagePassword);
+        selectedImages.forEach((image) => {
+            imagePassword += image[1].uuid
+        });
 
-        /*this.props.AuthStore.secondLogin(user)
+        console.log('TODO: submit', {user:user, images:selectedImages, password:imagePassword});
+
+        /*AuthStore.secondLogin(user)
         .then(() => {
-            // redirect auf dashboard
+            // redirect auf dashboard - ausgewaehlte bilder unsetten
+            // history.push('/dashboard)
+            // ImageStore.unsetAll();
         })*/
     }
 
-    handleChange = (image) => {
-        let selectedImages = this.state.selectedImages;
-
-        if (selectedImages.indexOf(image) === -1) {
-            selectedImages.push(image);
-        } else {
-            selectedImages.splice(selectedImages.indexOf(image), 1);
-        }
-
-        this.setState({
-            selectedImages: selectedImages
-        });
-    }
-
-    // TOOD - Bilder-Pin anzeigen
     render() {
+        const { images, errors, isLoading } = this.props.ImageStore;
+
+        if (isLoading)
+            return <Loading />
+
         return (
-            <ImageGrid change={this.handleChange} selected={this.state.selectedImages} />
+            <div>
+                <Error errors={errors} />
+                <ImageGrid images={images} />
+                <Button variant="primary" onClick={this.submit}>
+                    Anmelden
+                </Button>
+            </div>
         )
     }
 }
 
-export default inject('AuthStore', 'UserStore')(observer(Step3));
+export default inject('AuthStore', 'ImageStore', 'UserStore')(observer(Step3));

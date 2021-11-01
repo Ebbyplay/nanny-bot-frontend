@@ -9,14 +9,14 @@ class NannyImage extends Component {
         let imageStyle= {
             height: '100px',
             width: '100px',
-            border: this.props.selected.indexOf(image) !== -1 ? '2px dotted black' : ''
+            border: image.isSelected ? 'dotted 1px black' : ''
         };
 
         return (
             <Image 
                 style={imageStyle} 
-                src={this.props.image.path} 
-                onClick={() => this.props.click(image)} 
+                src={image.path + image.name} 
+                onClick={() => {image.toggle()}} 
                 rounded 
             />
         )
