@@ -41,7 +41,7 @@ class Step3 extends Component {
         return (
             <div>
                 <Error errors={errors} />
-                <ImageGrid images={images} />
+                <ImageGrid images={images} limitTo={9} />
                 <Button variant="primary" onClick={this.submit}>
                     Anmelden
                 </Button>
