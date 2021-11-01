@@ -5,9 +5,12 @@
 import axios from 'axios';
 import { UserStore } from '../Stores';
 
- const 
+const 
     host = 'https://nannybot.de',
     port = 8443;
+
+// todo: bearer
+// axios.config({})
 
 class ApiService {
     getUserUUID() {

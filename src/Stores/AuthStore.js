@@ -52,6 +52,7 @@ class AuthStore {
                     throw error;
                 }
 
+                UserStore.setUser('currentUser', res.data.id); // wieder raus wenn fertig
                 UserStore.setUser('userInProcess', res.data.id);
             })
             .catch((err) => {
