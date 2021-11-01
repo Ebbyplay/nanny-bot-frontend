@@ -94,13 +94,29 @@ class ImageStore {
         return this.imageMap.get(uuid);
     }
 
-    unsetAll() {
-        this.imageMap.forEach((image) => {
-            if (image.isSelected)
-                image.toggle();
+    selectedImageMap = observable.map();
 
-            this.set(image);
-        })
+    get selectedImages() {
+        return this.selectedImageMap.toJSON();
+    }
+
+    setSelectedImages(image) {
+        this.selectedImageMap.set(image.uuid, image);
+    }
+
+    unsetSelectedImages(image) {
+        this.selectedImageMap.delete(image.uuid);
+    }
+
+    select(image) {
+        if (this.selectedImageMap.has(image.uuid))
+            this.unsetSelectedImages(image);
+        else
+            this.setSelectedImages(image);
+    }
+
+    unselectAll() {
+        this.selectedImages.clear();
     }
 
     clear() {

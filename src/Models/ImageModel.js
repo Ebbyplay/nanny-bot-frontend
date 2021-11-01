@@ -28,7 +28,8 @@ class ImageModel {
 
     toggle() {
         this.isSelected = !this.isSelected;
-        this.store.set(this.uuid, this)
+        this.store.set(this.uuid, this);
+        this.store.select(this);
     }
 }
 

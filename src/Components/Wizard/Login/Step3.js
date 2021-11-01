@@ -12,9 +12,9 @@ class Step3 extends Component {
     }
 
     submit = () => {
-        const { history, AuthStore, ImageStore, UserStore } = this.props;
+        const { /*history, AuthStore,*/ ImageStore, UserStore } = this.props;
         const user = UserStore.userInProcess;
-        const selectedImages = ImageStore.images.filter((image) => image[1].isSelected);
+        const selectedImages = ImageStore.selectedImages;
 
         let imagePassword = '';
 
@@ -28,7 +28,7 @@ class Step3 extends Component {
         .then(() => {
             // redirect auf dashboard - ausgewaehlte bilder unsetten
             // history.push('/dashboard)
-            // ImageStore.unsetAll();
+            // ImageStore.unselectAll();
         })*/
     }
 
